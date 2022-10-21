@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EU4ModUtil.Parsers
+namespace EU4ModUtil.Models.Parsing
 {
-    internal class DescriptorParser
+    internal class TXTData
     {
     }
 }

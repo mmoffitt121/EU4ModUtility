@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace EU4ModUtil.Models.Data.Application
 {
-    public class AppData
+    internal class AppData
     {
-        public string modPath;
-        public string eu4Path;
+        public string? modPath;
+        public string? eu4Path;
     }
 }

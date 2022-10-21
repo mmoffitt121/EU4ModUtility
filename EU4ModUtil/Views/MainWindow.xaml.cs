@@ -14,6 +14,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using EU4ModUtil.Models.Data.Application;
+using EU4ModUtil.Models.Data;
+using EU4ModUtil.Parsers;
+using EU4ModUtil.Parsers.TXT;
 
 namespace EU4ModUtil
 {
@@ -22,13 +25,14 @@ namespace EU4ModUtil
     /// </summary>
     public partial class MainWindow : Window
     {
-        public AppData appData;
+        internal AppData appData;
+        internal Mod mod;
 
         public MainWindow()
         {
             InitializeComponent();
             appData = new AppData();
-            UpdateModInfo();
+            UpdateModInfoDisplay();
         }
 
         private void Select_Mod_Button_Click(object sender, RoutedEventArgs e)
@@ -46,11 +50,27 @@ namespace EU4ModUtil
                 }
                 appData.modPath = fileDialog.FileName.Substring(0, fileDialog.FileName.Length - 4);
 
-                UpdateModInfo();
+                LoadModInfo();
+                UpdateModInfoDisplay();
             }
         }
 
-        public void UpdateModInfo()
+        public void LoadModInfo()
+        {
+            TXTScanner scanner = new TXTScanner();
+            Token[] tokens = scanner.ScanFile(appData.modPath + ".mod");
+            if (tokens == null)
+            {
+                Trace.WriteLine("Scanning Error!");
+                return;
+            }
+            foreach (Token token in tokens)
+            {
+                Trace.WriteLine(token);
+            }
+        }
+
+        public void UpdateModInfoDisplay()
         {
             if (appData.modPath != null && !appData.modPath.Equals(""))
             {
