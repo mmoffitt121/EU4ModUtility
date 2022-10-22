@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EU4ModUtil.Models.Data.Application
+namespace EU4ModUtil.Models.Data
 {
     internal class AppData
     {

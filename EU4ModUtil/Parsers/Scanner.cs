@@ -1,4 +1,4 @@
-﻿using EU4ModUtil.Parsers.TXT;
+﻿using EU4ModUtil.Parsers;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -13,12 +13,33 @@ namespace EU4ModUtil.Parsers
 {
     internal abstract class Scanner
     {
+        /// <summary>
+        /// The possible characters in the scanner's language
+        /// </summary>
         public string[] possibleChars;
+        /// <summary>
+        /// The existing states within the parser's logic
+        /// </summary>
         public int[] states;
+        /// <summary>
+        /// The start state
+        /// </summary>
         public int start;
+        /// <summary>
+        /// States representing no token
+        /// </summary>
         public int[] nullStates;
+        /// <summary>
+        /// Array of terminal states
+        /// </summary>
         public int[] terminal;
+        /// <summary>
+        /// Array of relations between states, where the first integer is the current state, the Regex is a Regex string of character conditions to move between states, and the final int is the resulting state.
+        /// </summary>
         public (int, Regex, int)[] relations;
+        /// <summary>
+        /// Tokens that are produced from specified terminal states.
+        /// </summary>
         public (int, string)[] stateTokens;
 
         public Token[] ScanFile(string path)
@@ -38,6 +59,7 @@ namespace EU4ModUtil.Parsers
                     {
                         continue;
                     }
+                    tokens.Add(add);
                 }
 
                 return tokens.ToArray();
@@ -59,7 +81,7 @@ namespace EU4ModUtil.Parsers
                     // If state is terminal, return state
                     if (terminal.Contains(state))
                     {
-                        return new Token(state, content);
+                        return new Token(state, content.Trim());
                     }
                     // If state is non-terminal, return error
                     else
@@ -70,17 +92,31 @@ namespace EU4ModUtil.Parsers
                 else
                 {
                     state = nextState;
-                    content += ch;
+                    if (!nullStates.Contains(state))
+                    {
+                        content += ch;
+                    }
                     reader.Read();
                 }
             }
 
-            return new Token(nullStates[0], null);
+            return new Token(state, content.Trim());
         }
 
         private int NextState(char ch, int state)
         {
-            return -1;
+            int nextState = -1;
+
+            foreach ((int, Regex, int) t in relations)
+            {
+                if (t.Item1 == state && t.Item2.IsMatch(ch.ToString()))
+                {
+                    nextState = t.Item3;
+                    break;
+                }
+            }
+
+            return nextState;
         }
 
         public Scanner(string[] possibleChars, int[] states, int start, int[] nullStates, int[] terminal, (int, Regex, int)[] relations, (int, string)[] stateTokens)

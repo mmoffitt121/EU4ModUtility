@@ -13,10 +13,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using EU4ModUtil.Models.Data.Application;
 using EU4ModUtil.Models.Data;
 using EU4ModUtil.Parsers;
-using EU4ModUtil.Parsers.TXT;
+using EU4ModUtil.Util;
 
 namespace EU4ModUtil
 {
@@ -57,17 +56,8 @@ namespace EU4ModUtil
 
         public void LoadModInfo()
         {
-            TXTScanner scanner = new TXTScanner();
-            Token[] tokens = scanner.ScanFile(appData.modPath + ".mod");
-            if (tokens == null)
-            {
-                Trace.WriteLine("Scanning Error!");
-                return;
-            }
-            foreach (Token token in tokens)
-            {
-                Trace.WriteLine(token);
-            }
+            TXTFileObject descriptor = TXTParser.Parse(appData.modPath + "/descriptor.mod");
+            Trace.WriteLine(descriptor);
         }
 
         public void UpdateModInfoDisplay()
