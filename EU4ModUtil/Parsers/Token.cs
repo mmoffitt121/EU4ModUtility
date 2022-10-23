@@ -9,9 +9,9 @@ namespace EU4ModUtil.Parsers
     internal class Token
     {
         public int tokenType;
-        public string? content;
+        public string content;
 
-        public Token(int tokenType, string? content)
+        public Token(int tokenType, string content)
         {
             this.tokenType = tokenType;
             this.content = content;
@@ -29,7 +29,7 @@ namespace EU4ModUtil.Parsers
 
         public override string ToString()
         {
-            return "(" + tokenType + ", " + content + ")";
+            return "(" + content + ")";
         }
     }
 }

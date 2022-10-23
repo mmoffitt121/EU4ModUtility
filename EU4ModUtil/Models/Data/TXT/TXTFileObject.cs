@@ -9,14 +9,14 @@ namespace EU4ModUtil.Models.Data
 {
     internal class TXTFileObject
     {
-        public AttributeValueObject[]? values;
+        public AttributeValueObject[] values;
 
         public TXTFileObject()
         {
 
         }
 
-        public override string? ToString()
+        public override string ToString()
         {
             return values?.ArrayToString();
         }

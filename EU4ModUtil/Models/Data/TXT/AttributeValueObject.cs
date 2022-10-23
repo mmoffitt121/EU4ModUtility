@@ -10,35 +10,44 @@ namespace EU4ModUtil.Models.Data
     internal class AttributeValueObject
     {
         public string attribute;
-        public AttributeValueObject[] values;
+        public List<AttributeValueObject> values;
 
         public AttributeValueObject value
         {
             get
             {
-                if (values == null || values.Length == 0)
+                if (values == null || values.Count == 0)
                 {
                     return null;
                 }
                 return values[0];
+            }
+            set
+            {
+                values = new List<AttributeValueObject> { value };
             }
         }
 
         public AttributeValueObject(string attribute, AttributeValueObject value)
         {
             this.attribute = attribute;
-            this.values = new AttributeValueObject[] { value };
+            this.values = new List<AttributeValueObject> { value };
         }
 
-        public AttributeValueObject(string attribute, AttributeValueObject[] values)
+        public AttributeValueObject(string attribute, List<AttributeValueObject> values)
         {
             this.attribute = attribute;
             this.values = values;
         }
 
+        public AttributeValueObject()
+        {
+
+        }
+
         public override string ToString()
         {
-            return "(" + attribute + " " + values.ArrayToString() + ")";
+            return "(" + attribute + " " + values?.ToArray().ArrayToString() + ")";
         }
     }
 }

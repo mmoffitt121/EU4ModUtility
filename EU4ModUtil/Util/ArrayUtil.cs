@@ -12,7 +12,7 @@ namespace EU4ModUtil.Util
         {
             if (array == null)
             {
-                return string.Empty;
+                return "Empty array";
             }
 
             StringBuilder sb = new StringBuilder();

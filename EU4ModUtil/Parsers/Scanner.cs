@@ -41,6 +41,10 @@ namespace EU4ModUtil.Parsers
         /// Tokens that are produced from specified terminal states.
         /// </summary>
         public (int, string)[] stateTokens;
+        /// <summary>
+        /// What to trim from each token
+        /// </summary>
+        public char[] trimmables = new char[] { ' ', '\n', '\"', '\t' };
 
         public Token[] ScanFile(string path)
         {
@@ -81,7 +85,7 @@ namespace EU4ModUtil.Parsers
                     // If state is terminal, return state
                     if (terminal.Contains(state))
                     {
-                        return new Token(state, content.Trim());
+                        return new Token(state, content.Trim(trimmables));
                     }
                     // If state is non-terminal, return error
                     else
@@ -100,7 +104,7 @@ namespace EU4ModUtil.Parsers
                 }
             }
 
-            return new Token(state, content.Trim());
+            return new Token(state, content.Trim(trimmables));
         }
 
         private int NextState(char ch, int state)

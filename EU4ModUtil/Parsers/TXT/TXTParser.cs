@@ -11,70 +11,119 @@ namespace EU4ModUtil.Parsers
 {
     internal static class TXTParser
     {
-        /// Context-Free Grammar
-        /// <FILE> -> <ITEM_LIST>
-        /// <ITEM_LIST> -> <ATTR> <ITEM_LIST> | empty
-        /// <ATTR> -> <ATTR_NAM> = <ATTR_VAL>
-        /// <ATTR_NAM> -> attribute_name
-        /// <ATTR_VAL> -> { <ITEM_LIST> } | { <VALUE_LIST> } | value_name
-        /// <VALUE_LIST> -> <ATTR_VAL> <VALUE_LIST> | empty
-
+        /// <summary>
+        /// Scans and parses the TXT file at the specified path
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns>Returns a TXTFileObject with the parsed data</returns>
         public static TXTFileObject Parse(string path)
         {
             TXTScanner scanner = new TXTScanner();
             Token[] tokens = scanner.ScanFile(path);
-            Trace.WriteLine(tokens.ArrayToString());
-            TXTFileObject result = Parse(new List<Token>(tokens));
+            TXTFileObject result;
+            result = Parse(new List<Token>(tokens));
             return result;
         }
 
+        /// <summary>
+        /// Parsing TXT files begins here
+        /// </summary>
+        /// <param name="tokens"></param>
+        /// <returns></returns>
         private static TXTFileObject Parse(List<Token> tokens)
         {
             TXTFileObject result = new TXTFileObject();
-            result.values = ItemList(tokens);
+            result.values = ParseFileItems(tokens).ToArray();
 
             return result;
         }
 
-        private static AttributeValueObject[]? ItemList(List<Token> tokens)
+        /// <summary>
+        /// Gets every instance of assignment in a file and separates them into AttributeValueObjects
+        /// </summary>
+        /// <param name="tokens"></param>
+        /// <returns></returns>
+        private static List<AttributeValueObject> ParseFileItems(List<Token> tokens)
         {
-            if (tokens == null || tokens.Count == 0)
-            {
-                return null;
-            }
+            // If no tokens, return empty
+            if (tokens == null || tokens.Count == 0) return null;
 
             List<AttributeValueObject> result = new List<AttributeValueObject>();
 
-            AttributeValueObject first = Attribute(tokens);
-            if (first == null) return null;
-            AttributeValueObject[] remaining = ItemList(tokens);
-            
-            result.Add(first);
-            if (remaining == null) return result.ToArray();
-            result.Concat(remaining);
+            while (tokens.Count > 0)
+            {
+                var value = NextItem(tokens);
+                if (value == null) break;
 
-            return result.ToArray();
+                result.Add(value);
+            }
+
+            return result;
         }
 
-        private static AttributeValueObject Attribute(List<Token> tokens)
+        /// <summary>
+        /// Gets next item in token list
+        /// </summary>
+        /// <param name="tokens"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
+        private static AttributeValueObject NextItem(List<Token> tokens)
         {
-            if (tokens == null)
+            // If no tokens, return empty
+            if (tokens == null || tokens.Count == 0) return null;
+
+            AttributeValueObject result = new AttributeValueObject();
+
+            if (tokens.First().tokenType == 1 || tokens.First().tokenType == 8)
             {
-                return null;
+                result.attribute = tokens.First().content;
+                tokens.Remove(tokens.First());
             }
-            if (tokens.Count < 3)
+            else
             {
                 throw new Exception();
             }
+
+            if (tokens.First().tokenType == 6)
+            {
+                tokens.Remove(tokens.First());
+            }
+            else
+            {
+                return result;
+            }
+
+            if (tokens.First().tokenType == 1 || tokens.First().tokenType == 8)
+            {
+                result.value = new AttributeValueObject();
+                result.value.attribute = tokens.First().content;
+                tokens.Remove(tokens.First());
+            }
+            else if (tokens.First().tokenType == 2)
+            {
+                tokens.Remove(tokens.First());
+                result.values = EmbeddedList(tokens);
+            }
+
+            return result;
         }
 
-        private static AttributeValueObject AttributeName(List<Token> tokens)
+        private static List<AttributeValueObject> EmbeddedList(List<Token> tokens)
         {
-            return null;
-        }
-        private static AttributeValueObject AttributeValue(List<Token> tokens)
-        {
-            return null;
+            List<AttributeValueObject> result = new List<AttributeValueObject>();
+
+            while (true)
+            {
+                var value = NextItem(tokens);
+                result.Add(value);
+                if (tokens.First().tokenType == 3)
+                {
+                    tokens.Remove(tokens.First());
+                    break;
+                }
+            }
+
+            return result;
         }
     }
 }

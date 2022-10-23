@@ -3,8 +3,16 @@
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net6.0-windows</TargetFramework>
-    <Nullable>enable</Nullable>
+    <Nullable>disable</Nullable>
     <UseWPF>true</UseWPF>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Images\NoImageFound.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Images\NoImageFound.png" />
+  </ItemGroup>
 
 </Project>

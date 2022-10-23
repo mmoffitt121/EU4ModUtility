@@ -16,6 +16,8 @@ using System.Windows.Shapes;
 using EU4ModUtil.Models.Data;
 using EU4ModUtil.Parsers;
 using EU4ModUtil.Util;
+using EU4ModUtil.Loaders;
+using System.Windows.Media.Imaging;
 
 namespace EU4ModUtil
 {
@@ -26,12 +28,15 @@ namespace EU4ModUtil
     {
         internal AppData appData;
         internal Mod mod;
+        internal ModLoader loader;
+        internal BitmapImage noImageBitmap;
 
         public MainWindow()
         {
             InitializeComponent();
             appData = new AppData();
             UpdateModInfoDisplay();
+            InitializeImages();
         }
 
         private void Select_Mod_Button_Click(object sender, RoutedEventArgs e)
@@ -49,29 +54,71 @@ namespace EU4ModUtil
                 }
                 appData.modPath = fileDialog.FileName.Substring(0, fileDialog.FileName.Length - 4);
 
-                LoadModInfo();
+                LoadMod();
                 UpdateModInfoDisplay();
             }
         }
 
-        public void LoadModInfo()
+        private void LoadMod()
         {
-            TXTFileObject descriptor = TXTParser.Parse(appData.modPath + "/descriptor.mod");
-            Trace.WriteLine(descriptor);
+            mod = new Mod();
+            loader = new ModLoader(mod, appData);
+            loader.LoadMod();
+            UpdateModInfoDisplay();
         }
 
-        public void UpdateModInfoDisplay()
+        private void LoadModInfo()
+        {
+            loader.LoadMod();
+            UpdateModInfoDisplay();
+        }
+
+        private void UpdateModInfoDisplay()
         {
             if (appData.modPath != null && !appData.modPath.Equals(""))
             {
-                modName.Content = "modnamehere";
+                descriptorDisplay.Visibility = Visibility.Visible;
+                modName.Content = mod.descriptor.name;
                 modPath.Content = appData.modPath;
+                thumbnail.Source = mod.descriptor.bitmap;
+                FillListBox(tagListBox, mod.descriptor.tags);
+                FillListBox(replacePathsListBox, mod.descriptor.replacePaths);
+                versionInfo.Text = "Version: " + mod.descriptor.version + "\nGame Version: " + mod.descriptor.supportedVersion;
             }
             else
             {
+                descriptorDisplay.Visibility = Visibility.Hidden;
                 modName.Content = "No Mod Loaded";
                 modPath.Content = "No Path Found";
+                thumbnail.Source = noImageBitmap;
+                tagListBox.Items.Clear();
+                replacePathsListBox.Items.Clear();
+                versionInfo.Text = "";
             }
+        }
+
+        private void FillListBox(ListBox listBox, List<string> items)
+        {
+            if (items == null || items.Count == 0)
+            {
+                return;
+            }
+
+            listBox.Items.Clear();
+
+            foreach (string item in items)
+            {
+                listBox.Items.Add(item);
+            }
+        }
+
+        private void InitializeImages()
+        {
+            noImageBitmap = new BitmapImage();
+            noImageBitmap.BeginInit();
+            noImageBitmap.UriSource = new Uri("pack://application:,,,/Images/NoImageFound.png");
+            noImageBitmap.EndInit();
+            thumbnail.Source = noImageBitmap;
         }
     }
 }
