@@ -39,6 +39,7 @@ namespace EU4ModUtil
             get
             {
                 //return new List<Country> { new Country(null, 0), new Country(null, 1), new Country(null, 2) };
+                Trace.WriteLine("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
                 return mod?.countries;
             }
             set
@@ -47,7 +48,6 @@ namespace EU4ModUtil
                 {
                     mod.countries = value;
                 }
-
                 NotifyPropertyChanged("Countries");
             }
         }

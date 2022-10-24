@@ -41,7 +41,6 @@ namespace EU4ModUtil
             viewModel.appData = new AppData();
             UpdateModInfoDisplay();
             InitializeImages();
-            InitializeCountryDisplay();
         }
 
         private void Select_Mod_Button_Click(object sender, RoutedEventArgs e)
@@ -71,7 +70,6 @@ namespace EU4ModUtil
             viewModel.loader.LoadMod();
             UpdateModInfoDisplay();
             UpdateTabDisplay();
-            UpdateCountryDisplay();
         }
 
         private void LoadModInfo()
@@ -142,9 +140,8 @@ namespace EU4ModUtil
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            viewModel.Countries = new List<Country> { new Country(null, 0), new Country(null, 1), new Country(null, 2), new Country(null, 3) };
             Trace.WriteLine(viewModel.Countries.ToArray().ArrayToString());
-            countryDataGrid.Items.Refresh();
+            countryDataGrid.ItemsSource = viewModel.Countries;
         }
     }
 }
