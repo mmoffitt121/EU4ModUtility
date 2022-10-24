@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,11 +15,12 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Data;
 using EU4ModUtil.Models.Data;
 using EU4ModUtil.Parsers;
 using EU4ModUtil.Util;
 using EU4ModUtil.Loaders;
-using System.Windows.Media.Imaging;
+using EU4ModUtil.Models.Data.Common;
 
 namespace EU4ModUtil
 {
@@ -26,17 +29,23 @@ namespace EU4ModUtil
     /// </summary>
     public partial class MainWindow : Window
     {
-        internal AppData appData;
-        internal Mod mod;
-        internal ModLoader loader;
-        internal BitmapImage noImageBitmap;
+        ViewModel viewModel { get; set; }
+
+        public string Text { get; set; }
 
         public MainWindow()
         {
             InitializeComponent();
-            appData = new AppData();
+
+            //this.DataContext = viewModel;
+            viewModel = new ViewModel();
+            
+            viewModel.appData = new AppData();
             UpdateModInfoDisplay();
             InitializeImages();
+            InitializeCountryDisplay();
+
+            Text = "";
         }
 
         private void Select_Mod_Button_Click(object sender, RoutedEventArgs e)
@@ -52,7 +61,7 @@ namespace EU4ModUtil
                     MessageBox.Show(msg, "No Folder Found");
                     return;
                 }
-                appData.modPath = fileDialog.FileName.Substring(0, fileDialog.FileName.Length - 4);
+                viewModel.appData.modPath = fileDialog.FileName.Substring(0, fileDialog.FileName.Length - 4);
 
                 LoadMod();
                 UpdateModInfoDisplay();
@@ -61,39 +70,53 @@ namespace EU4ModUtil
 
         private void LoadMod()
         {
-            mod = new Mod();
-            loader = new ModLoader(mod, appData);
-            loader.LoadMod();
+            viewModel.mod = new Mod();
+            viewModel.loader = new ModLoader(viewModel.mod, viewModel.appData);
+            viewModel.loader.LoadMod();
             UpdateModInfoDisplay();
+            UpdateTabDisplay();
+            UpdateCountryDisplay();
         }
 
         private void LoadModInfo()
         {
-            loader.LoadMod();
+            viewModel.loader.LoadMod();
             UpdateModInfoDisplay();
         }
 
         private void UpdateModInfoDisplay()
         {
-            if (appData.modPath != null && !appData.modPath.Equals(""))
+            if (viewModel.appData.modPath != null && !viewModel.appData.modPath.Equals(""))
             {
                 descriptorDisplay.Visibility = Visibility.Visible;
-                modName.Content = mod.descriptor.name;
-                modPath.Content = appData.modPath;
-                thumbnail.Source = mod.descriptor.bitmap;
-                FillListBox(tagListBox, mod.descriptor.tags);
-                FillListBox(replacePathsListBox, mod.descriptor.replacePaths);
-                versionInfo.Text = "Version: " + mod.descriptor.version + "\nGame Version: " + mod.descriptor.supportedVersion;
+                modName.Content = viewModel.mod.descriptor.name;
+                modPath.Content = viewModel.appData.modPath;
+                thumbnail.Source = viewModel.mod.descriptor.bitmap != null ? viewModel.mod.descriptor.bitmap : viewModel.noImageBitmap;
+                FillListBox(tagListBox, viewModel.mod.descriptor.tags);
+                FillListBox(replacePathsListBox, viewModel.mod.descriptor.replacePaths);
+                versionInfo.Text = "Version: " + viewModel.mod.descriptor.version + "\nGame Version: " + viewModel.mod.descriptor.supportedVersion;
             }
             else
             {
                 descriptorDisplay.Visibility = Visibility.Hidden;
                 modName.Content = "No Mod Loaded";
                 modPath.Content = "No Path Found";
-                thumbnail.Source = noImageBitmap;
+                thumbnail.Source = viewModel.noImageBitmap;
                 tagListBox.Items.Clear();
                 replacePathsListBox.Items.Clear();
                 versionInfo.Text = "";
+            }
+        }
+
+        private void UpdateTabDisplay()
+        {
+            if (viewModel.appData.modPath != null && !viewModel.appData.modPath.Equals(""))
+            {
+                countriesTab.IsEnabled = true;
+            }
+            else
+            {
+                countriesTab.IsEnabled = false;
             }
         }
 
@@ -114,11 +137,11 @@ namespace EU4ModUtil
 
         private void InitializeImages()
         {
-            noImageBitmap = new BitmapImage();
-            noImageBitmap.BeginInit();
-            noImageBitmap.UriSource = new Uri("pack://application:,,,/Images/NoImageFound.png");
-            noImageBitmap.EndInit();
-            thumbnail.Source = noImageBitmap;
+            viewModel.noImageBitmap = new BitmapImage();
+            viewModel.noImageBitmap.BeginInit();
+            viewModel.noImageBitmap.UriSource = new Uri("pack://application:,,,/Images/NoImageFound.png");
+            viewModel.noImageBitmap.EndInit();
+            thumbnail.Source = viewModel.noImageBitmap;
         }
     }
 }

@@ -5,8 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:EU4ModUtil"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="800" Width="1000">
     <Grid>
+        <Grid.DataContext>
+            <local:ViewModel/>
+        </Grid.DataContext>
         <TabControl>
             <TabItem Header="Mod">
                 <Grid Background="#FFE5E5E5">
@@ -33,9 +36,22 @@
                     </Grid>
                 </Grid>
             </TabItem>
-            <TabItem Header="Countries" IsEnabled="False"/>
+            <TabItem Name="countriesTab" Header="Countries" IsEnabled="False">
+                <Grid Background="#FFE5E5E5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="5*" />
+                        <ColumnDefinition Width="1*" />
+                    </Grid.ColumnDefinitions>
+                    <DataGrid>
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="#" Binding="{Binding}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
             <TabItem Header="Provinces" IsEnabled="False"/>
             <TabItem Header="Events" IsEnabled="False"/>
+
         </TabControl>
 
     </Grid>

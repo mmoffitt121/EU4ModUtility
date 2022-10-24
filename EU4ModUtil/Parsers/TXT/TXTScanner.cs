@@ -35,7 +35,7 @@ namespace EU4ModUtil.Parsers
         public static readonly int START = 0;
         public static readonly int[] NULL_STATES =
         {
-            5
+            0, 5
         };
         public static readonly int[] TERMINAL =
         {
