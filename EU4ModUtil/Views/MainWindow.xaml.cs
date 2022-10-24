@@ -31,21 +31,17 @@ namespace EU4ModUtil
     {
         ViewModel viewModel { get; set; }
 
-        public string Text { get; set; }
-
         public MainWindow()
         {
             InitializeComponent();
 
-            //this.DataContext = viewModel;
             viewModel = new ViewModel();
+            this.DataContext = viewModel;
             
             viewModel.appData = new AppData();
             UpdateModInfoDisplay();
             InitializeImages();
             InitializeCountryDisplay();
-
-            Text = "";
         }
 
         private void Select_Mod_Button_Click(object sender, RoutedEventArgs e)
@@ -142,6 +138,13 @@ namespace EU4ModUtil
             viewModel.noImageBitmap.UriSource = new Uri("pack://application:,,,/Images/NoImageFound.png");
             viewModel.noImageBitmap.EndInit();
             thumbnail.Source = viewModel.noImageBitmap;
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            viewModel.Countries = new List<Country> { new Country(null, 0), new Country(null, 1), new Country(null, 2), new Country(null, 3) };
+            Trace.WriteLine(viewModel.Countries.ToArray().ArrayToString());
+            countryDataGrid.Items.Refresh();
         }
     }
 }

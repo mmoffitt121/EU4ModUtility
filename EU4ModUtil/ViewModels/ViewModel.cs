@@ -33,7 +33,24 @@ namespace EU4ModUtil
         internal BitmapImage noImageBitmap;
 
         // ViewModels
-        internal ObservableCollection<Country> Countries { get; set; }
+        internal List<Country> countries;
+        public List<Country> Countries
+        {
+            get
+            {
+                //return new List<Country> { new Country(null, 0), new Country(null, 1), new Country(null, 2) };
+                return mod?.countries;
+            }
+            set
+            {
+                if (mod != null)
+                {
+                    mod.countries = value;
+                }
+
+                NotifyPropertyChanged("Countries");
+            }
+        }
 
         private string text;
         public string Text 
@@ -48,8 +65,6 @@ namespace EU4ModUtil
                 NotifyPropertyChanged("Text");
             }
         }
-
-
 
         public event PropertyChangedEventHandler PropertyChanged;
         private void NotifyPropertyChanged(string propertyName)

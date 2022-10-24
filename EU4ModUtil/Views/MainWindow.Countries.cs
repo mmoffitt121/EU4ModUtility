@@ -28,7 +28,7 @@ namespace EU4ModUtil
         private void InitializeCountryDisplay()
         {
             //countryDataGrid.DataContext = viewModel.Countries;
-            viewModel.Countries = new ObservableCollection<Country>() { new Country(null, 1), new Country(null, 2) };
+            viewModel.Countries = new List<Country>() { new Country(null, 1), new Country(null, 2) };
         }
 
         private void UpdateCountryDisplay()
