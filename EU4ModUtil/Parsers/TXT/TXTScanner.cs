@@ -44,12 +44,12 @@ namespace EU4ModUtil.Parsers
         public static readonly (int, Regex, int)[] RELATIONS =
         {
             (0, new Regex("[ \n\t]", RegexOptions.Compiled), 0),
-            (0, new Regex("[a-zA-Z0-9/:._-]", RegexOptions.Compiled), 1),
-            (1, new Regex("[a-zA-Z0-9/:._-]", RegexOptions.Compiled), 1),
+            (0, new Regex("[a-zA-Z0-9/':._\\u0080-\\uFFFF$,?`-]", RegexOptions.Compiled), 1),
+            (1, new Regex("[a-zA-Z0-9/':._\\u0080-\\uFFFF$,?`-]", RegexOptions.Compiled), 1),
             (0, new Regex("[{]", RegexOptions.Compiled), 2),
             (0, new Regex("[}]", RegexOptions.Compiled), 3),
             (0, new Regex("[\"]", RegexOptions.Compiled), 4),
-            (4, new Regex("[ a-zA-Z0-9/:._-]", RegexOptions.Compiled), 4),
+            (4, new Regex("[ \n\ta-zA-Z0-9/':._#\\u0080-\\uFFFF$,?`-]", RegexOptions.Compiled), 4),
             (4, new Regex("[\"]", RegexOptions.Compiled), 8),
             (0, new Regex("[#]", RegexOptions.Compiled), 5),
             (5, new Regex("[\n]", RegexOptions.Compiled), 0),

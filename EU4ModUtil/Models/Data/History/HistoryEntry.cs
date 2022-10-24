@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace EU4ModUtil.Models.Data.History
 {
-    internal class HistoryEntry
+    internal class HistoryEntry : ChangeableObject
     {
+        public DateTime DateTime { get; set; }
     }
 }

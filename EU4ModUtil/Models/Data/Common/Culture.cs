@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace EU4ModUtil.Models.Data.Common
 {
-    internal class Culture
+    internal class Culture : ChangeableObject
     {
     }
 }

@@ -8,7 +8,7 @@ using EU4ModUtil.Models.Data.History;
 
 namespace EU4ModUtil.Models.Data.Common
 {
-    internal class Country
+    internal class Country : ChangeableObject
     {
         // 00_countries.txt
         public int index { get; set; }
@@ -17,15 +17,15 @@ namespace EU4ModUtil.Models.Data.Common
         public string path { get; set; }
 
         // Localization
-        public string localizedName;
-        public string lcoalizedAdjective;
+        public string localizedName { get; set; }
+        public string lcoalizedAdjective { get; set; }
 
         // Country
         //public GraphicalCulture graphicalCulture;
-        public Color color;
-        public Color revoluationaryColors;
+        public Color color { get; set; }
+        public Color revoluationaryColors { get; set; }
         //public Council historicalCouncil;
-        public int? historicalScore;
+        public int? historicalScore { get; set; }
         //public IdeaGroup[] historicalIdeaGroups;
         //public HistoricalUnit[] historicalUnits;
         //public MonarchName[] monarchNames;
@@ -44,52 +44,28 @@ namespace EU4ModUtil.Models.Data.Common
             MIL
         }
 
-        public Country(AttributeValueObject rawData, int index)
+        public Country(AttributeValueObject tagData, int index)
         {
-            if (rawData == null || rawData.values == null)
+            if (tagData == null || tagData.values == null || tagData.values.Count < 1)
             {
                 return;
-                throw new ArgumentNullException(nameof(rawData));
+                throw new ArgumentNullException(nameof(tagData));
             }
 
             this.index = index;
 
-            /*replacePaths = new List<string>();
-            List<AttributeValueObject> values = new List<AttributeValueObject>();
+            tag = tagData.attribute;
+            path = tagData.values[0].attribute;
+        }
 
-            foreach (AttributeValueObject item in rawData.values)
-            {
-                if (item.attribute == null)
-                {
-                    continue;
-                }
-                switch (item.attribute.ToLower())
-                {
-                    case "version":
-                        version = item.value.attribute;
-                        break;
-                    case "replace_path":
-                        replacePaths.Add(item.value.attribute);
-                        break;
-                    case "tags":
-                        tags = LoadTags(item);
-                        break;
-                    case "name":
-                        name = item.value.attribute;
-                        break;
-                    case "supported_version":
-                        supportedVersion = item.value.attribute;
-                        break;
-                    case "picture":
-                        picture = item.value.attribute;
-                        break;
-                    default:
-                        values.Add(item);
-                        break;
-                }
-            }
+        public void SetCountryData(AttributeValueObject country)
+        {
 
-            this.values = values.ToArray();*/
+        }
+
+        public void SetHistoryData()
+        {
+
         }
     }
 }

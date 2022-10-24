@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Diagnostics;
 using EU4ModUtil.Models.Data;
 using EU4ModUtil.Util;
+using System.IO;
 
 namespace EU4ModUtil.Parsers
 {
@@ -18,10 +19,20 @@ namespace EU4ModUtil.Parsers
         /// <returns>Returns a TXTFileObject with the parsed data</returns>
         public static TXTFileObject Parse(string path)
         {
+            if (path == null || !File.Exists(path))
+            {
+                return null;
+            }
+
             TXTScanner scanner = new TXTScanner();
             Token[] tokens = scanner.ScanFile(path);
-            TXTFileObject result;
-            result = Parse(new List<Token>(tokens));
+            if (tokens == null)
+            {
+                Trace.WriteLine("NULL RESULT FROM: " + path);
+                return null;
+            }
+
+            TXTFileObject result = Parse(new List<Token>(tokens));
             return result;
         }
 

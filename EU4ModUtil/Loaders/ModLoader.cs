@@ -53,14 +53,19 @@ namespace EU4ModUtil.Loaders
 
         internal void LoadCountries()
         {
-            if (File.Exists(appData.modPath + "/common/country_tags/00_countries.txt"))
+            if (File.Exists(appData.modPath + "\\common\\country_tags\\00_countries.txt"))
             {
-                TXTFileObject obj = TXTParser.Parse(appData.modPath + "/common/country_tags/00_countries.txt");
+                TXTFileObject obj = TXTParser.Parse(appData.modPath + "\\common\\country_tags\\00_countries.txt");
                 mod.countries = new List<Country>();
                 for (int i = 0; i < obj.values.Length; i++)
                 {
                     Country country = new Country(obj.values[i], i);
                     mod.countries.Add(country);
+                }
+
+                foreach (Country c in mod.countries)
+                {
+                    TXTFileObject cObj = TXTParser.Parse(appData.modPath + "\\common\\" + c.path.Replace("/", "\\"));
                 }
             }
         }

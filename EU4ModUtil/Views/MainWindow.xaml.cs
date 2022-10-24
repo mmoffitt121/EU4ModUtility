@@ -89,6 +89,8 @@ namespace EU4ModUtil
                 FillListBox(tagListBox, viewModel.mod.descriptor.tags);
                 FillListBox(replacePathsListBox, viewModel.mod.descriptor.replacePaths);
                 versionInfo.Text = "Version: " + viewModel.mod.descriptor.version + "\nGame Version: " + viewModel.mod.descriptor.supportedVersion;
+
+                countryDataGrid.ItemsSource = viewModel.Countries;
             }
             else
             {
@@ -99,6 +101,8 @@ namespace EU4ModUtil
                 tagListBox.Items.Clear();
                 replacePathsListBox.Items.Clear();
                 versionInfo.Text = "";
+
+                countryDataGrid.ItemsSource = null;
             }
         }
 
@@ -136,12 +140,6 @@ namespace EU4ModUtil
             viewModel.noImageBitmap.UriSource = new Uri("pack://application:,,,/Images/NoImageFound.png");
             viewModel.noImageBitmap.EndInit();
             thumbnail.Source = viewModel.noImageBitmap;
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            Trace.WriteLine(viewModel.Countries.ToArray().ArrayToString());
-            countryDataGrid.ItemsSource = viewModel.Countries;
         }
     }
 }
