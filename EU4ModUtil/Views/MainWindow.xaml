@@ -44,7 +44,9 @@
                     </Grid.ColumnDefinitions>
                     <DataGrid Name="countryDataGrid" ItemsSource="{Binding Path=Countries, UpdateSourceTrigger=PropertyChanged}" AutoGenerateColumns="False">
                         <DataGrid.Columns>
+                            
                             <DataGridTextColumn Header="#" Binding="{Binding Path=index, UpdateSourceTrigger=PropertyChanged}"/>
+
                             <DataGridTextColumn Header="Tag" Binding="{Binding Path=tag, UpdateSourceTrigger=PropertyChanged}"/>
                             <DataGridTextColumn Header="Name" Binding="{Binding Path=name, UpdateSourceTrigger=PropertyChanged}"/>
                         </DataGrid.Columns>

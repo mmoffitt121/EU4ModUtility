@@ -58,12 +58,33 @@ namespace EU4ModUtil.Models.Data.Common
             path = tagData.values[0].attribute;
         }
 
-        public void SetCountryData(AttributeValueObject country)
+        public void SetCountryData(TXTFileObject country)
+        {
+            if (country == null || country.values == null || country.values.Count() < 1)
+            {
+                return;
+                throw new ArgumentNullException(nameof(country));
+            }
+
+            foreach (AttributeValueObject obj in country.values)
+            {
+                switch (obj.attribute)
+                {
+                    case "color":
+                    case "revolutionary_colors":
+                        break;
+                    case "historical_score":
+                        break;
+                }
+            }
+        }
+
+        public void SetHistoryData()
         {
 
         }
 
-        public void SetHistoryData()
+        public void SetLocalizationData()
         {
 
         }

@@ -66,6 +66,7 @@ namespace EU4ModUtil.Loaders
                 foreach (Country c in mod.countries)
                 {
                     TXTFileObject cObj = TXTParser.Parse(appData.modPath + "\\common\\" + c.path.Replace("/", "\\"));
+                    c.SetCountryData(cObj);
                 }
             }
         }
