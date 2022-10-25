@@ -15,4 +15,8 @@
     <Resource Include="Images\NoImageFound.png" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Models\Data\YML\" />
+  </ItemGroup>
+
 </Project>

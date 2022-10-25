@@ -11,31 +11,32 @@ namespace EU4ModUtil.Models.Data.Common
     internal class Country : ChangeableObject
     {
         // 00_countries.txt
-        public int index { get; set; }
-        public string tag { get; set; }
-        public string name { get; set; }
-        public string path { get; set; }
+        public int Index { get; set; }
+        public string Tag { get; set; }
+        public string Path { get; set; }
 
         // Localization
-        public string localizedName { get; set; }
-        public string lcoalizedAdjective { get; set; }
+        public string LocalizedName { get; set; }
+        public string LocalizedAdjective { get; set; }
 
         // Country
         //public GraphicalCulture graphicalCulture;
-        public Color color { get; set; }
-        public Color revoluationaryColors { get; set; }
+        public Color Color { get; set; }
+        public Color RevoluationaryColors { get; set; }
         //public Council historicalCouncil;
-        public int? historicalScore { get; set; }
+        public int? HistoricalScore { get; set; }
         //public IdeaGroup[] historicalIdeaGroups;
         //public HistoricalUnit[] historicalUnits;
         //public MonarchName[] monarchNames;
-        public string[] leaderNames;
-        public string[] shipNames;
-        public string[] armyNames;
-        public string[] fleetNames;
+        public string[] LeaderNames;
+        public string[] ShipNames;
+        public string[] ArmyNames;
+        public string[] FleetNames;
 
         // History
-        public HistoryEntry[] history;
+        public HistoryEntry[] History;
+        public Culture Culture { get; set; }
+        public Religion Religion { get; set; }
 
         public enum PowerPointType
         {
@@ -52,10 +53,10 @@ namespace EU4ModUtil.Models.Data.Common
                 throw new ArgumentNullException(nameof(tagData));
             }
 
-            this.index = index;
+            this.Index = index;
 
-            tag = tagData.attribute;
-            path = tagData.values[0].attribute;
+            Tag = tagData.attribute;
+            Path = tagData.values[0].attribute;
         }
 
         public void SetCountryData(TXTFileObject country)
@@ -84,9 +85,17 @@ namespace EU4ModUtil.Models.Data.Common
 
         }
 
-        public void SetLocalizationData()
+        public void SetLocalizationData(Dictionary<string, string> dict)
         {
+            if (dict.ContainsKey(Tag))
+            {
+                LocalizedName = dict[Tag];
+            }
 
+            if (dict.ContainsKey(Tag + "_ADJ"))
+            {
+                LocalizedAdjective = dict[Tag + "_ADJ"];
+            }
         }
     }
 }

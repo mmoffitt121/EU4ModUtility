@@ -33,7 +33,6 @@ namespace EU4ModUtil
         internal BitmapImage noImageBitmap;
 
         // ViewModels
-        internal List<Country> countries;
         public List<Country> Countries
         {
             get
@@ -47,6 +46,13 @@ namespace EU4ModUtil
                     mod.countries = value;
                 }
                 NotifyPropertyChanged("Countries");
+            }
+        }
+        public List<Culture> Cultures
+        {
+            get
+            {
+                return new List<Culture> { new Culture(), new Culture() { } };
             }
         }
 

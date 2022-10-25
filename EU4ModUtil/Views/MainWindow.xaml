@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:EU4ModUtil"
         mc:Ignorable="d"
-        Title="MainWindow" Height="800" Width="1000">
+        Title="MainWindow" Height="932" Width="1791">
     <Grid>
         <Grid.DataContext>
             <local:ViewModel/>
@@ -44,11 +44,14 @@
                     </Grid.ColumnDefinitions>
                     <DataGrid Name="countryDataGrid" ItemsSource="{Binding Path=Countries, UpdateSourceTrigger=PropertyChanged}" AutoGenerateColumns="False">
                         <DataGrid.Columns>
-                            
-                            <DataGridTextColumn Header="#" Binding="{Binding Path=index, UpdateSourceTrigger=PropertyChanged}"/>
 
-                            <DataGridTextColumn Header="Tag" Binding="{Binding Path=tag, UpdateSourceTrigger=PropertyChanged}"/>
-                            <DataGridTextColumn Header="Name" Binding="{Binding Path=name, UpdateSourceTrigger=PropertyChanged}"/>
+                            <DataGridTextColumn Header="#" Binding="{Binding Path=Index, UpdateSourceTrigger=PropertyChanged}"/>
+                            <DataGridTextColumn Header="Tag" Binding="{Binding Path=Tag, UpdateSourceTrigger=PropertyChanged}"/>
+                            <DataGridTextColumn Header="Name" Binding="{Binding Path=LocalizedName, UpdateSourceTrigger=PropertyChanged}"/>
+                            <DataGridTextColumn Header="Adjective" Binding="{Binding Path=LocalizedAdjective, UpdateSourceTrigger=PropertyChanged}"/>
+                            <DataGridTextColumn Header="Path" Binding="{Binding Path=Path, UpdateSourceTrigger=PropertyChanged}"/>
+                            <DataGridComboBoxColumn Header="Culture"/>
+                            <DataGridTextColumn Header="Religion" Binding="{Binding Path=Religion, UpdateSourceTrigger=PropertyChanged}"/>
                         </DataGrid.Columns>
                     </DataGrid>
                 </Grid>

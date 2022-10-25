@@ -65,8 +65,18 @@ namespace EU4ModUtil.Loaders
 
                 foreach (Country c in mod.countries)
                 {
-                    TXTFileObject cObj = TXTParser.Parse(appData.modPath + "\\common\\" + c.path.Replace("/", "\\"));
+                    TXTFileObject cObj = TXTParser.Parse(appData.modPath + "\\common\\" + c.Path.Replace("/", "\\"));
                     c.SetCountryData(cObj);
+                }
+            }
+
+            if (File.Exists(appData.modPath + "\\localisation\\countries_l_english.yml"))
+            {
+                Dictionary<string, string> dict = YMLParser.ParseDictionary(appData.modPath + "\\localisation\\countries_l_english.yml");
+
+                foreach (Country c in mod.countries)
+                {
+                    c.SetLocalizationData(dict);
                 }
             }
         }
