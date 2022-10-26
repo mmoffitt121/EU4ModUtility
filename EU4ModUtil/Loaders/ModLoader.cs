@@ -27,6 +27,8 @@ namespace EU4ModUtil.Loaders
         {
             LoadDescriptor();
             LoadImage();
+            LoadCultures();
+            LoadReligions();
             LoadCountries();
         }
 
@@ -76,9 +78,38 @@ namespace EU4ModUtil.Loaders
 
                 foreach (Country c in mod.countries)
                 {
-                    c.SetLocalizationData(dict);
+                    c.SetLocalisationData(dict);
                 }
             }
+        }
+
+        public void LoadCultures()
+        {
+            if (File.Exists(appData.modPath + "\\common\\cultures\\00_cultures.txt"))
+            {
+                TXTFileObject obj = TXTParser.Parse(appData.modPath + "\\common\\cultures\\00_cultures.txt");
+                mod.cultureGroups = new List<CultureGroup>();
+                for (int i = 0; i < obj.values.Length; i++)
+                {
+                    CultureGroup group = new CultureGroup(obj.values[i]);
+                    mod.cultureGroups.Add(group);
+                }
+            }
+
+            if (File.Exists(appData.modPath + "\\localisation\\text_l_english.yml"))
+            {
+                Dictionary<string, string> dict = YMLParser.ParseDictionary(appData.modPath + "\\localisation\\text_l_english.yml");
+
+                foreach (CultureGroup g in mod.cultureGroups)
+                {
+                    g.SetLocalisationData(dict);
+                }
+            }
+        }
+
+        public void LoadReligions()
+        {
+
         }
 
         public ModLoader(Mod mod, AppData appData)

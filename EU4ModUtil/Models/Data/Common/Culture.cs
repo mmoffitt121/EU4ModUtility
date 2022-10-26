@@ -13,5 +13,15 @@ namespace EU4ModUtil.Models.Data.Common
         public string LocalizedName { get; set; }
         public string LocalizedAdjective { get; set; }
         public Color Color { get; set; }
+
+        public Culture(AttributeValueObject obj)
+        {
+
+        }
+
+        public void SetLocalisationData(Dictionary<string, string> dict)
+        {
+
+        }
     }
 }

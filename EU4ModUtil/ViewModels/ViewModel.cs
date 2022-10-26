@@ -52,7 +52,36 @@ namespace EU4ModUtil
         {
             get
             {
-                return new List<Culture> { new Culture(), new Culture() { } };
+                return mod?.Cultures;
+            }
+        }
+
+        public List<CultureGroup> CultureGroups
+        {
+            get
+            {
+                return mod?.cultureGroups;
+            }
+            set
+            {
+                NotifyPropertyChanged(nameof(Cultures));
+                NotifyPropertyChanged(nameof(CultureGroups));
+            }
+        }
+
+        public List<Religion> Religions
+        {
+            get
+            {
+                return mod?.religions;
+            }
+            set
+            {
+                if (mod != null)
+                {
+                    mod.religions = value;
+                }
+                NotifyPropertyChanged("Religions");
             }
         }
 

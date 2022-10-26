@@ -14,10 +14,10 @@ namespace EU4ModUtil.Models.Data.Map
     {
         public int Id { get; set; }
 
-        
+
         public string LocalizedName { get; set; }
-        public Culture culture { get; set; }
-        public 
+        public Culture Culture { get; set; }
+        public Religion Religion { get; set; }
 
         public HistoryEntry[] History { get; set; }
     }

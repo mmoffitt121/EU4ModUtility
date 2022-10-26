@@ -8,15 +8,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Models\Data\YML\**" />
+    <EmbeddedResource Remove="Models\Data\YML\**" />
+    <None Remove="Models\Data\YML\**" />
+    <Page Remove="Models\Data\YML\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Images\NoImageFound.png" />
   </ItemGroup>
 
   <ItemGroup>
     <Resource Include="Images\NoImageFound.png" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Models\Data\YML\" />
   </ItemGroup>
 
 </Project>

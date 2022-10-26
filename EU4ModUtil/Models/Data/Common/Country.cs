@@ -22,6 +22,9 @@ namespace EU4ModUtil.Models.Data.Common
         // Country
         //public GraphicalCulture graphicalCulture;
         public Color Color { get; set; }
+        public int R { get; set; }
+        public int G { get; set; }
+        public int B { get; set; }
         public Color RevoluationaryColors { get; set; }
         //public Council historicalCouncil;
         public int? HistoricalScore { get; set; }
@@ -35,8 +38,34 @@ namespace EU4ModUtil.Models.Data.Common
 
         // History
         public HistoryEntry[] History;
-        public Culture Culture { get; set; }
-        public Religion Religion { get; set; }
+        public Culture culture;
+        public string Culture 
+        {
+            get
+            {
+                return culture?.Name;
+            }
+            set
+            {
+
+            }
+        }
+
+        public Religion religion;
+        public string Religion 
+        { 
+            get
+            {
+                return religion?.ToString();
+            }
+            set
+            {
+
+            }
+        }
+
+        // Unsupported Values
+        public List<AttributeValueObject> Other { get; set; }
 
         public enum PowerPointType
         {
@@ -61,6 +90,8 @@ namespace EU4ModUtil.Models.Data.Common
 
         public void SetCountryData(TXTFileObject country)
         {
+            Other = new List<AttributeValueObject>();
+
             if (country == null || country.values == null || country.values.Count() < 1)
             {
                 return;
@@ -76,6 +107,9 @@ namespace EU4ModUtil.Models.Data.Common
                         break;
                     case "historical_score":
                         break;
+                    default:
+                        Other.Add(obj);
+                        break;
                 }
             }
         }
@@ -85,7 +119,7 @@ namespace EU4ModUtil.Models.Data.Common
 
         }
 
-        public void SetLocalizationData(Dictionary<string, string> dict)
+        public void SetLocalisationData(Dictionary<string, string> dict)
         {
             if (dict.ContainsKey(Tag))
             {

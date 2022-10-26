@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media.TextFormatting;
 using EU4ModUtil.Models.Data.Common;
 using EU4ModUtil.Models.Data.Map;
 
@@ -13,8 +14,26 @@ namespace EU4ModUtil.Models.Data
         internal Descriptor descriptor;
         internal List<Country> countries;
         internal List<Province> provinces;
-        internal List<Culture> cultures;
         internal List<CultureGroup> cultureGroups;
         internal List<Religion> religions;
+
+        // Localisation
+        internal Dictionary<string, string> TextLEnglish;
+
+        internal List<Culture> Cultures
+        {
+            get
+            {
+                List<Culture> result = new List<Culture>();
+                foreach (CultureGroup group in cultureGroups)
+                {
+                    foreach (Culture culture in group.Cultures)
+                    {
+                        result.Add(culture);
+                    }
+                }
+                return result;
+            }
+        }
     }
 }

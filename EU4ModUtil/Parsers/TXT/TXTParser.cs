@@ -125,13 +125,13 @@ namespace EU4ModUtil.Parsers
 
             while (true)
             {
-                var value = NextItem(tokens);
-                result.Add(value);
                 if (tokens.First().tokenType == 3)
                 {
                     tokens.Remove(tokens.First());
                     break;
                 }
+                var value = NextItem(tokens);
+                result.Add(value);
             }
 
             return result;

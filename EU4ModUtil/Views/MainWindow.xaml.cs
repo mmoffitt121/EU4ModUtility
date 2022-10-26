@@ -111,10 +111,16 @@ namespace EU4ModUtil
             if (viewModel.appData.modPath != null && !viewModel.appData.modPath.Equals(""))
             {
                 countriesTab.IsEnabled = true;
+                provincesTab.IsEnabled = true;
+                culturesTab.IsEnabled = true;
+                religionTab.IsEnabled = true;
             }
             else
             {
                 countriesTab.IsEnabled = false;
+                provincesTab.IsEnabled = false;
+                culturesTab.IsEnabled = false;
+                religionTab.IsEnabled = false;
             }
         }
 
