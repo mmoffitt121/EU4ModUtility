@@ -20,6 +20,7 @@ using EU4ModUtil.Models.Data;
 using EU4ModUtil.Parsers;
 using EU4ModUtil.Util;
 using EU4ModUtil.Loaders;
+using EU4ModUtil.Writers;
 using EU4ModUtil.Models.Data.Common;
 
 namespace EU4ModUtil
@@ -30,6 +31,7 @@ namespace EU4ModUtil
         internal AppData appData;
         internal Mod mod;
         internal ModLoader loader;
+        internal ModWriter writer;
         internal BitmapImage noImageBitmap;
 
         // ViewModels

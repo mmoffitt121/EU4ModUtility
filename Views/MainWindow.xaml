@@ -91,31 +91,16 @@
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
+                            <DataGridTextColumn Header="Historical Score" Binding="{Binding Path=HistoricalScore, UpdateSourceTrigger=PropertyChanged}"/>
+                            <DataGridTextColumn Header="Culture" Binding="{Binding Path=Culture, UpdateSourceTrigger=PropertyChanged}"/>
+                            <DataGridTextColumn Header="Religion" Binding="{Binding Path=Religion, UpdateSourceTrigger=PropertyChanged}"/>
+                            <DataGridTextColumn Header="Government" Binding="{Binding Path=Government, UpdateSourceTrigger=PropertyChanged}"/>
+                            <DataGridTextColumn Header="Graphical Culture" Binding="{Binding Path=GraphicalCulture, UpdateSourceTrigger=PropertyChanged}"/>
                         </DataGrid.Columns>
                     </DataGrid>
                 </Grid>
             </TabItem>
             <TabItem Name="provincesTab" Header="Provinces" IsEnabled="False"/>
-            <TabItem Name="culturesTab" Header="Cultures" IsEnabled="False">
-                <Grid Background="#FFE5E5E5">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="5*" />
-                        <ColumnDefinition Width="1*" />
-                    </Grid.ColumnDefinitions>
-                    <DataGrid Name="cultureDataGrid" ItemsSource="{Binding Path=Cultures, UpdateSourceTrigger=PropertyChanged}" AutoGenerateColumns="False">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="#" Binding="{Binding Path=Index, UpdateSourceTrigger=PropertyChanged}"/>
-                            <DataGridTextColumn Header="Tag" Binding="{Binding Path=Name, UpdateSourceTrigger=PropertyChanged}"/>
-                            <DataGridTextColumn Header="Name" Binding="{Binding Path=Color, UpdateSourceTrigger=PropertyChanged}"/>
-                            <DataGridTextColumn Header="Adjective" Binding="{Binding Path=LocalizedAdjective, UpdateSourceTrigger=PropertyChanged}"/>
-                            <DataGridTextColumn Header="Path" Binding="{Binding Path=Path, UpdateSourceTrigger=PropertyChanged}"/>
-                            <DataGridTextColumn Header="Culture" Binding="{Binding Path=Culture, UpdateSourceTrigger=PropertyChanged}"/>
-                            <DataGridTextColumn Header="Religion" Binding="{Binding Path=Religion, UpdateSourceTrigger=PropertyChanged}"/>
-                        </DataGrid.Columns>
-                    </DataGrid>
-                </Grid>
-            </TabItem>
-            <TabItem Name="religionTab" Header="Religions" IsEnabled="False"/>
         </TabControl>
 
     </Grid>

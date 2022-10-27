@@ -21,7 +21,7 @@ namespace EU4ModUtil.Models.Data.Common
 
         // Country
         public string GraphicalCulture { get; set; }
-
+        public int HistoricalScore { get; set; }
 
         // -=-=-=-=-=-=-=-=-=-=-
         // Colors
@@ -212,10 +212,22 @@ namespace EU4ModUtil.Models.Data.Common
         //public string[] ArmyNames;
         //public string[] FleetNames;
 
-        // History
-        public HistoryEntry[] History { get; set; }
+        /// <summary>
+        /// History
+        /// </summary>
+        public List<HistoryEntry> History { get; set; }
+        /// <summary>
+        /// Culture
+        /// </summary>
         public string Culture { get; set; }
+        /// <summary>
+        /// Religion
+        /// </summary>
         public string Religion { get; set; }
+        /// <summary>
+        /// Government
+        /// </summary>
+        public string Government { get; set; }
 
         /// <summary>
         /// List of unsupported values kept so they don't get lost
@@ -273,25 +285,49 @@ namespace EU4ModUtil.Models.Data.Common
                         int g;
                         int b;
                         if (int.TryParse(obj.values[0].attribute, out r))
+                        {
                             R = r;
+                        }
                         if (int.TryParse(obj.values[1].attribute, out g))
+                        {
                             G = g;
+                        }
                         if (int.TryParse(obj.values[2].attribute, out b))
+                        {
                             B = b;
+                        }
                         break;
+
                     case "revolutionary_colors":
                         int rr;
                         int rg;
                         int rb;
                         if (int.TryParse(obj.values[0].attribute, out rr))
+                        {
                             R1 = rr;
+                        }
                         if (int.TryParse(obj.values[1].attribute, out rg))
+                        {
                             R2 = rg;
+                        }
                         if (int.TryParse(obj.values[2].attribute, out rb))
+                        {
                             R3 = rb;
+                        }
                         break;
+
                     case "historical_score":
+                        int hs;
+                        if (int.TryParse(obj.value.attribute, out hs))
+                        {
+                            HistoricalScore = hs;
+                        }
                         break;
+
+                    case "graphical_culture":
+                        GraphicalCulture = obj.value.attribute;
+                        break;
+
                     default:
                         Other.Add(obj);
                         break;
@@ -305,13 +341,27 @@ namespace EU4ModUtil.Models.Data.Common
         /// <param name="history"></param>
         public void SetHistoryData(TXTFileObject history)
         {
+            if (history == null) return;
+
+            History = new List<HistoryEntry>();
+
             foreach (AttributeValueObject obj in history.values)
             {
                 switch (obj.attribute)
                 {
-                    case "government":
-
+                    case "religion":
+                        Religion = obj.value.attribute;
                         break;
+                    case "primary_culture":
+                        Culture = obj.value.attribute;
+                        break;
+                    case "government":
+                        Government = obj.value.attribute;
+                        break;
+                    default:
+                        History.Add(new HistoryEntry(obj));
+                        break;
+
                 }
             }
         }

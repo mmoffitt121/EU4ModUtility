@@ -7,6 +7,7 @@ using System.Diagnostics;
 using EU4ModUtil.Models.Data;
 using EU4ModUtil.Util;
 using System.IO;
+using Microsoft.VisualBasic;
 
 namespace EU4ModUtil.Parsers
 {
@@ -57,7 +58,10 @@ namespace EU4ModUtil.Parsers
         private static List<AttributeValueObject> ParseFileItems(List<Token> tokens)
         {
             // If no tokens, return empty
-            if (tokens == null || tokens.Count == 0) return null;
+            if (tokens == null || tokens.Count == 0)
+            {
+                return null;
+            }
 
             List<AttributeValueObject> result = new List<AttributeValueObject>();
 
@@ -81,7 +85,10 @@ namespace EU4ModUtil.Parsers
         private static AttributeValueObject NextItem(List<Token> tokens)
         {
             // If no tokens, return empty
-            if (tokens == null || tokens.Count == 0) return null;
+            if (tokens == null || tokens.Count == 0)
+            {
+                return null;
+            }
 
             AttributeValueObject result = new AttributeValueObject();
 

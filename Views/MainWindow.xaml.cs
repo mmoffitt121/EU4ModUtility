@@ -20,6 +20,7 @@ using EU4ModUtil.Models.Data;
 using EU4ModUtil.Parsers;
 using EU4ModUtil.Util;
 using EU4ModUtil.Loaders;
+using EU4ModUtil.Writers;
 using EU4ModUtil.Models.Data.Common;
 
 namespace EU4ModUtil
@@ -72,6 +73,14 @@ namespace EU4ModUtil
             UpdateTabDisplay();
         }
 
+        private void SaveMod()
+        {
+            viewModel.writer = new ModWriter(viewModel.mod, viewModel.appData);
+            viewModel.writer.WriteMod();
+            UpdateModInfoDisplay();
+            UpdateTabDisplay();
+        }
+
         private void LoadModInfo()
         {
             viewModel.loader.LoadMod();
@@ -83,12 +92,12 @@ namespace EU4ModUtil
             if (viewModel.appData.modPath != null && !viewModel.appData.modPath.Equals(""))
             {
                 descriptorDisplay.Visibility = Visibility.Visible;
-                modName.Content = viewModel.mod.descriptor.name;
-                modPath.Content = viewModel.appData.modPath;
-                thumbnail.Source = viewModel.mod.descriptor.bitmap != null ? viewModel.mod.descriptor.bitmap : viewModel.noImageBitmap;
-                FillListBox(tagListBox, viewModel.mod.descriptor.tags);
-                FillListBox(replacePathsListBox, viewModel.mod.descriptor.replacePaths);
-                versionInfo.Text = "Version: " + viewModel.mod.descriptor.version + "\nGame Version: " + viewModel.mod.descriptor.supportedVersion;
+                modName.Content = viewModel.mod?.descriptor?.name;
+                modPath.Content = viewModel.appData?.modPath;
+                thumbnail.Source = viewModel.mod?.descriptor?.bitmap != null ? viewModel.mod.descriptor.bitmap : viewModel.noImageBitmap;
+                FillListBox(tagListBox, viewModel.mod?.descriptor?.tags);
+                FillListBox(replacePathsListBox, viewModel.mod?.descriptor?.replacePaths);
+                versionInfo.Text = "Version: " + viewModel.mod?.descriptor?.version + "\nGame Version: " + viewModel.mod?.descriptor?.supportedVersion;
 
                 countryDataGrid.ItemsSource = viewModel.Countries;
             }
@@ -112,15 +121,11 @@ namespace EU4ModUtil
             {
                 countriesTab.IsEnabled = true;
                 provincesTab.IsEnabled = true;
-                culturesTab.IsEnabled = true;
-                religionTab.IsEnabled = true;
             }
             else
             {
                 countriesTab.IsEnabled = false;
                 provincesTab.IsEnabled = false;
-                culturesTab.IsEnabled = false;
-                religionTab.IsEnabled = false;
             }
         }
 
