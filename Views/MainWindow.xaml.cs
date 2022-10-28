@@ -75,10 +75,7 @@ namespace EU4ModUtil
 
         private void SaveMod()
         {
-            viewModel.writer = new ModWriter(viewModel.mod, viewModel.appData);
-            viewModel.writer.WriteMod();
-            UpdateModInfoDisplay();
-            UpdateTabDisplay();
+            
         }
 
         private void LoadModInfo()
@@ -151,6 +148,29 @@ namespace EU4ModUtil
             viewModel.noImageBitmap.UriSource = new Uri("pack://application:,,,/Images/NoImageFound.png");
             viewModel.noImageBitmap.EndInit();
             thumbnail.Source = viewModel.noImageBitmap;
+        }
+
+        private void SaveCountries(object sender, RoutedEventArgs e)
+        {
+            viewModel.writer = new ModWriter(viewModel.mod, viewModel.appData);
+            List<string> changed = viewModel.writer.WriteCountries();
+            string changedStr = "Save complete.\n\nFiles edited:\n" + string.Join('\n', changed).Replace("/", "\\");
+            MessageBox.Show(changedStr, "Save Complete", MessageBoxButton.OK);
+
+            UpdateModInfoDisplay();
+            UpdateTabDisplay();
+        }
+
+        private void NewCountry(object sender, RoutedEventArgs e)
+        {
+            viewModel.NewCountry(countryDataGrid.Items.IndexOf(countryDataGrid.SelectedItem));
+            countryDataGrid.ItemsSource = viewModel.Countries;
+        }
+
+        private void DeleteCountry(object sender, RoutedEventArgs e)
+        {
+            viewModel.DeleteCountry(countryDataGrid.Items.IndexOf(countryDataGrid.SelectedItem));
+            countryDataGrid.ItemsSource = viewModel.Countries;
         }
     }
 }

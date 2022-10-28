@@ -39,7 +39,8 @@ namespace EU4ModUtil
         {
             get
             {
-                return mod?.countries;
+                if (mod == null || mod.countries == null) return null;
+                return new List<Country>(mod?.countries);
             }
             set
             {
@@ -47,9 +48,23 @@ namespace EU4ModUtil
                 {
                     mod.countries = value;
                 }
-                NotifyPropertyChanged("Countries");
+                NotifyPropertyChanged(nameof(Countries));
             }
         }
+        public void NewCountry(int index)
+        {
+            mod.countries.ForEach(c => c.Index = (c.Index > index ? c.Index + 1 : c.Index));
+            mod.countries.Insert(index + 1, new Country(index + 1));
+            NotifyPropertyChanged(nameof(Countries));
+        }
+
+        public void DeleteCountry(int index)
+        {
+            mod.countries.ForEach(c => c.Index = (c.Index > index ? c.Index - 1 : c.Index));
+            mod.countries.Remove(mod.countries[index]);
+            NotifyPropertyChanged(nameof(Countries));
+        }
+
         public List<Culture> Cultures
         {
             get

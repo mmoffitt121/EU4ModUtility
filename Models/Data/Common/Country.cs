@@ -10,23 +10,82 @@ namespace EU4ModUtil.Models.Data.Common
 {
     internal class Country : ChangeableObject
     {
-        // 00_countries.txt
-        public int Index { get; set; }
-        public string Tag { get; set; }
-        public string Path { get; set; }
+        #region 00_countries.txt
+        private int index;
+        /// <summary>
+        /// Index
+        /// </summary>
+        public int Index 
+        {
+            get { return index; }
+            set 
+            { 
+                index = value;
+            }
+        }
 
-        // Localization
-        public string LocalizedName { get; set; }
-        public string LocalizedAdjective { get; set; }
+        private string tag;
+        /// <summary>
+        /// Tag
+        /// </summary>
+        public string Tag
+        {
+            get { return tag; }
+            set
+            {
+                tag = value;
+                NotifyPropertyChanged(nameof(Tag));
+            }
+        }
 
-        // Country
-        public string GraphicalCulture { get; set; }
-        public int HistoricalScore { get; set; }
+        private string path;
+        /// <summary>
+        /// Path
+        /// </summary>
+        public string Path
+        {
+            get { return path; }
+            set
+            {
+                path = value;
+                NotifyPropertyChanged(nameof(Path));
+            }
+        }
+        #endregion
 
-        // -=-=-=-=-=-=-=-=-=-=-
-        // Colors
-        // -=-=-=-=-=-=-=-=-=-=-
+        #region Localization
+        private string localizedName;
+        /// <summary>
+        /// Localized Name
+        /// </summary>
+        public string LocalizedName
+        {
+            get { return localizedName; }
+            set
+            {
+                localizedName = value;
+                NotifyPropertyChanged(nameof(LocalizedName));
+            }
+        }
 
+        private string localizedAdjective;
+        /// <summary>
+        /// LocalizedAdejctive
+        /// </summary>
+        public string LocalizedAdjective
+        {
+            get { return localizedAdjective; }
+            set
+            {
+                localizedAdjective = value;
+                NotifyPropertyChanged(nameof(LocalizedAdjective));
+            }
+        }
+        #endregion
+
+        #region Country
+
+        #region Color
         /// <summary>
         /// The country's color in SolidColorBrush form
         /// </summary>
@@ -73,10 +132,10 @@ namespace EU4ModUtil.Models.Data.Common
             }
         }
 
+        private int? b;
         /// <summary>
         /// B
         /// </summary>
-        private int? b;
         public int? B 
         {
             get { return b; }
@@ -172,7 +231,7 @@ namespace EU4ModUtil.Models.Data.Common
         {
             get
             {
-                if (R2 == null || R1 < 0 || R1 > 16) return null;
+                if (R2 == null || R2 < 0 || R2 > 16) return null;
 
                 Color color = new Color();
                 color.A = 255;
@@ -189,7 +248,7 @@ namespace EU4ModUtil.Models.Data.Common
         {
             get
             {
-                if (R3 == null || R1 < 0 || R1 > 16) return null;
+                if (R3 == null || R3 < 0 || R3 > 16) return null;
 
                 Color color = new Color();
                 color.A = 255;
@@ -199,47 +258,249 @@ namespace EU4ModUtil.Models.Data.Common
                 return new SolidColorBrush(color);
             }
         }
-
-
-
-        //public Council historicalCouncil;
-        //public int? HistoricalScore { get; set; }
-        //public IdeaGroup[] historicalIdeaGroups;
-        //public HistoricalUnit[] historicalUnits;
-        //public MonarchName[] monarchNames;
-        //public string[] LeaderNames;
-        //public string[] ShipNames;
-        //public string[] ArmyNames;
-        //public string[] FleetNames;
-
+        #endregion
+        private string graphicalCulture;
         /// <summary>
-        /// History
+        /// Graphical Culture
         /// </summary>
-        public List<HistoryEntry> History { get; set; }
+        public string GraphicalCulture
+        {
+            get { return graphicalCulture; }
+            set
+            {
+                graphicalCulture = value;
+                NotifyPropertyChanged(nameof(GraphicalCulture));
+            }
+        }
+
+        private int historicalScore;
         /// <summary>
-        /// Culture
+        /// Historical Score
         /// </summary>
-        public string Culture { get; set; }
+        public int HistoricalScore
+        {
+            get { return historicalScore; }
+            set
+            {
+                historicalScore = value;
+                NotifyPropertyChanged(nameof(HistoricalScore));
+            }
+        }
+
+        private string historicalCouncil;
         /// <summary>
-        /// Religion
+        /// Historical Council
         /// </summary>
-        public string Religion { get; set; }
+        public string HistoricalCouncil
+        {
+            get { return historicalCouncil; }
+            set
+            {
+                historicalCouncil = value;
+                NotifyPropertyChanged(nameof(HistoricalCouncil));
+            }
+        }
+
+        private string[] historicalIdeaGroups;
         /// <summary>
-        /// Government
+        /// Historical Idea Groups
         /// </summary>
-        public string Government { get; set; }
+        public string[] HistoricalIdeaGroups
+        {
+            get { return historicalIdeaGroups; }
+            set
+            {
+                historicalIdeaGroups = value;
+                NotifyPropertyChanged(nameof(HistoricalIdeaGroups));
+            }
+        }
+
+        private string[] historicalUnits;
+        /// <summary>
+        /// Historical Units
+        /// </summary>
+        public string[] HistoricalUnits
+        {
+            get { return historicalUnits; }
+            set
+            {
+                historicalUnits = value;
+                NotifyPropertyChanged(nameof(HistoricalUnits));
+            }
+        }
+
+        private string[] monarchNames;
+        /// <summary>
+        /// Monarch Names
+        /// </summary>
+        public string[] MonarchNames
+        {
+            get { return monarchNames; }
+            set
+            {
+                monarchNames = value;
+                NotifyPropertyChanged(nameof(MonarchNames));
+            }
+        }
+
+        private string[] leaderNames;
+        /// <summary>
+        /// Leader Names
+        /// </summary>
+        public string[] LeaderNames
+        {
+            get { return leaderNames; }
+            set
+            {
+                leaderNames = value;
+                NotifyPropertyChanged(nameof(LeaderNames));
+            }
+        }
+
+        private string[] shipNames;
+        /// <summary>
+        /// Ship Names
+        /// </summary>
+        public string[] ShipNames
+        {
+            get { return shipNames; }
+            set
+            {
+                shipNames = value;
+                NotifyPropertyChanged(nameof(ShipNames));
+            }
+        }
+
+        private string[] armyNames;
+        /// <summary>
+        /// Army Names
+        /// </summary>
+        public string[] ArmyNames
+        {
+            get { return armyNames; }
+            set
+            {
+                armyNames = value;
+                NotifyPropertyChanged(nameof(ArmyNames));
+            }
+        }
+
+        private string[] fleetNames;
+        /// <summary>
+        /// Fleet Names
+        /// </summary>
+        public string[] FleetNames
+        {
+            get { return fleetNames; }
+            set
+            {
+                fleetNames = value;
+                NotifyPropertyChanged(nameof(FleetNames));
+            }
+        }
 
         /// <summary>
         /// List of unsupported values kept so they don't get lost
         /// </summary>
-        public List<AttributeValueObject> Other { get; set; }
+        public List<AttributeValueObject> OtherCountryValues { get; set; }
+        #endregion
 
-        public enum PowerPointType
+        #region History
+        private string culture;
+        /// <summary>
+        /// Culture
+        /// </summary>
+        public string Culture
         {
-            ADM,
-            DIP,
-            MIL
+            get { return culture; }
+            set
+            {
+                culture = value;
+                NotifyPropertyChanged(nameof(Culture));
+            }
         }
+
+        private string religion;
+        /// <summary>
+        /// Religion
+        /// </summary>
+        public string Religion
+        {
+            get { return religion; }
+            set
+            {
+                religion = value;
+                NotifyPropertyChanged(nameof(Religion));
+            }
+        }
+
+        private string government;
+        /// <summary>
+        /// Government
+        /// </summary>
+        public string Government
+        {
+            get { return government; }
+            set
+            {
+                government = value;
+                NotifyPropertyChanged(nameof(Government));
+            }
+        }
+
+        private string unitType;
+        /// <summary>
+        /// Unit Type
+        /// </summary>
+        public string UnitType
+        {
+            get { return unitType; }
+            set
+            {
+                unitType = value;
+                NotifyPropertyChanged(nameof(UnitType));
+            }
+        }
+
+        private string technologyGroup;
+        /// <summary>
+        /// Technology Group
+        /// </summary>
+        public string TechnologyGroup
+        {
+            get { return technologyGroup; }
+            set
+            {
+                technologyGroup = value;
+                NotifyPropertyChanged(nameof(TechnologyGroup));
+            }
+        }
+
+        private int capital;
+        /// <summary>
+        /// Capital
+        /// </summary>
+        public int Capital
+        {
+            get { return capital; }
+            set
+            {
+                capital = value;
+                NotifyPropertyChanged(nameof(Capital));
+            }
+        }
+
+        /// <summary>
+        /// List of unsupported values kept so they don't get lost
+        /// </summary>
+        public List<AttributeValueObject> OtherHistoryValues { get; set; }
+        /// <summary>
+        /// History
+        /// </summary>
+        public List<HistoryEntry> History { get; set; }
+        #endregion
+
+        #region Loading
 
         /// <summary>
         /// Constructor
@@ -259,6 +520,7 @@ namespace EU4ModUtil.Models.Data.Common
 
             Tag = tagData.attribute;
             Path = tagData.values[0].attribute;
+            Changed = false;
         }
 
         /// <summary>
@@ -268,7 +530,7 @@ namespace EU4ModUtil.Models.Data.Common
         /// <exception cref="ArgumentNullException"></exception>
         public void SetCountryData(TXTFileObject country)
         {
-            Other = new List<AttributeValueObject>();
+            OtherCountryValues = new List<AttributeValueObject>();
 
             if (country == null || country.values == null || country.values.Count() < 1)
             {
@@ -286,15 +548,15 @@ namespace EU4ModUtil.Models.Data.Common
                         int b;
                         if (int.TryParse(obj.values[0].attribute, out r))
                         {
-                            R = r;
+                            this.r = r;
                         }
                         if (int.TryParse(obj.values[1].attribute, out g))
                         {
-                            G = g;
+                            this.g = g;
                         }
                         if (int.TryParse(obj.values[2].attribute, out b))
                         {
-                            B = b;
+                            this.b = b;
                         }
                         break;
 
@@ -304,15 +566,15 @@ namespace EU4ModUtil.Models.Data.Common
                         int rb;
                         if (int.TryParse(obj.values[0].attribute, out rr))
                         {
-                            R1 = rr;
+                            this.r1 = rr;
                         }
                         if (int.TryParse(obj.values[1].attribute, out rg))
                         {
-                            R2 = rg;
+                            this.r2 = rg;
                         }
                         if (int.TryParse(obj.values[2].attribute, out rb))
                         {
-                            R3 = rb;
+                            this.r3 = rb;
                         }
                         break;
 
@@ -329,10 +591,11 @@ namespace EU4ModUtil.Models.Data.Common
                         break;
 
                     default:
-                        Other.Add(obj);
+                        OtherCountryValues.Add(obj);
                         break;
                 }
             }
+            Changed = false;
         }
 
         /// <summary>
@@ -358,12 +621,26 @@ namespace EU4ModUtil.Models.Data.Common
                     case "government":
                         Government = obj.value.attribute;
                         break;
+                    case "technology_group":
+                        TechnologyGroup = obj.value.attribute;
+                        break;
+                    case "unit_type":
+                        UnitType = obj.value.attribute;
+                        break;
+                    case "capital":
+                        int cap;
+                        if (int.TryParse(obj.value.attribute, out cap))
+                        {
+                            this.Capital = cap;
+                        }
+                        break;
                     default:
                         History.Add(new HistoryEntry(obj));
                         break;
 
                 }
             }
+            Changed = false;
         }
 
         /// <summary>
@@ -381,6 +658,61 @@ namespace EU4ModUtil.Models.Data.Common
             {
                 LocalizedAdjective = dict[Tag + "_ADJ"];
             }
+            Changed = false;
         }
+
+        #endregion
+
+        #region Saving
+        public string Get00_CountriesTXTEntry()
+        {
+            if (string.IsNullOrEmpty(Tag) || string.IsNullOrEmpty(Path)) return null;
+
+            return Tag + " = \"" + Path + "\"";
+        }
+
+        public string GetCountryTXT()
+        {
+            StringBuilder sb = new StringBuilder();
+
+            sb.Append("#Country Name: Please see filename.");
+            if (GraphicalCulture != null) sb.Append("\n\ngraphical_culture = " + GraphicalCulture);
+            if (HistoricalScore != 0) sb.Append("\n\nhistorical_score = " + HistoricalScore);
+            if (R != null && G != null && B != null) sb.Append("\n\ncolor = { " + R + " " + G + " " + B + " }");
+            if (R1 != null && R2 != null && R3 != null) sb.Append("\n\nrevolutionary_colors = { " + R1 + " " + R2 + " " + R3 + " }");
+            if (OtherCountryValues != null)
+            {
+                sb.Append("\n\n");
+                foreach (AttributeValueObject obj in OtherCountryValues)
+                {
+                    sb.Append(obj.ToString());
+                }
+            }
+
+            return sb.ToString();
+        }
+
+        public string GetLocalisation()
+        {
+            StringBuilder sb = new StringBuilder();
+            if (LocalizedName != null) sb.Append("\n " + Tag + ":0 \"" + LocalizedName + "\"");
+            if (LocalizedAdjective != null) sb.Append("\n " + Tag + "_ADJ:0 \"" + LocalizedAdjective + "\"");
+
+            return sb.ToString();
+        }
+        #endregion
+
+        #region Empty Country Constructor
+        public Country(int index)
+        {
+            Index = index;
+            Tag = "NEW";
+            Path = "countries/NEW - New Country.txt";
+            
+            R = 255;
+            G = 255;
+            B = 255;
+        }
+        #endregion
     }
 }

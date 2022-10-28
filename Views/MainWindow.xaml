@@ -11,6 +11,9 @@
             <local:ViewModel/>
         </Grid.DataContext>
         <TabControl>
+            <!--#####
+            ## MOD ##
+            ######-->
             <TabItem Header="Mod">
                 <Grid Background="#FFE5E5E5">
                     <Label Content="No Mod Selected" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top" FontSize="20" Width="774" Name="modName" Grid.ColumnSpan="2"/>
@@ -36,15 +39,32 @@
                     </Grid>
                 </Grid>
             </TabItem>
+            <!--###########
+            ## COUNTRIES ##
+            ############-->
             <TabItem Name="countriesTab" Header="Countries" IsEnabled="False">
                 <Grid Background="#FFE5E5E5">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="5*" />
                         <ColumnDefinition Width="1*" />
                     </Grid.ColumnDefinitions>
-                    <DataGrid Name="countryDataGrid" ItemsSource="{Binding Path=Countries, UpdateSourceTrigger=PropertyChanged}" AutoGenerateColumns="False">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*" />
+                        <RowDefinition Height="1*" />
+                        <RowDefinition Height="1*" />
+                        <RowDefinition Height="1*" />
+                    </Grid.RowDefinitions>
+                    <DataGrid Name="countryDataGrid" ItemsSource="{Binding Path=Countries, UpdateSourceTrigger=PropertyChanged}" AutoGenerateColumns="False" Grid.RowSpan="4">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="#" Binding="{Binding Path=Index, UpdateSourceTrigger=PropertyChanged}"/>
+                            <DataGridTemplateColumn Header="#">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Path=Index}"
+                                            TextWrapping="Wrap"
+                                            Padding="2" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
                             <DataGridTextColumn Header="Tag" Binding="{Binding Path=Tag, UpdateSourceTrigger=PropertyChanged}"/>
                             <DataGridTextColumn Header="Name" Binding="{Binding Path=LocalizedName, UpdateSourceTrigger=PropertyChanged}"/>
                             <DataGridTextColumn Header="Adjective" Binding="{Binding Path=LocalizedAdjective, UpdateSourceTrigger=PropertyChanged}"/>
@@ -96,10 +116,21 @@
                             <DataGridTextColumn Header="Religion" Binding="{Binding Path=Religion, UpdateSourceTrigger=PropertyChanged}"/>
                             <DataGridTextColumn Header="Government" Binding="{Binding Path=Government, UpdateSourceTrigger=PropertyChanged}"/>
                             <DataGridTextColumn Header="Graphical Culture" Binding="{Binding Path=GraphicalCulture, UpdateSourceTrigger=PropertyChanged}"/>
+                            <DataGridTextColumn Header="Tech Group" Binding="{Binding Path=TechnologyGroup, UpdateSourceTrigger=PropertyChanged}"/>
+                            <DataGridTextColumn Header="Unit Type" Binding="{Binding Path=UnitType, UpdateSourceTrigger=PropertyChanged}"/>
+                            <DataGridTextColumn Header="Capital" Binding="{Binding Path=Capital, UpdateSourceTrigger=PropertyChanged}"/>
                         </DataGrid.Columns>
                     </DataGrid>
+                    <Grid Grid.Column="1">
+                        <Button Content=" Save " HorizontalAlignment="Right" Margin="0,10,10,0" VerticalAlignment="Top" Click="SaveCountries"/>
+                        <Button Content=" Reload " HorizontalAlignment="Right" Margin="0,10,50,0" VerticalAlignment="Top"/>
+                    </Grid>
+                    <Button Grid.Column="1" Content=" Add " HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Click="NewCountry"/>
                 </Grid>
             </TabItem>
+            <!--###########
+            ## PROVINCES ##
+            ###########-->
             <TabItem Name="provincesTab" Header="Provinces" IsEnabled="False"/>
         </TabControl>
 
