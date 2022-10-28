@@ -7,7 +7,7 @@ using EU4ModUtil.Util;
 
 namespace EU4ModUtil.Models.Data
 {
-    internal class AttributeValueObject
+    internal class AttributeValueObject : ChangeableObject
     {
         #region Public Members
         public string attribute;
@@ -57,23 +57,24 @@ namespace EU4ModUtil.Models.Data
             return ToString(0);
         }
 
-        private string ToString(int depth, bool afterEquals = false)
+        public string ToString(int depth, bool afterEquals = false, bool printAttribute = true)
         {
-            if (string.IsNullOrEmpty(attribute)) return "";
+            if (string.IsNullOrEmpty(attribute) && printAttribute) return "";
 
             string tabs = new string('\t', depth);
+            string attr = printAttribute ? attribute : "";
 
             if (values == null || values.Count == 0)
             {
-                return (!afterEquals ? tabs : "") + Quoted(attribute) + "\n";
+                return (!afterEquals ? tabs : "") + Quoted(attr) + "\n";
             }
             else if (values.Count == 1)
             {
-                return tabs + Quoted(attribute) + " = " + value.ToString(depth + 1, true);
+                return tabs + Quoted(attr) + " = " + value.ToString(depth + 1, true);
             }
             else
             {
-                return tabs + Quoted(attribute) + " = {\n" + ValuesToString(values, depth + 1) + tabs + "}\n";
+                return tabs + Quoted(attr) + " = {\n" + ValuesToString(values, depth + 1) + tabs + "}\n";
             }
         }
 

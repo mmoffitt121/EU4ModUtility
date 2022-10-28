@@ -38,6 +38,7 @@ namespace EU4ModUtil.Writers
             changed.Add(WriteCountryTags());
             changed.AddRange(WriteCountryInfo());
             changed.Add(WriteCountryLocalisation());
+            changed.AddRange(WriteCountryHistory());
 
             SetUnchanged();
 
@@ -103,6 +104,10 @@ namespace EU4ModUtil.Writers
         /// </summary>
         public List<string> WriteCountryHistory()
         {
+            foreach (Country c in mod.countries)
+            {
+                Trace.WriteLine(c.GetHistoryTXT());
+            }
             return new List<string> { "" };
         }
 

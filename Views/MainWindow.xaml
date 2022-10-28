@@ -117,7 +117,6 @@
                             <DataGridTextColumn Header="Government" Binding="{Binding Path=Government, UpdateSourceTrigger=PropertyChanged}"/>
                             <DataGridTextColumn Header="Graphical Culture" Binding="{Binding Path=GraphicalCulture, UpdateSourceTrigger=PropertyChanged}"/>
                             <DataGridTextColumn Header="Tech Group" Binding="{Binding Path=TechnologyGroup, UpdateSourceTrigger=PropertyChanged}"/>
-                            <DataGridTextColumn Header="Unit Type" Binding="{Binding Path=UnitType, UpdateSourceTrigger=PropertyChanged}"/>
                             <DataGridTextColumn Header="Capital" Binding="{Binding Path=Capital, UpdateSourceTrigger=PropertyChanged}"/>
                         </DataGrid.Columns>
                     </DataGrid>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -491,10 +492,6 @@ namespace EU4ModUtil.Models.Data.Common
         }
 
         /// <summary>
-        /// List of unsupported values kept so they don't get lost
-        /// </summary>
-        public List<AttributeValueObject> OtherHistoryValues { get; set; }
-        /// <summary>
         /// History
         /// </summary>
         public List<HistoryEntry> History { get; set; }
@@ -700,9 +697,18 @@ namespace EU4ModUtil.Models.Data.Common
 
             return sb.ToString();
         }
+
+        public string GetHistoryTXT()
+        {
+            foreach (HistoryEntry h in History)
+            {
+                Trace.WriteLine(h);
+            }
+            return "";
+        }
         #endregion
 
-        #region Empty Country Constructor
+        #region Adding
         public Country(int index)
         {
             Index = index;
