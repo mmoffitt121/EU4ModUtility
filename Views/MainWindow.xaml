@@ -124,8 +124,9 @@
                     <Grid Grid.Column="1">
                         <Button Content=" Save " HorizontalAlignment="Right" Margin="0,10,10,0" VerticalAlignment="Top" Click="SaveCountries"/>
                         <Button Content=" Reload " HorizontalAlignment="Right" Margin="0,10,50,0" VerticalAlignment="Top"/>
+                        <Button Grid.Column="1" Content=" Add " HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Click="NewCountry"/>
+                        <Button Content=" Delete " HorizontalAlignment="Left" Margin="47,10,0,0" VerticalAlignment="Top" Click="DeleteCountry"/>
                     </Grid>
-                    <Button Grid.Column="1" Content=" Add " HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Click="NewCountry"/>
                 </Grid>
             </TabItem>
             <!--###########
