@@ -22,6 +22,7 @@ using EU4ModUtil.Util;
 using EU4ModUtil.Loaders;
 using EU4ModUtil.Writers;
 using EU4ModUtil.Models.Data.Common;
+using EU4ModUtil.Views;
 
 namespace EU4ModUtil
 {
@@ -97,6 +98,7 @@ namespace EU4ModUtil
                 versionInfo.Text = "Version: " + viewModel.mod?.descriptor?.version + "\nGame Version: " + viewModel.mod?.descriptor?.supportedVersion;
 
                 countryDataGrid.ItemsSource = viewModel.Countries;
+                provinceDataGrid.ItemsSource = viewModel.Provinces;
             }
             else
             {
@@ -109,6 +111,7 @@ namespace EU4ModUtil
                 versionInfo.Text = "";
 
                 countryDataGrid.ItemsSource = null;
+                provinceDataGrid.ItemsSource = null;
             }
         }
 
@@ -171,6 +174,36 @@ namespace EU4ModUtil
         {
             viewModel.DeleteCountry(countryDataGrid.Items.IndexOf(countryDataGrid.SelectedItem));
             countryDataGrid.ItemsSource = viewModel.Countries;
+        }
+
+        private void OpenHistory(object sender, RoutedEventArgs e)
+        {
+            int index = countryDataGrid.Items.IndexOf(countryDataGrid.SelectedItem);
+            if (index == -1) return;
+
+            HistoryWindow historyWindow = new HistoryWindow(viewModel.Countries[index]);
+            historyWindow.Owner = this;
+
+            historyWindow.ShowDialog();
+            countryDataGrid.ItemsSource = viewModel.Countries;
+        }
+
+        private void OpenCountryValues(object sender, RoutedEventArgs e)
+        {
+            int index = countryDataGrid.Items.IndexOf(countryDataGrid.SelectedItem);
+            if (index == -1) return;
+
+            AttributeValueWindow attrWindow = new AttributeValueWindow(new AttributeValueObject(viewModel.Countries[index].Tag, viewModel.Countries[index].OtherCountryValues));
+            attrWindow.Owner = this;
+
+            attrWindow.ShowDialog();
+            countryDataGrid.ItemsSource = viewModel.Countries;
+        }
+
+        void DataGrid_Unloaded(object sender, RoutedEventArgs e)
+        {
+            var grid = (DataGrid)sender;
+            grid.CommitEdit(DataGridEditingUnit.Row, true);
         }
     }
 }

@@ -18,7 +18,6 @@ namespace EU4ModUtil.Util
 
             StringBuilder sb = new StringBuilder();
 
-            sb.Append("[");
             foreach (T item in array)
             {
                 if (item != null)
@@ -26,7 +25,6 @@ namespace EU4ModUtil.Util
                     sb.Append(item.ToString() + " ");
                 }
             }
-            sb.Append("]");
 
             return sb.ToString();
         }

@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel;
 using EU4ModUtil.Util;
 
 namespace EU4ModUtil.Models.Data
 {
-    internal class AttributeValueObject : ChangeableObject
+    public class AttributeValueObject : ChangeableObject
     {
         #region Public Members
         public string attribute;
@@ -15,6 +16,43 @@ namespace EU4ModUtil.Models.Data
         #endregion
 
         #region Value Accessors
+        public string Attribute
+        {
+            get { return attribute; }
+            set
+            {
+                attribute = value;
+                NotifyPropertyChanged(nameof(attribute));
+            }
+        }
+
+        public string StringValues
+        {
+            get 
+            {
+                if (values == null) return "";
+
+                if (values.Count < 4)
+                {
+                    return values?.ToArray().ArrayToString();
+                }
+                else
+                {
+                    return values?.GetRange(0, 3).ToArray().ArrayToString() + "...";
+                }
+            }
+        }
+
+        public List<AttributeValueObject> Values
+        {
+            get { return values; }
+            set
+            {
+                values = value;
+                NotifyPropertyChanged(nameof(Values));
+            }
+        }
+
         public AttributeValueObject value
         {
             get
@@ -29,6 +67,23 @@ namespace EU4ModUtil.Models.Data
             {
                 values = new List<AttributeValueObject> { value };
             }
+        }
+
+        public bool IsTerminal()
+        {
+            if (values == null || values.Count == 0) return true;
+
+            foreach (AttributeValueObject a in values)
+            {
+                if (a.values == null || a.values.Count() == 0)
+                {
+                    continue;
+                }
+
+                return true;
+            }
+
+            return false;
         }
         #endregion
 
@@ -57,12 +112,12 @@ namespace EU4ModUtil.Models.Data
             return ToString(0);
         }
 
-        public string ToString(int depth, bool afterEquals = false, bool printAttribute = true)
+        public string ToString(int depth, bool afterEquals = false, bool dated = false)
         {
-            if (string.IsNullOrEmpty(attribute) && printAttribute) return "";
+            if (string.IsNullOrEmpty(attribute) && !dated) return "";
 
             string tabs = new string('\t', depth);
-            string attr = printAttribute ? attribute : "";
+            string attr = !dated ? attribute : "";
 
             if (values == null || values.Count == 0)
             {
@@ -70,7 +125,7 @@ namespace EU4ModUtil.Models.Data
             }
             else if (values.Count == 1)
             {
-                return tabs + Quoted(attr) + " = " + value.ToString(depth + 1, true);
+                return tabs + Quoted(attr) + " = " + (dated ? "{\n" : "") + value.ToString(depth + 1, true) + (dated ? "}" : "");
             }
             else
             {

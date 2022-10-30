@@ -7,7 +7,7 @@ using EU4ModUtil.Util;
 
 namespace EU4ModUtil.Models.Data
 {
-    internal class TXTFileObject
+    public class TXTFileObject
     {
         public AttributeValueObject[] values;
 

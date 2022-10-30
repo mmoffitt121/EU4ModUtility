@@ -9,9 +9,9 @@ using EU4ModUtil.Models.Data.History;
 
 namespace EU4ModUtil.Models.Data.Common
 {
-    internal class Country : ChangeableObject
+    public class Country : ChangeableObject
     {
-        #region 00_countries.txt
+        #region 00_countries.txt Members
         private int index;
         /// <summary>
         /// Index
@@ -54,7 +54,7 @@ namespace EU4ModUtil.Models.Data.Common
         }
         #endregion
 
-        #region Localization
+        #region Localization Members
         private string localizedName;
         /// <summary>
         /// Localized Name
@@ -84,7 +84,7 @@ namespace EU4ModUtil.Models.Data.Common
         }
         #endregion
 
-        #region Country
+        #region Country Members
 
         #region Color
         /// <summary>
@@ -406,7 +406,7 @@ namespace EU4ModUtil.Models.Data.Common
         public List<AttributeValueObject> OtherCountryValues { get; set; }
         #endregion
 
-        #region History
+        #region History Members
         private string culture;
         /// <summary>
         /// Culture
@@ -601,7 +601,7 @@ namespace EU4ModUtil.Models.Data.Common
         /// <param name="history"></param>
         public void SetHistoryData(TXTFileObject history)
         {
-            if (history == null) return;
+            if (history == null || history.values == null) return;
 
             History = new List<HistoryEntry>();
 
@@ -673,7 +673,7 @@ namespace EU4ModUtil.Models.Data.Common
             StringBuilder sb = new StringBuilder();
 
             sb.Append("#Country Name: Please see filename.");
-            if (GraphicalCulture != null) sb.Append("\n\ngraphical_culture = " + GraphicalCulture);
+            if (!string.IsNullOrEmpty(GraphicalCulture)) sb.Append("\n\ngraphical_culture = " + GraphicalCulture);
             if (HistoricalScore != 0) sb.Append("\n\nhistorical_score = " + HistoricalScore);
             if (R != null && G != null && B != null) sb.Append("\n\ncolor = { " + R + " " + G + " " + B + " }");
             if (R1 != null && R2 != null && R3 != null) sb.Append("\n\nrevolutionary_colors = { " + R1 + " " + R2 + " " + R3 + " }");
@@ -692,19 +692,34 @@ namespace EU4ModUtil.Models.Data.Common
         public string GetLocalisation()
         {
             StringBuilder sb = new StringBuilder();
-            if (LocalizedName != null) sb.Append("\n " + Tag + ":0 \"" + LocalizedName + "\"");
-            if (LocalizedAdjective != null) sb.Append("\n " + Tag + "_ADJ:0 \"" + LocalizedAdjective + "\"");
+            if (!string.IsNullOrEmpty(LocalizedName)) sb.Append("\n " + Tag + ":0 \"" + LocalizedName + "\"");
+            if (!string.IsNullOrEmpty(LocalizedAdjective)) sb.Append("\n " + Tag + "_ADJ:0 \"" + LocalizedAdjective + "\"");
 
             return sb.ToString();
         }
 
         public string GetHistoryTXT()
         {
-            foreach (HistoryEntry h in History)
+            StringBuilder sb = new StringBuilder();
+
+            if (!string.IsNullOrEmpty(Religion)) sb.Append("\nreligion = " + Religion);
+            if (!string.IsNullOrEmpty(Culture)) sb.Append("\nprimary_culture = " + Culture);
+            if (!string.IsNullOrEmpty(Government)) sb.Append("\ngovernment = " + Government);
+            if (!string.IsNullOrEmpty(TechnologyGroup)) sb.Append("\ntechnology_group = " + TechnologyGroup);
+            if (!string.IsNullOrEmpty(UnitType)) sb.Append("\nunit_type = " + UnitType);
+            if (!(Capital == 0)) sb.Append("\ncapital = " + Capital);
+
+            sb.Append("\n\n");
+
+            if (History != null)
             {
-                Trace.WriteLine(h);
+                foreach (HistoryEntry h in History)
+                {
+                    sb.Append(h);
+                }
             }
-            return "";
+
+            return sb.ToString();
         }
         #endregion
 
@@ -718,6 +733,11 @@ namespace EU4ModUtil.Models.Data.Common
             R = 255;
             G = 255;
             B = 255;
+        }
+
+        public Country()
+        {
+
         }
         #endregion
     }

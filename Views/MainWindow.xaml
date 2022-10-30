@@ -4,8 +4,33 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:EU4ModUtil"
+        xmlns:enumSpace="clr-namespace:EU4ModUtil.Models.Data.Map"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
-        Title="MainWindow" Height="932" Width="1791">
+        x:Name="MainWindowElement"
+        Title="Europa Universalis IV Mod Utility" Height="932" Width="1791">
+    <Window.Resources>
+        <ObjectDataProvider MethodName="GetValues" ObjectType="{x:Type sys:Enum}" x:Key="SpecialClimateValues">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="enumSpace:SpecialClimate"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <ObjectDataProvider MethodName="GetValues" ObjectType="{x:Type sys:Enum}" x:Key="WinterValues">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="enumSpace:Winter"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <ObjectDataProvider MethodName="GetValues" ObjectType="{x:Type sys:Enum}" x:Key="MonsoonValues">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="enumSpace:Monsoon"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <ObjectDataProvider MethodName="GetValues" ObjectType="{x:Type sys:Enum}" x:Key="ProvinceTypeValues">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="enumSpace:ProvinceType"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+    </Window.Resources>
     <Grid>
         <Grid.DataContext>
             <local:ViewModel/>
@@ -54,7 +79,7 @@
                         <RowDefinition Height="1*" />
                         <RowDefinition Height="1*" />
                     </Grid.RowDefinitions>
-                    <DataGrid Name="countryDataGrid" ItemsSource="{Binding Path=Countries, UpdateSourceTrigger=PropertyChanged}" AutoGenerateColumns="False" Grid.RowSpan="4">
+                    <DataGrid Name="countryDataGrid" ItemsSource="{Binding Path=Countries, UpdateSourceTrigger=PropertyChanged}" AutoGenerateColumns="False" Grid.RowSpan="4" Unloaded="DataGrid_Unloaded" CanUserAddRows="false">
                         <DataGrid.Columns>
                             <DataGridTemplateColumn Header="#">
                                 <DataGridTemplateColumn.CellTemplate>
@@ -120,19 +145,89 @@
                             <DataGridTextColumn Header="Capital" Binding="{Binding Path=Capital, UpdateSourceTrigger=PropertyChanged}"/>
                         </DataGrid.Columns>
                     </DataGrid>
-                    <Grid Grid.Column="1">
+                    <Grid Grid.Column="1" Grid.RowSpan="4">
                         <Button Content=" Save " HorizontalAlignment="Right" Margin="0,10,10,0" VerticalAlignment="Top" Click="SaveCountries"/>
                         <Button Content=" Reload " HorizontalAlignment="Right" Margin="0,10,50,0" VerticalAlignment="Top"/>
                         <Button Grid.Column="1" Content=" Add " HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Click="NewCountry"/>
                         <Button Content=" Delete " HorizontalAlignment="Left" Margin="47,10,0,0" VerticalAlignment="Top" Click="DeleteCountry"/>
+                        <Button Content=" Country Values " HorizontalAlignment="Center" Margin="0,192,0,0" VerticalAlignment="Top" Click="OpenCountryValues" Width="278"/>
+                        <Button Content=" History " HorizontalAlignment="Center" Margin="0,217,0,0" VerticalAlignment="Top" Click="OpenHistory" Width="278"/>
                     </Grid>
                 </Grid>
             </TabItem>
             <!--###########
             ## PROVINCES ##
             ###########-->
-            <TabItem Name="provincesTab" Header="Provinces" IsEnabled="False"/>
-        </TabControl>
+            <TabItem Name="provincesTab" Header="Provinces" IsEnabled="False">
+                <Grid Background="#FFE5E5E5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="5*" />
+                        <ColumnDefinition Width="1*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*" />
+                        <RowDefinition Height="1*" />
+                        <RowDefinition Height="1*" />
+                        <RowDefinition Height="1*" />
+                    </Grid.RowDefinitions>
+                    <DataGrid Name="provinceDataGrid" ItemsSource="{Binding Path=Provinces, UpdateSourceTrigger=PropertyChanged}" AutoGenerateColumns="False" Grid.RowSpan="4" Unloaded="DataGrid_Unloaded" CanUserAddRows="false">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID" Binding="{Binding Path=Number, UpdateSourceTrigger=PropertyChanged}"/>
+                            <DataGridTextColumn Header="Name" Binding="{Binding Path=Name, UpdateSourceTrigger=PropertyChanged}"/>
+                            <DataGridTextColumn Header="Localised Name" Binding="{Binding Path=LocalizedName, UpdateSourceTrigger=PropertyChanged}"/>
+                            <DataGridTextColumn Header="Localised Adjective" Binding="{Binding Path=LocalizedAdjective, UpdateSourceTrigger=PropertyChanged}"/>
+                            <DataGridTemplateColumn Header="Color">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Background="{Binding Path=BGColor}"
+                                            TextWrapping="Wrap"
+                                            Padding="4" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTextColumn Header="R      " Binding="{Binding Path=R, UpdateSourceTrigger=PropertyChanged}"/>
+                            <DataGridTextColumn Header="G      " Binding="{Binding Path=G, UpdateSourceTrigger=PropertyChanged}"/>
+                            <DataGridTextColumn Header="B      " Binding="{Binding Path=B, UpdateSourceTrigger=PropertyChanged}"/>
+                            <DataGridTextColumn Header="Hex" Binding="{Binding Path=ColorHex, UpdateSourceTrigger=PropertyChanged}"/>
+                            <DataGridTextColumn Header="Owner" Binding="{Binding Path=Culture, UpdateSourceTrigger=PropertyChanged}"/>
+                            <DataGridTextColumn Header="Controller" Binding="{Binding Path=Culture, UpdateSourceTrigger=PropertyChanged}"/>
+                            <DataGridTextColumn Header="Cores" Binding="{Binding Path=AddCore, UpdateSourceTrigger=PropertyChanged}"/>
+                            <DataGridTextColumn Header="Culture" Binding="{Binding Path=Culture, UpdateSourceTrigger=PropertyChanged}"/>
+                            <DataGridTextColumn Header="Religion" Binding="{Binding Path=Religion, UpdateSourceTrigger=PropertyChanged}"/>
+                            <DataGridTextColumn Header="Trade Good" Binding="{Binding Path=TradeGoods, UpdateSourceTrigger=PropertyChanged}"/>
+                            <DataGridTextColumn Header="Base Tax" Binding="{Binding Path=BaseTax, UpdateSourceTrigger=PropertyChanged}"/>
+                            <DataGridTextColumn Header="Base Production" Binding="{Binding Path=BaseProduction, UpdateSourceTrigger=PropertyChanged}"/>
+                            <DataGridTextColumn Header="Base Manpower" Binding="{Binding Path=BaseManpower, UpdateSourceTrigger=PropertyChanged}"/>
+                            <DataGridCheckBoxColumn Header="City" Binding="{Binding Path=IsCity, UpdateSourceTrigger=PropertyChanged}"/>
+                            <DataGridCheckBoxColumn Header="HRE" Binding="{Binding Path=HRE, UpdateSourceTrigger=PropertyChanged}"/>
+                            <DataGridTextColumn Header="DiscoveredBy" Binding="{Binding Path=DiscoveredBy, UpdateSourceTrigger=PropertyChanged}"/>
+                            <DataGridTextColumn Header="Unrest" Binding="{Binding Path=Unrest, UpdateSourceTrigger=PropertyChanged}"/>
+                            <DataGridTextColumn Header="Capital Name" Binding="{Binding Path=Capital, UpdateSourceTrigger=PropertyChanged}"/>
+                            <DataGridTextColumn Header="Unrest" Binding="{Binding Path=Unrest, UpdateSourceTrigger=PropertyChanged}"/>
+                            <DataGridTextColumn Header="Unrest" Binding="{Binding Path=Unrest, UpdateSourceTrigger=PropertyChanged}"/>
+                            <DataGridCheckBoxColumn Header="Impassable" Binding="{Binding Path=Impassable, UpdateSourceTrigger=PropertyChanged}"/>
+                            <DataGridComboBoxColumn Header="Province Type" DisplayMemberPath="EnumValue" ItemsSource="{Binding Source={StaticResource ProvinceTypeValues}}" SelectedItemBinding="{Binding SpecialClimate}"/>
+                            <DataGridComboBoxColumn Header="Climate" DisplayMemberPath="EnumValue" ItemsSource="{Binding Source={StaticResource SpecialClimateValues}}" SelectedItemBinding="{Binding SpecialClimate}"/>
+                            <DataGridComboBoxColumn Header="Winter" DisplayMemberPath="EnumValue" ItemsSource="{Binding Source={StaticResource WinterValues}}" SelectedItemBinding="{Binding SpecialClimate}"/>
+                            <DataGridComboBoxColumn Header="Monsoon" DisplayMemberPath="EnumValue" ItemsSource="{Binding Source={StaticResource MonsoonValues}}" SelectedItemBinding="{Binding SpecialClimate}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Grid Grid.Column="1" Grid.RowSpan="4">
+                        <Button Content=" Save " HorizontalAlignment="Right" Margin="0,10,10,0" VerticalAlignment="Top" Click="SaveCountries"/>
+                        <Button Content=" Reload " HorizontalAlignment="Right" Margin="0,10,50,0" VerticalAlignment="Top"/>
+                        <Button Grid.Column="1" Content=" Add " HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Click="NewCountry"/>
+                        <Button Content=" Delete " HorizontalAlignment="Left" Margin="47,10,0,0" VerticalAlignment="Top" Click="DeleteCountry"/>
+                        <Button Content=" Country Values " HorizontalAlignment="Center" Margin="0,192,0,0" VerticalAlignment="Top" Click="OpenCountryValues" Width="278"/>
+                        <Button Content=" History " HorizontalAlignment="Center" Margin="0,217,0,0" VerticalAlignment="Top" Click="OpenHistory" Width="278"/>
+                    </Grid>
+                </Grid>
+            </TabItem>
+            <TabItem Name="culturesTab" Header="Cultures" IsEnabled="False">
 
+            </TabItem>
+            <TabItem Name="religionsTab" Header="Religions" IsEnabled="False">
+
+            </TabItem>
+        </TabControl>
     </Grid>
 </Window>

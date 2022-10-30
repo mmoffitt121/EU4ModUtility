@@ -8,7 +8,7 @@ using System.ComponentModel;
 
 namespace EU4ModUtil.Models.Data
 {
-    internal class ChangeableObject : INotifyPropertyChanged
+    public class ChangeableObject : INotifyPropertyChanged
     {
         public bool Changed { get; set; }
 

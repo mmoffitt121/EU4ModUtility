@@ -104,11 +104,41 @@ namespace EU4ModUtil.Writers
         /// </summary>
         public List<string> WriteCountryHistory()
         {
+            List<string> changed = new List<string>();
             foreach (Country c in mod.countries)
             {
-                Trace.WriteLine(c.GetHistoryTXT());
+                if (c.Changed)
+                {
+                    DirectoryInfo dir = new DirectoryInfo(appData.modPath + "\\history\\countries");
+                    FileInfo fi = dir.GetFiles(c.Tag + "*.*")?.FirstOrDefault();
+                    string path;
+                    if (fi == null)
+                    {
+                        path = appData.modPath + "\\history\\countries\\" + c.Tag + " - " + c.LocalizedName + ".txt";
+                    }
+                    else
+                    {
+                        path = fi.ToString();
+                    }
+
+                    string txt = c.GetHistoryTXT();
+                    File.WriteAllText(path, txt);
+
+                    int indx = path.IndexOf(appData.modPath);
+                    string shortPath;
+                    if (indx != -1)
+                    {
+                        shortPath = path.Remove(indx, appData.modPath.Length);
+                    }
+                    else
+                    {
+                        shortPath = path;
+                    }
+
+                    changed.Add(shortPath);
+                }
             }
-            return new List<string> { "" };
+            return changed;
         }
 
         /// <summary>

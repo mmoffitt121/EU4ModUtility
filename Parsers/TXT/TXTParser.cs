@@ -45,7 +45,7 @@ namespace EU4ModUtil.Parsers
         private static TXTFileObject Parse(List<Token> tokens)
         {
             TXTFileObject result = new TXTFileObject();
-            result.values = ParseFileItems(tokens).ToArray();
+            result.values = ParseFileItems(tokens)?.ToArray();
 
             return result;
         }

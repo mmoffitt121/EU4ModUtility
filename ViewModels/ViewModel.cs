@@ -22,6 +22,7 @@ using EU4ModUtil.Util;
 using EU4ModUtil.Loaders;
 using EU4ModUtil.Writers;
 using EU4ModUtil.Models.Data.Common;
+using EU4ModUtil.Models.Data.Map;
 
 namespace EU4ModUtil
 {
@@ -99,6 +100,23 @@ namespace EU4ModUtil
                     mod.religions = value;
                 }
                 NotifyPropertyChanged("Religions");
+            }
+        }
+
+        public List<Province> Provinces
+        {
+            get
+            {
+                if (mod == null || mod.provinces == null) return null;
+                return new List<Province>(mod?.provinces);
+            }
+            set
+            {
+                if (mod != null)
+                {
+                    mod.provinces = value;
+                }
+                NotifyPropertyChanged(nameof(Provinces));
             }
         }
 

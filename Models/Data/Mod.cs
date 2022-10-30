@@ -18,7 +18,7 @@ namespace EU4ModUtil.Models.Data
         internal List<Religion> religions;
 
         // Localisation
-        internal Dictionary<string, string> TextLEnglish;
+        internal Dictionary<string, string> ZModLEnglish { get; set; }
 
         internal List<Culture> Cultures
         {
