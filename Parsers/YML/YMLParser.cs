@@ -5,8 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using System.Diagnostics;
-using EU4ModUtil.Models.Data.YML;
-using EU4ModUtil.Util;
 
 namespace EU4ModUtil.Parsers
 {
@@ -18,11 +16,12 @@ namespace EU4ModUtil.Parsers
             Dictionary<string, string> result = new Dictionary<string, string>();
             foreach (string res in yml)
             {
-                if (string.IsNullOrEmpty(res)) continue;
-                string[] parts = res.Split(' ', ':', '0', '1');
+                if (string.IsNullOrEmpty(res) || !res.Contains(':')) continue;
+                string[] separators = new string[] { " ", ":0", ":1" };
+                string[] parts = res.Split(separators, StringSplitOptions.RemoveEmptyEntries);
 
-                string key = parts[1];
-                string value = string.Join(' ', parts.Skip(2)).Trim('\"', ' ');
+                string key = parts[0];
+                string value = string.Join(' ', parts.Skip(1)).Trim('\"', ' ');
 
                 result.TryAdd(key, value);
             }

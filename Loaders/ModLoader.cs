@@ -9,6 +9,8 @@ using System.IO;
 using EU4ModUtil.Models.Data;
 using EU4ModUtil.Parsers;
 using EU4ModUtil.Models.Data.Common;
+using EU4ModUtil.Models.Data.Map;
+using EU4ModUtil.Util;
 
 namespace EU4ModUtil.Loaders
 {
@@ -27,10 +29,13 @@ namespace EU4ModUtil.Loaders
         {
             LoadDescriptor();
             LoadImage();
-            LoadCultures();
-            LoadReligions();
+            // LoadCultures();
+            // LoadReligions();
             LoadCountries();
+            LoadProvinces();
         }
+
+        #region Mod Info
 
         internal void LoadDescriptor()
         {
@@ -52,6 +57,10 @@ namespace EU4ModUtil.Loaders
                 mod.descriptor.bitmap = null;
             }
         }
+
+        #endregion
+
+        #region Countries
 
         internal void LoadCountries()
         {
@@ -97,6 +106,264 @@ namespace EU4ModUtil.Loaders
             }
         }
 
+        #endregion
+
+        #region Provinces
+        internal void LoadProvinces()
+        {
+            // Definition
+            if (File.Exists(appData.modPath + "\\map\\definition.csv"))
+            {
+                string[][] csv = CSVParser.Parse(appData.modPath + "\\map\\definition.csv");
+                mod.provinces = new List<Province>();
+                for (int i = 0; i < csv.Length; i++)
+                {
+                    Province province = new Province(csv[i]);
+                    if (province.valid)
+                    {
+                        mod.provinces.Add(province);
+                    }
+                }
+            }
+
+            // Localisation
+            if (File.Exists(appData.modPath + "\\localisation\\prov_names_l_english.yml"))
+            {
+                Dictionary<string, string> dict = YMLParser.ParseDictionary(appData.modPath + "\\localisation\\prov_names_l_english.yml");
+
+                foreach (Province p in mod.provinces)
+                {
+                    p.SetLocalisedName(dict);
+                }
+            }
+            if (File.Exists(appData.modPath + "\\localisation\\prov_names_adj_l_english.yml"))
+            {
+                Dictionary<string, string> dict = YMLParser.ParseDictionary(appData.modPath + "\\localisation\\prov_names_adj_l_english.yml");
+
+                foreach (Province p in mod.provinces)
+                {
+                    p.SetLocalisedAdjective(dict);
+                }
+            }
+
+            // History
+            DirectoryInfo dir = new DirectoryInfo(appData.modPath + "\\history\\provinces");
+            foreach (Province p in mod.provinces)
+            {
+                FileInfo fi = dir.GetFiles(p.Number + "*.*")?.FirstOrDefault();
+
+                if (fi == null) continue;
+                string filePath = appData.modPath + "\\history\\provinces\\" + p.Number.ToString();
+                if (!(fi.ToString().StartsWith(filePath + " ") || fi.ToString().StartsWith(filePath + "-"))) continue;
+                Trace.WriteLine("Step2");
+
+                TXTFileObject hist = TXTParser.Parse(fi.ToString());
+                p.SetHistoryData(hist);
+            }
+
+            // Dictionary for quicker assignment
+            Dictionary<int, Province> pDict = mod.provinces.ToDictionary(p => p.Number, p => p);
+
+            // Area
+            if (File.Exists(appData.modPath + "\\map\\area.txt"))
+            {
+                TXTFileObject obj = TXTParser.Parse(appData.modPath + "\\map\\area.txt");
+                foreach (AttributeValueObject area in obj.values)
+                {
+                    foreach (AttributeValueObject provNum in area.values)
+                    {
+                        if (!int.TryParse(provNum.attribute, out int key))
+                        {
+                            continue;
+                        }
+                        
+                        if (pDict.TryGetValue(key, out Province province))
+                        {
+                            province.Area = area.attribute;
+                        }
+                    }
+                }
+            }
+
+            // Continent
+            if (File.Exists(appData.modPath + "\\map\\continent.txt"))
+            {
+                TXTFileObject obj = TXTParser.Parse(appData.modPath + "\\map\\continent.txt");
+                foreach (AttributeValueObject continent in obj.values)
+                {
+                    foreach (AttributeValueObject provNum in continent.values)
+                    {
+                        if (!int.TryParse(provNum.attribute, out int key))
+                        {
+                            continue;
+                        }
+
+                        if (pDict.TryGetValue(key, out Province province))
+                        {
+                            province.Continent = continent.attribute;
+                        }
+                    }
+                }
+            }
+
+            // Climate
+            if (File.Exists(appData.modPath + "\\map\\climate.txt"))
+            {
+                TXTFileObject obj = TXTParser.Parse(appData.modPath + "\\map\\continent.txt");
+                foreach (AttributeValueObject climate in obj.values)
+                {
+                    switch (climate.attribute)
+                    {
+                        case "tropical":
+                            foreach (AttributeValueObject attr in climate.values)
+                            {
+                                if (!int.TryParse(attr.attribute, out int key))
+                                {
+                                    continue;
+                                }
+
+                                if (pDict.TryGetValue(key, out Province province))
+                                {
+                                    province.SpecialClimate = SpecialClimate.Tropical;
+                                }
+                            }
+                            break;
+                        case "arid":
+                            foreach (AttributeValueObject attr in climate.values)
+                            {
+                                if (!int.TryParse(attr.attribute, out int key))
+                                {
+                                    continue;
+                                }
+
+                                if (pDict.TryGetValue(key, out Province province))
+                                {
+                                    province.SpecialClimate = SpecialClimate.Arid;
+                                }
+                            }
+                            break;
+                        case "arctic":
+                            foreach (AttributeValueObject attr in climate.values)
+                            {
+                                if (!int.TryParse(attr.attribute, out int key))
+                                {
+                                    continue;
+                                }
+
+                                if (pDict.TryGetValue(key, out Province province))
+                                {
+                                    province.SpecialClimate = SpecialClimate.Arctic;
+                                }
+                            }
+                            break;
+                        case "mild_winter":
+                            foreach (AttributeValueObject attr in climate.values)
+                            {
+                                if (!int.TryParse(attr.attribute, out int key))
+                                {
+                                    continue;
+                                }
+
+                                if (pDict.TryGetValue(key, out Province province))
+                                {
+                                    province.Winter = Winter.Mild;
+                                }
+                            }
+                            break;
+                        case "normal_winter":
+                            foreach (AttributeValueObject attr in climate.values)
+                            {
+                                if (!int.TryParse(attr.attribute, out int key))
+                                {
+                                    continue;
+                                }
+
+                                if (pDict.TryGetValue(key, out Province province))
+                                {
+                                    province.Winter = Winter.Normal;
+                                }
+                            }
+                            break;
+                        case "severe_winter":
+                            foreach (AttributeValueObject attr in climate.values)
+                            {
+                                if (!int.TryParse(attr.attribute, out int key))
+                                {
+                                    continue;
+                                }
+
+                                if (pDict.TryGetValue(key, out Province province))
+                                {
+                                    province.Winter = Winter.Severe;
+                                }
+                            }
+                            break;
+                        case "impassable":
+                            foreach (AttributeValueObject attr in climate.values)
+                            {
+                                if (!int.TryParse(attr.attribute, out int key))
+                                {
+                                    continue;
+                                }
+
+                                if (pDict.TryGetValue(key, out Province province))
+                                {
+                                    province.Impassable = true;
+                                }
+                            }
+                            break;
+                        case "mild_monsoon":
+                            foreach (AttributeValueObject attr in climate.values)
+                            {
+                                if (!int.TryParse(attr.attribute, out int key))
+                                {
+                                    continue;
+                                }
+
+                                if (pDict.TryGetValue(key, out Province province))
+                                {
+                                    province.Monsoon = Monsoon.Mild;
+                                }
+                            }
+                            break;
+                        case "normal_monsoon":
+                            foreach (AttributeValueObject attr in climate.values)
+                            {
+                                if (!int.TryParse(attr.attribute, out int key))
+                                {
+                                    continue;
+                                }
+
+                                if (pDict.TryGetValue(key, out Province province))
+                                {
+                                    province.Monsoon = Monsoon.Normal;
+                                }
+                            }
+                            break;
+                        case "severe_monsoon":
+                            foreach (AttributeValueObject attr in climate.values)
+                            {
+                                if (!int.TryParse(attr.attribute, out int key))
+                                {
+                                    continue;
+                                }
+
+                                if (pDict.TryGetValue(key, out Province province))
+                                {
+                                    province.Monsoon = Monsoon.Severe;
+                                }
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                    
+                }
+            }
+        }
+        #endregion
+
+        #region Cultures
         public void LoadCultures()
         {
             if (File.Exists(appData.modPath + "\\common\\cultures\\00_cultures.txt"))
@@ -120,11 +387,14 @@ namespace EU4ModUtil.Loaders
                 }
             }
         }
+        #endregion
 
+        #region Religions
         public void LoadReligions()
         {
 
         }
+        #endregion
 
         public ModLoader(Mod mod, AppData appData)
         {

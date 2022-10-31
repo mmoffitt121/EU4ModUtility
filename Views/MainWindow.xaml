@@ -203,13 +203,13 @@
                             <DataGridTextColumn Header="DiscoveredBy" Binding="{Binding Path=DiscoveredBy, UpdateSourceTrigger=PropertyChanged}"/>
                             <DataGridTextColumn Header="Unrest" Binding="{Binding Path=Unrest, UpdateSourceTrigger=PropertyChanged}"/>
                             <DataGridTextColumn Header="Capital Name" Binding="{Binding Path=Capital, UpdateSourceTrigger=PropertyChanged}"/>
-                            <DataGridTextColumn Header="Unrest" Binding="{Binding Path=Unrest, UpdateSourceTrigger=PropertyChanged}"/>
-                            <DataGridTextColumn Header="Unrest" Binding="{Binding Path=Unrest, UpdateSourceTrigger=PropertyChanged}"/>
+                            <DataGridTextColumn Header="Area" Binding="{Binding Path=Area, UpdateSourceTrigger=PropertyChanged}"/>
+                            <DataGridTextColumn Header="Continent" Binding="{Binding Path=Continent, UpdateSourceTrigger=PropertyChanged}"/>
                             <DataGridCheckBoxColumn Header="Impassable" Binding="{Binding Path=Impassable, UpdateSourceTrigger=PropertyChanged}"/>
-                            <DataGridComboBoxColumn Header="Province Type" DisplayMemberPath="EnumValue" ItemsSource="{Binding Source={StaticResource ProvinceTypeValues}}" SelectedItemBinding="{Binding SpecialClimate}"/>
-                            <DataGridComboBoxColumn Header="Climate" DisplayMemberPath="EnumValue" ItemsSource="{Binding Source={StaticResource SpecialClimateValues}}" SelectedItemBinding="{Binding SpecialClimate}"/>
-                            <DataGridComboBoxColumn Header="Winter" DisplayMemberPath="EnumValue" ItemsSource="{Binding Source={StaticResource WinterValues}}" SelectedItemBinding="{Binding SpecialClimate}"/>
-                            <DataGridComboBoxColumn Header="Monsoon" DisplayMemberPath="EnumValue" ItemsSource="{Binding Source={StaticResource MonsoonValues}}" SelectedItemBinding="{Binding SpecialClimate}"/>
+                            <DataGridComboBoxColumn Header="Province Type" ItemsSource="{Binding Source={StaticResource ProvinceTypeValues}}" SelectedItemBinding="{Binding ProvinceType}"/>
+                            <DataGridComboBoxColumn Header="Climate" ItemsSource="{Binding Source={StaticResource SpecialClimateValues}}" SelectedItemBinding="{Binding SpecialClimate}"/>
+                            <DataGridComboBoxColumn Header="Winter" ItemsSource="{Binding Source={StaticResource WinterValues}}" SelectedItemBinding="{Binding Winter}"/>
+                            <DataGridComboBoxColumn Header="Monsoon" ItemsSource="{Binding Source={StaticResource MonsoonValues}}" SelectedItemBinding="{Binding Monsoon}"/>
                         </DataGrid.Columns>
                     </DataGrid>
                     <Grid Grid.Column="1" Grid.RowSpan="4">

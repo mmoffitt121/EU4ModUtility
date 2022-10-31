@@ -95,7 +95,7 @@ namespace EU4ModUtil.Models.Data.Map
         #endregion
 
         #region Map
-        public string Region { get; set; }
+        public string Area { get; set; }
         public string Continent { get; set; }
         public bool Impassable { get; set; }
         public SpecialClimate SpecialClimate { get; set; }
@@ -125,7 +125,162 @@ namespace EU4ModUtil.Models.Data.Map
         public string Unrest { get; set; }
         public string Capital { get; set; }
 
-        public HistoryEntry[] History { get; set; }
+        public List<HistoryEntry> History { get; set; }
+        #endregion
+
+        #region Loading
+        public bool valid = false;
+        public Province(string[] data)
+        {
+            Define(data);
+            Changed = false;
+        }
+
+        public void Define(string[] definition)
+        {
+            if (definition == null || definition.Length < 6)
+            {
+                valid = false;
+                Changed = false;
+                return;
+            }
+
+            if (int.TryParse(definition[0], out int number) &&
+                int.TryParse(definition[1], out int r) &&
+                int.TryParse(definition[2], out int g) &&
+                int.TryParse(definition[3], out int b))
+            {
+                Number = number;
+                R = r;
+                G = g;
+                B = b;
+                Name = definition[4];
+
+                valid = true;
+                Changed = false;
+                return;
+            }
+            else
+            {
+                valid = false;
+                Changed = false;
+                return;
+            }
+        }
+
+        public void SetLocalisedName(Dictionary<string, string> dict)
+        {
+            if (dict.ContainsKey("PROV" + Number))
+            {
+                LocalizedName = dict["PROV" + Number];
+            }
+            Changed = false;
+        }
+
+        public void SetLocalisedAdjective(Dictionary<string, string> dict)
+        {
+            if (dict.ContainsKey("PROV_ADJ" + Number))
+            {
+                LocalizedAdjective = dict["PROV_ADJ" + Number];
+            }
+            Changed = false;
+        }
+
+        public void SetHistoryData(TXTFileObject history)
+        {
+            if (history == null || history.values == null) return;
+
+            History = new List<HistoryEntry>();
+
+            foreach (AttributeValueObject obj in history.values)
+            {
+                switch (obj.attribute)
+                {
+                    case "owner":
+                        Owner = obj.value.attribute;
+                        break;
+                    case "controller":
+                        Controller = obj.value.attribute;
+                        break;
+                    case "add_core":
+                        AddAddCore(obj.value.attribute);
+                        break;
+                    case "culture":
+                        Culture = obj.value.attribute;
+                        break;
+                    case "religion":
+                        Religion = obj.value.attribute;
+                        break;
+                    case "trade_goods":
+                        TradeGoods = obj.value.attribute;
+                        break;
+                    case "base_tax":
+                        BaseTax = obj.value.attribute;
+                        break;
+                    case "base_production":
+                        BaseProduction = obj.value.attribute;
+                        break;
+                    case "base_manpower":
+                        BaseManpower = obj.value.attribute;
+                        break;
+                    case "is_city":
+                        IsCity = obj.value.attribute.Equals("yes");
+                        break;
+                    case "hre":
+                        HRE = obj.value.attribute.Equals("yes");
+                        break;
+                    case "discovered_by":
+                        AddDiscoveredBy(obj.value.attribute);
+                        break;
+                    case "unrest":
+                        Unrest = obj.value.attribute;
+                        break;
+                    case "capital":
+                        Capital = obj.value.attribute;
+                        break;
+                    default:
+                        History.Add(new HistoryEntry(obj));
+                        break;
+
+                }
+            }
+            Changed = false;
+        }
+
+        public void AddAddCore(string addCore)
+        {
+            if (string.IsNullOrEmpty(addCore)) return;
+
+            if (string.IsNullOrEmpty(AddCore))
+            {
+                AddCore = new string(addCore);
+            }
+            else
+            {
+                AddCore += ", " + addCore;
+            }
+        }
+
+        public void AddDiscoveredBy(string discoveredBy)
+        {
+            if (string.IsNullOrEmpty(discoveredBy)) return;
+
+            if (string.IsNullOrEmpty(DiscoveredBy))
+            {
+                DiscoveredBy = new string(discoveredBy);
+            }
+            else
+            {
+                DiscoveredBy += ", " + discoveredBy;
+            }
+        }
+        #endregion
+
+        #region Saving
+        public string GetDefinition()
+        {
+            return Number + ";" + R + ";" + G + ";" + B + ";" + Name + ";x";
+        }
         #endregion
     }
 }
