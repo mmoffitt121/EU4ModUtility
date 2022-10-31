@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media.TextFormatting;
 using EU4ModUtil.Models.Data.Common;
+using EU4ModUtil.Models.Data.Generic;
 using EU4ModUtil.Models.Data.Map;
 
 namespace EU4ModUtil.Models.Data
@@ -16,6 +17,10 @@ namespace EU4ModUtil.Models.Data
         internal List<Province> provinces;
         internal List<CultureGroup> cultureGroups;
         internal List<Religion> religions;
+        internal List<AttributeValueObject> mapDefault;
+        internal int equatorYOnProvinceImage;
+        internal List<string> areas;
+        internal List<string> continents;
 
         // Localisation
         internal Dictionary<string, string> ZModLEnglish { get; set; }

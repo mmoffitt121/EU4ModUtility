@@ -7,7 +7,9 @@ using System.Threading.Tasks;
 using System.Diagnostics;
 using EU4ModUtil.Models.Data;
 using EU4ModUtil.Models.Data.Common;
+using EU4ModUtil.Models.Data.Map;
 using EU4ModUtil.Util;
+using System.Reflection.Metadata.Ecma335;
 
 namespace EU4ModUtil.Writers
 {
@@ -25,9 +27,10 @@ namespace EU4ModUtil.Writers
         public void WriteMod()
         {
             WriteCountries();
+            WriteProvinces();
         }
 
-        // Countries
+        #region Countries
 
         /// <summary>
         /// Writes all country data to mod on disk
@@ -151,5 +154,110 @@ namespace EU4ModUtil.Writers
                 c.Changed = false;
             }
         }
+
+        #endregion
+
+        #region Provinces
+        /// <summary>
+        /// Writes all country data to mod on disk
+        /// </summary>
+        public List<string> WriteProvinces()
+        {
+            List<string> changed = new List<string>();
+            //changed.Add(WriteCountryTags());
+            //changed.AddRange(WriteCountryInfo());
+            changed.Add(WriteProvinceDefinitions());
+            changed.Add(WriteProvinceNamesLocalisation());
+            changed.Add(WriteProvinceAdjectivesLocalisation());
+            changed.Add(WriteProvinceHistory());
+            changed.Add(WriteProvinceArea());
+
+            SetUnchanged();
+
+            return changed;
+        }
+
+        public string WriteProvinceDefinitions()
+        {
+            List<string> lines = new List<string>();
+            lines.Add("province;red;green;blue;x;x");
+            foreach (Province p in mod.provinces)
+            {
+                lines.Add(p.GetDefinition());
+            }
+
+            string path = appData.modPath + "\\map\\definition.csv";
+            //File.WriteAllLines(path, lines);
+
+            return "\\map\\definition.csv";
+        }
+
+        public string WriteProvinceNamesLocalisation()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append("l_english:");
+            foreach (Province p in mod.provinces)
+            {
+                sb.Append(p.GetLocalisedName());
+            }
+
+            string path = appData.modPath + "\\localisation\\prov_names_l_english.yml";
+            //File.WriteAllText(path, sb.ToString(), Encoding.UTF8);
+
+            return "\\localisation\\prov_names_adj_l_english.yml";
+        }
+
+        public string WriteProvinceAdjectivesLocalisation()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append("l_english:");
+            foreach (Province p in mod.provinces)
+            {
+                sb.Append(p.GetLocalisedAdjective());
+            }
+
+            string path = appData.modPath + "\\localisation\\prov_names_adj_l_english.yml";
+            //File.WriteAllText(path, sb.ToString(), Encoding.UTF8);
+
+            return "\\localisation\\prov_names_adj_l_english.yml";
+        }
+
+        public string WriteProvinceHistory()
+        {
+            return "";
+        }
+
+        public string WriteProvinceArea()
+        {
+            Dictionary<string, List<int>> dict = mod.areas.ToDictionary(a => a, a => new List<int>());
+            foreach (Province p in mod.provinces)
+            {
+                if (p.Area == null || !dict.ContainsKey(p.Area)) continue;
+
+                dict[p.Area].Add(p.Number);
+            }
+
+            Trace.WriteLine(dict.ShortValueDictionaryToTXTString(2));
+            string path = appData.modPath + "\\map\\area.txt";
+            //File.WriteAllText(path, sb.ToString(), Encoding.UTF8);
+
+            return "Area";
+        }
+
+        public string WriteProvinceContinent()
+        {
+            return "Continent";
+        }
+
+        public string WriteProvinceClimate()
+        {
+            return "Climate";
+        }
+
+        public string WriteProvinceDefault()
+        {
+            return "Default";
+        }
+        #endregion
     }
 }

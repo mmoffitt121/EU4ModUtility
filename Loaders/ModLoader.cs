@@ -146,8 +146,8 @@ namespace EU4ModUtil.Loaders
                 }
             }
 
-            // History
-            DirectoryInfo dir = new DirectoryInfo(appData.modPath + "\\history\\provinces");
+            // History - !!! NEEDS OPTIMIZING BAD !!!
+            /*DirectoryInfo dir = new DirectoryInfo(appData.modPath + "\\history\\provinces");
             foreach (Province p in mod.provinces)
             {
                 FileInfo fi = dir.GetFiles(p.Number + "*.*")?.FirstOrDefault();
@@ -155,19 +155,19 @@ namespace EU4ModUtil.Loaders
                 if (fi == null) continue;
                 string filePath = appData.modPath + "\\history\\provinces\\" + p.Number.ToString();
                 if (!(fi.ToString().StartsWith(filePath + " ") || fi.ToString().StartsWith(filePath + "-"))) continue;
-                Trace.WriteLine("Step2");
 
                 TXTFileObject hist = TXTParser.Parse(fi.ToString());
                 p.SetHistoryData(hist);
-            }
-
+            }*/
+            
             // Dictionary for quicker assignment
             Dictionary<int, Province> pDict = mod.provinces.ToDictionary(p => p.Number, p => p);
-
+            
             // Area
             if (File.Exists(appData.modPath + "\\map\\area.txt"))
             {
                 TXTFileObject obj = TXTParser.Parse(appData.modPath + "\\map\\area.txt");
+                mod.areas = new List<string>();
                 foreach (AttributeValueObject area in obj.values)
                 {
                     foreach (AttributeValueObject provNum in area.values)
@@ -182,6 +182,7 @@ namespace EU4ModUtil.Loaders
                             province.Area = area.attribute;
                         }
                     }
+                    mod.areas.Add(area.Attribute);
                 }
             }
 
@@ -189,6 +190,7 @@ namespace EU4ModUtil.Loaders
             if (File.Exists(appData.modPath + "\\map\\continent.txt"))
             {
                 TXTFileObject obj = TXTParser.Parse(appData.modPath + "\\map\\continent.txt");
+                mod.continents = new List<string>();
                 foreach (AttributeValueObject continent in obj.values)
                 {
                     foreach (AttributeValueObject provNum in continent.values)
@@ -203,13 +205,14 @@ namespace EU4ModUtil.Loaders
                             province.Continent = continent.attribute;
                         }
                     }
+                    mod.continents.Add(continent.attribute);
                 }
             }
 
             // Climate
             if (File.Exists(appData.modPath + "\\map\\climate.txt"))
             {
-                TXTFileObject obj = TXTParser.Parse(appData.modPath + "\\map\\continent.txt");
+                TXTFileObject obj = TXTParser.Parse(appData.modPath + "\\map\\climate.txt");
                 foreach (AttributeValueObject climate in obj.values)
                 {
                     switch (climate.attribute)
@@ -354,10 +357,61 @@ namespace EU4ModUtil.Loaders
                                 }
                             }
                             break;
+                        case "equator_y_on_province_image":
+                            if (int.TryParse(climate.value.attribute, out int eq))
+                            {
+                                mod.equatorYOnProvinceImage = eq;
+                            }
+                            break;
                         default:
                             break;
                     }
                     
+                }
+            }
+
+            // Default
+            if (File.Exists(appData.modPath + "\\map\\default.map"))
+            {
+                TXTFileObject obj = TXTParser.Parse(appData.modPath + "\\map\\default.map");
+                mod.mapDefault = new List<AttributeValueObject>();
+                foreach (AttributeValueObject def in obj.values)
+                {
+                    switch (def.attribute)
+                    {
+                        case "sea_starts":
+                            foreach (AttributeValueObject attr in def.values)
+                            {
+                                if (!int.TryParse(attr.attribute, out int key))
+                                {
+                                    continue;
+                                }
+
+                                if (pDict.TryGetValue(key, out Province province))
+                                {
+                                    province.ProvinceType = ProvinceType.Sea;
+                                }
+                            }
+                            break;
+                        case "lakes":
+                            foreach (AttributeValueObject attr in def.values)
+                            {
+                                if (!int.TryParse(attr.attribute, out int key))
+                                {
+                                    continue;
+                                }
+
+                                if (pDict.TryGetValue(key, out Province province))
+                                {
+                                    province.ProvinceType = ProvinceType.Lake;
+                                }
+                            }
+                            break;
+                        default:
+                            mod.mapDefault.Add(def);
+                            break;
+                    }
+
                 }
             }
         }

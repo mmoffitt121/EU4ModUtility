@@ -45,6 +45,7 @@ namespace EU4ModUtil
             InitializeImages();
         }
 
+        #region Mod Loading
         private void Select_Mod_Button_Click(object sender, RoutedEventArgs e)
         {
             Microsoft.Win32.OpenFileDialog fileDialog = new Microsoft.Win32.OpenFileDialog();
@@ -64,7 +65,7 @@ namespace EU4ModUtil
                 UpdateModInfoDisplay();
             }
         }
-
+        
         private void LoadMod()
         {
             viewModel.mod = new Mod();
@@ -74,16 +75,9 @@ namespace EU4ModUtil
             UpdateTabDisplay();
         }
 
-        private void SaveMod()
-        {
-            
-        }
+        #endregion
 
-        private void LoadModInfo()
-        {
-            viewModel.loader.LoadMod();
-            UpdateModInfoDisplay();
-        }
+        #region Display
 
         private void UpdateModInfoDisplay()
         {
@@ -153,6 +147,16 @@ namespace EU4ModUtil
             thumbnail.Source = viewModel.noImageBitmap;
         }
 
+        void DataGrid_Unloaded(object sender, RoutedEventArgs e)
+        {
+            var grid = (DataGrid)sender;
+            grid.CommitEdit(DataGridEditingUnit.Row, true);
+        }
+
+        #endregion
+
+        #region Country Data
+
         private void SaveCountries(object sender, RoutedEventArgs e)
         {
             viewModel.writer = new ModWriter(viewModel.mod, viewModel.appData);
@@ -199,11 +203,26 @@ namespace EU4ModUtil
             attrWindow.ShowDialog();
             countryDataGrid.ItemsSource = viewModel.Countries;
         }
+        #endregion
 
-        void DataGrid_Unloaded(object sender, RoutedEventArgs e)
+        #region Province Data
+
+        private void SaveProvinces(object sender, RoutedEventArgs e)
         {
-            var grid = (DataGrid)sender;
-            grid.CommitEdit(DataGridEditingUnit.Row, true);
+            viewModel.writer = new ModWriter(viewModel.mod, viewModel.appData);
+            List<string> changed = viewModel.writer.WriteProvinces();
+            string changedStr = "Save complete.\n\nFiles edited:\n" + string.Join('\n', changed).Replace("/", "\\");
+            MessageBox.Show(changedStr, "Save Complete", MessageBoxButton.OK);
+
+            UpdateModInfoDisplay();
+            UpdateTabDisplay();
+        }
+
+        #endregion
+
+        private void OpenRegions(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

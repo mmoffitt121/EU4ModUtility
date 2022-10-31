@@ -213,12 +213,12 @@
                         </DataGrid.Columns>
                     </DataGrid>
                     <Grid Grid.Column="1" Grid.RowSpan="4">
-                        <Button Content=" Save " HorizontalAlignment="Right" Margin="0,10,10,0" VerticalAlignment="Top" Click="SaveCountries"/>
+                        <Button Content=" Save " HorizontalAlignment="Right" Margin="0,10,10,0" VerticalAlignment="Top" Click="SaveProvinces"/>
                         <Button Content=" Reload " HorizontalAlignment="Right" Margin="0,10,50,0" VerticalAlignment="Top"/>
                         <Button Grid.Column="1" Content=" Add " HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Click="NewCountry"/>
                         <Button Content=" Delete " HorizontalAlignment="Left" Margin="47,10,0,0" VerticalAlignment="Top" Click="DeleteCountry"/>
-                        <Button Content=" Country Values " HorizontalAlignment="Center" Margin="0,192,0,0" VerticalAlignment="Top" Click="OpenCountryValues" Width="278"/>
-                        <Button Content=" History " HorizontalAlignment="Center" Margin="0,217,0,0" VerticalAlignment="Top" Click="OpenHistory" Width="278"/>
+                        <Button Content=" Regions " HorizontalAlignment="Left" Margin="10,116,0,0" VerticalAlignment="Top" Width="82" Click="OpenRegions"/>
+                        <Button Content=" History " HorizontalAlignment="Center" Margin="0,60,0,0" VerticalAlignment="Top" Click="OpenHistory" Width="278"/>
                     </Grid>
                 </Grid>
             </TabItem>

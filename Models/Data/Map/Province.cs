@@ -281,6 +281,20 @@ namespace EU4ModUtil.Models.Data.Map
         {
             return Number + ";" + R + ";" + G + ";" + B + ";" + Name + ";x";
         }
+
+        public string GetLocalisedName()
+        {
+            if (!string.IsNullOrEmpty(LocalizedName)) return "\n PROV" + Number + ":0 \"" + LocalizedName + "\"";
+
+            return "";
+        }
+        public string GetLocalisedAdjective()
+        {
+            if (!string.IsNullOrEmpty(LocalizedAdjective)) return "\n PROV_ADJ" + Number + ":0 \"" + LocalizedAdjective + "\"";
+
+            return "";
+        }
+
         #endregion
     }
 }
