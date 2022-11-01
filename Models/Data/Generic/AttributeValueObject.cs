@@ -155,6 +155,11 @@ namespace EU4ModUtil.Models.Data
             }
             return sb.ToString();
         }
+
+        public string ForceSingleValueQuoted()
+        {
+            return attribute + " = \"" + value.attribute + "\"";
+        }
         #endregion
     }
 }

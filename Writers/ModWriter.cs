@@ -164,8 +164,6 @@ namespace EU4ModUtil.Writers
         public List<string> WriteProvinces()
         {
             List<string> changed = new List<string>();
-            //changed.Add(WriteCountryTags());
-            //changed.AddRange(WriteCountryInfo());
             changed.Add(WriteProvinceDefinitions());
             changed.Add(WriteProvinceNamesLocalisation());
             changed.Add(WriteProvinceAdjectivesLocalisation());
@@ -190,7 +188,7 @@ namespace EU4ModUtil.Writers
             }
 
             string path = appData.modPath + "\\map\\definition.csv";
-            //File.WriteAllLines(path, lines);
+            File.WriteAllLines(path, lines);
 
             return "\\map\\definition.csv";
         }
@@ -205,7 +203,7 @@ namespace EU4ModUtil.Writers
             }
 
             string path = appData.modPath + "\\localisation\\prov_names_l_english.yml";
-            //File.WriteAllText(path, sb.ToString(), Encoding.UTF8);
+            File.WriteAllText(path, sb.ToString(), Encoding.UTF8);
 
             return "\\localisation\\prov_names_adj_l_english.yml";
         }
@@ -220,7 +218,7 @@ namespace EU4ModUtil.Writers
             }
 
             string path = appData.modPath + "\\localisation\\prov_names_adj_l_english.yml";
-            //File.WriteAllText(path, sb.ToString(), Encoding.UTF8);
+            File.WriteAllText(path, sb.ToString(), Encoding.UTF8);
 
             return "\\localisation\\prov_names_adj_l_english.yml";
         }
@@ -240,9 +238,8 @@ namespace EU4ModUtil.Writers
                 dict[p.Area].Add(p.Number);
             }
 
-            Trace.WriteLine(dict.ShortValueDictionaryToTXTString(6));
             string path = appData.modPath + "\\map\\area.txt";
-            //File.WriteAllText(path, sb.ToString(), Encoding.UTF8);
+            File.WriteAllText(path, dict.ShortValueDictionaryToTXTString(6));
 
             return "\\map\\area.txt";
         }
@@ -257,9 +254,8 @@ namespace EU4ModUtil.Writers
                 dict[p.Continent].Add(p.Number);
             }
 
-            Trace.WriteLine(dict.ShortValueDictionaryToTXTString(6));
             string path = appData.modPath + "\\map\\continent.txt";
-            //File.WriteAllText(path, sb.ToString(), Encoding.UTF8);
+            File.WriteAllText(path, dict.ShortValueDictionaryToTXTString(12));
 
             return "\\map\\continent.txt";
         }
@@ -275,6 +271,7 @@ namespace EU4ModUtil.Writers
             List<string> mildMonsoon = new List<string>();
             List<string> normalMonsoon = new List<string>();
             List<string> severeMonsoon = new List<string>();
+            List<string> impassable = new List<string>();
 
             foreach (Province p in mod.provinces)
             {
@@ -320,6 +317,10 @@ namespace EU4ModUtil.Writers
                     default:
                         break;
                 }
+                if (p.Impassable)
+                {
+                    impassable.Add(p.Number.ToString());
+                }
             }
 
             Dictionary<string, List<string>> dict = new Dictionary<string, List<string>>()
@@ -330,16 +331,16 @@ namespace EU4ModUtil.Writers
                 { "mild_winter", mildWinter },
                 { "normal_winter", normalWinter },
                 { "severe_winter", severeWinter },
+                { "impassable", impassable},
                 { "mild_monsoon", mildMonsoon },
                 { "normal_monsoon", normalMonsoon },
-                { "severe_monsoon", severeMonsoon },
+                { "severe_monsoon", severeMonsoon }
             };
 
             string values = dict.ShortValueDictionaryToTXTString(8) + "\nequator_y_on_province_image = " + mod.equatorYOnProvinceImage;
 
-            Trace.WriteLine(values);
             string path = appData.modPath + "\\map\\climate.txt";
-            //File.WriteAllText(path, sb.ToString(), Encoding.UTF8);
+            File.WriteAllText(path, values);
 
             return "\\map\\climate.txt";
         }
@@ -347,6 +348,8 @@ namespace EU4ModUtil.Writers
         public string WriteProvinceDefault()
         {
             Dictionary<string, AttributeValueObject> dict = mod.mapDefault.Where(avo => !avo.attribute.Equals("canal_definition")).ToDictionary(x => x.attribute, x => x);
+            List<AttributeValueObject> canals = mod.mapDefault.Where(avo => avo.attribute.Equals("canal_definition")).ToList();
+
 
             dict.Add("sea_starts", new AttributeValueObject() { attribute = "sea_starts" });
             dict.Add("lakes", new AttributeValueObject() { attribute = "lakes" });
@@ -378,12 +381,55 @@ namespace EU4ModUtil.Writers
             sb.Append(dict["only_used_for_random"]);
             sb.Append("\n");
             sb.Append(dict["lakes"]);
+            sb.Append("force_coastal = {   }\n");
+            sb.Append(dict["definitions"].ForceSingleValueQuoted());
+            sb.Append("\n");
+            sb.Append(dict["provinces"].ForceSingleValueQuoted());
+            sb.Append("\n");
+            sb.Append(dict["positions"].ForceSingleValueQuoted());
+            sb.Append("\n");
+            sb.Append(dict["terrain"].ForceSingleValueQuoted());
+            sb.Append("\n");
+            sb.Append(dict["rivers"].ForceSingleValueQuoted());
+            sb.Append("\n");
+            sb.Append(dict["terrain_definition"].ForceSingleValueQuoted());
+            sb.Append("\n");
+            sb.Append(dict["heightmap"].ForceSingleValueQuoted());
+            sb.Append("\n");
+            sb.Append(dict["tree_definition"].ForceSingleValueQuoted());
+            sb.Append("\n");
+            sb.Append(dict["continent"].ForceSingleValueQuoted());
+            sb.Append("\n");
+            sb.Append(dict["adjacencies"].ForceSingleValueQuoted());
+            sb.Append("\n");
+            sb.Append(dict["climate"].ForceSingleValueQuoted());
+            sb.Append("\n");
+            sb.Append(dict["region"].ForceSingleValueQuoted());
+            sb.Append("\n");
+            sb.Append(dict["superregion"].ForceSingleValueQuoted());
+            sb.Append("\n");
+            sb.Append(dict["area"].ForceSingleValueQuoted());
+            sb.Append("\n");
+            sb.Append(dict["provincegroup"].ForceSingleValueQuoted());
+            sb.Append("\n");
+            sb.Append(dict["ambient_object"].ForceSingleValueQuoted());
+            sb.Append("\n");
+            sb.Append(dict["seasons"].ForceSingleValueQuoted());
+            sb.Append("\n");
+            sb.Append(dict["trade_winds"].ForceSingleValueQuoted());
+            sb.Append("\n");
 
-            Trace.WriteLine(sb);
-            string path = appData.modPath + "\\map\\default.txt";
-            //File.WriteAllText(path, sb.ToString(), Encoding.UTF8);
+            foreach (AttributeValueObject canalObj in canals)
+            {
+                sb.Append(canalObj);
+            }
 
-            return "\\map\\default.txt";
+            sb.Append(dict["tree"]);
+
+            string path = appData.modPath + "\\map\\default.map";
+            File.WriteAllText(path, sb.ToString());
+
+            return "\\map\\default.map";
         }
         #endregion
     }
