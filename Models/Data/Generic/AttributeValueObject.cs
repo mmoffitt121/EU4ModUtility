@@ -102,7 +102,7 @@ namespace EU4ModUtil.Models.Data
 
         public AttributeValueObject()
         {
-
+            
         }
         #endregion
 

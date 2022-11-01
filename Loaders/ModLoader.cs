@@ -147,7 +147,7 @@ namespace EU4ModUtil.Loaders
             }
 
             // History - !!! NEEDS OPTIMIZING BAD !!!
-            /*DirectoryInfo dir = new DirectoryInfo(appData.modPath + "\\history\\provinces");
+            DirectoryInfo dir = new DirectoryInfo(appData.modPath + "\\history\\provinces");
             foreach (Province p in mod.provinces)
             {
                 FileInfo fi = dir.GetFiles(p.Number + "*.*")?.FirstOrDefault();
@@ -158,7 +158,7 @@ namespace EU4ModUtil.Loaders
 
                 TXTFileObject hist = TXTParser.Parse(fi.ToString());
                 p.SetHistoryData(hist);
-            }*/
+            }
             
             // Dictionary for quicker assignment
             Dictionary<int, Province> pDict = mod.provinces.ToDictionary(p => p.Number, p => p);
