@@ -15,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using EU4ModUtil.Models.Data.Common;
 using EU4ModUtil.Models.Data.History;
+using EU4ModUtil.Models.Data.Map;
 using EU4ModUtil.Models.Data;
 
 namespace EU4ModUtil.Views
@@ -25,6 +26,7 @@ namespace EU4ModUtil.Views
     public partial class HistoryWindow : Window
     {
         Country country;
+        Province province;
         internal HistoryWindow(Country country)
         {
             InitializeComponent();

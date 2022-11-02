@@ -19,6 +19,7 @@ namespace EU4ModUtil.Models.Data
         internal List<Religion> religions;
         internal List<AttributeValueObject> mapDefault;
         internal int equatorYOnProvinceImage;
+        internal TreeItem regions;
         internal List<string> areas;
         internal List<string> continents;
 

@@ -11,9 +11,38 @@ namespace EU4ModUtil.Models.Data.Map
 {
     internal class Province : ChangeableObject
     {
-        #region Definition
-        public int Number { get; set; }
-        public string Name { get; set; }
+        #region Definition Members
+        private int number;
+        /// <summary>
+        /// Number
+        /// </summary>
+        public int Number
+        {
+            get
+            {
+                return number;
+            }
+            set
+            {
+                number = value;
+            }
+        }
+
+        private string name;
+        /// <summary>
+        /// Name
+        /// </summary>
+        public string Name
+        {
+            get
+            {
+                return name;
+            }
+            set
+            {
+                name = value;
+            }
+        }
         #region Color
         /// <summary>
         /// The province's color in SolidColorBrush form
@@ -28,6 +57,10 @@ namespace EU4ModUtil.Models.Data.Map
                 color.G = (byte)G;
                 color.B = (byte)B;
                 return new SolidColorBrush(color);
+            }
+            set
+            {
+
             }
         }
 
@@ -89,41 +122,388 @@ namespace EU4ModUtil.Models.Data.Map
 
                 return r + g + b;
             }
+            set
+            {
+
+            }
         }
 
         #endregion
         #endregion
 
-        #region Map
-        public string Area { get; set; }
-        public string Continent { get; set; }
-        public bool Impassable { get; set; }
-        public SpecialClimate SpecialClimate { get; set; }
-        public Winter Winter { get; set; }
-        public Monsoon Monsoon { get; set; }
-        public ProvinceType ProvinceType { get; set; }
+        #region Map Members
+        private string area;
+        /// <summary>
+        /// Area
+        /// </summary>
+        public string Area
+        {
+            get
+            {
+                return area;
+            }
+            set
+            {
+                area = value;
+            }
+        }
+
+        private string continent;
+        /// <summary>
+        /// Continent
+        /// </summary>
+        public string Continent
+        {
+            get
+            {
+                return continent;
+            }
+            set
+            {
+                continent = value;
+            }
+        }
+
+        private bool impassable;
+        /// <summary>
+        /// Impassable
+        /// </summary>
+        public bool Impassable
+        {
+            get
+            {
+                return impassable;
+            }
+            set
+            {
+                impassable = value;
+            }
+        }
+
+        private SpecialClimate specialClimate;
+        /// <summary>
+        /// Special Climate
+        /// </summary>
+        public SpecialClimate SpecialClimate
+        {
+            get
+            {
+                return specialClimate;
+            }
+            set
+            {
+                specialClimate = value;
+            }
+        }
+
+        private Winter winter;
+        /// <summary>
+        /// Winter
+        /// </summary>
+        public Winter Winter
+        {
+            get
+            {
+                return winter;
+            }
+            set
+            {
+                winter = value;
+            }
+        }
+
+        private Monsoon monsoon;
+        /// <summary>
+        /// Monsoon
+        /// </summary>
+        public Monsoon Monsoon
+        {
+            get
+            {
+                return monsoon;
+            }
+            set
+            {
+                monsoon = value;
+            }
+        }
+
+        private ProvinceType provinceType;
+        /// <summary>
+        /// ProvinceType
+        /// </summary>
+        public ProvinceType ProvinceType
+        {
+            get
+            {
+                return provinceType;
+            }
+            set
+            {
+                provinceType = value;
+            }
+        }
         #endregion
 
-        #region Localization
-        public string LocalizedName { get; set; }
-        public string LocalizedAdjective { get; set; }
+        #region Localization Members
+        private string localizedName;
+        /// <summary>
+        /// Localized Name
+        /// </summary>
+        public string LocalizedName
+        {
+            get
+            {
+                return localizedName;
+            }
+            set
+            {
+                localizedName = value;
+            }
+        }
+
+        private string localizedAdjective;
+        /// <summary>
+        /// Localized Adjective
+        /// </summary>
+        public string LocalizedAdjective
+        {
+            get
+            {
+                return localizedAdjective;
+            }
+            set
+            {
+                localizedAdjective = value;
+            }
+        }
         #endregion
 
-        #region History
-        public string Owner { get; set; }
-        public string Controller { get; set; }
-        public string AddCore { get; set; }
-        public string Culture { get; set; }
-        public string Religion { get; set; }
-        public string TradeGoods { get; set; }
-        public string BaseTax { get; set; }
-        public string BaseProduction { get; set; }
-        public string BaseManpower { get; set; }
-        public bool IsCity { get; set; }
-        public bool HRE { get; set; }
-        public string DiscoveredBy { get; set; }
-        public string Unrest { get; set; }
-        public string Capital { get; set; }
+        #region History Members
+        private string owner;
+        /// <summary>
+        /// Owner
+        /// </summary>
+        public string Owner
+        {
+            get
+            {
+                return owner;
+            }
+            set
+            {
+                owner = value;
+                NotifyPropertyChanged(nameof(Owner));
+            }
+        }
+        private string controller;
+        /// <summary>
+        /// Controller
+        /// </summary>
+        public string Controller
+        {
+            get
+            {
+                return controller;
+            }
+            set
+            {
+                controller = value;
+                NotifyPropertyChanged(nameof(Controller));
+            }
+        }
+        private string addCore;
+        /// <summary>
+        /// Add Core
+        /// </summary>
+        public string AddCore
+        {
+            get
+            {
+                return addCore;
+            }
+            set
+            {
+                addCore = value;
+                NotifyPropertyChanged(nameof(AddCore));
+            }
+        }
+        private string culture;
+        /// <summary>
+        /// Culture
+        /// </summary>
+        public string Culture
+        {
+            get
+            {
+                return culture;
+            }
+            set
+            {
+                culture = value;
+                NotifyPropertyChanged(nameof(Culture));
+            }
+        }
+        private string religion;
+        /// <summary>
+        /// Religion
+        /// </summary>
+        public string Religion
+        {
+            get
+            {
+                return religion;
+            }
+            set
+            {
+                religion = value;
+                NotifyPropertyChanged(nameof(Religion));
+            }
+        }
+        private string tradeGoods;
+        /// <summary>
+        /// Trade Goods
+        /// </summary>
+        public string TradeGoods
+        {
+            get
+            {
+                return tradeGoods;
+            }
+            set
+            {
+                tradeGoods = value;
+                NotifyPropertyChanged(nameof(TradeGoods));
+            }
+        }
+        private string baseTax;
+        /// <summary>
+        /// Base Tax
+        /// </summary>
+        public string BaseTax
+        {
+            get
+            {
+                return baseTax;
+            }
+            set
+            {
+                baseTax = value;
+                NotifyPropertyChanged(nameof(BaseTax));
+            }
+        }
+        private string baseProduction;
+        /// <summary>
+        /// Base Production
+        /// </summary>
+        public string BaseProduction
+        {
+            get
+            {
+                return baseProduction;
+            }
+            set
+            {
+                baseProduction = value;
+                NotifyPropertyChanged(nameof(BaseProduction));
+            }
+        }
+        private string baseManpower;
+        /// <summary>
+        /// Base Manpower
+        /// </summary>
+        public string BaseManpower
+        {
+            get
+            {
+                return baseManpower;
+            }
+            set
+            {
+                baseManpower = value;
+                NotifyPropertyChanged(nameof(BaseManpower));
+            }
+        }
+        private bool isCity;
+        /// <summary>
+        /// Is City
+        /// </summary>
+        public bool IsCity
+        {
+            get
+            {
+                return isCity;
+            }
+            set
+            {
+                isCity = value;
+                NotifyPropertyChanged(nameof(IsCity));
+            }
+        }
+        private bool hre;
+        /// <summary>
+        /// Is HRE
+        /// </summary>
+        public bool HRE
+        {
+            get
+            {
+                return hre;
+            }
+            set
+            {
+                hre = value;
+                NotifyPropertyChanged(nameof(HRE));
+            }
+        }
+        private string discoveredBy;
+        /// <summary>
+        /// Discovered By
+        /// </summary>
+        public string DiscoveredBy
+        {
+            get
+            {
+                return discoveredBy;
+            }
+            set
+            {
+                discoveredBy = value;
+                NotifyPropertyChanged(nameof(DiscoveredBy));
+            }
+        }
+        private string unrest;
+        /// <summary>
+        /// Unrest
+        /// </summary>
+        public string Unrest
+        {
+            get
+            {
+                return unrest;
+            }
+            set
+            {
+                unrest = value;
+                NotifyPropertyChanged(nameof(Unrest));
+            }
+        }
+        private string capital;
+        /// <summary>
+        /// Capital
+        /// </summary>
+        public string Capital
+        {
+            get
+            {
+                return capital;
+            }
+            set
+            {
+                capital = value;
+                NotifyPropertyChanged(nameof(Capital));
+            }
+        }
 
         public List<HistoryEntry> History { get; set; }
         #endregion
@@ -133,6 +513,16 @@ namespace EU4ModUtil.Models.Data.Map
         public Province(string[] data)
         {
             Define(data);
+            Changed = false;
+        }
+
+        public Province(int number, (int, int, int) color, string name)
+        {
+            Number = number;
+            r = color.Item1;
+            g = color.Item2;
+            b = color.Item3;
+            Name = name;
             Changed = false;
         }
 
@@ -259,6 +649,8 @@ namespace EU4ModUtil.Models.Data.Map
             {
                 AddCore += ", " + addCore;
             }
+
+            Changed = false;
         }
 
         public void AddDiscoveredBy(string discoveredBy)
@@ -273,6 +665,8 @@ namespace EU4ModUtil.Models.Data.Map
             {
                 DiscoveredBy += ", " + discoveredBy;
             }
+
+            Changed = false;
         }
         #endregion
 
@@ -293,6 +687,56 @@ namespace EU4ModUtil.Models.Data.Map
             if (!string.IsNullOrEmpty(LocalizedAdjective)) return "\n PROV_ADJ" + Number + ":0 \"" + LocalizedAdjective + "\"";
 
             return "";
+        }
+
+        public string GetHistoryTXT()
+        {
+            StringBuilder sb = new StringBuilder();
+
+            if (!string.IsNullOrEmpty(Owner)) sb.Append("\nowner = " + Owner);
+            if (!string.IsNullOrEmpty(Controller)) sb.Append("\ncontroller = " + Controller);
+
+            if (!string.IsNullOrEmpty(AddCore))
+            {
+                string[] split_add_core = AddCore.Split(new char[]{ ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                foreach  (string s in split_add_core)
+                {
+                    if (!string.IsNullOrEmpty(s.Trim())) sb.Append("\nadd_core = " + s);
+                }
+            }
+
+            if (!string.IsNullOrEmpty(Culture)) sb.Append("\nculture = " + Culture);
+            if (!string.IsNullOrEmpty(Religion)) sb.Append("\nreligion = " + Religion);
+            if (!string.IsNullOrEmpty(TradeGoods)) sb.Append("\ntrade_goods = " + TradeGoods);
+            if (!string.IsNullOrEmpty(BaseTax)) sb.Append("\nbase_tax = " + BaseTax);
+            if (!string.IsNullOrEmpty(BaseProduction)) sb.Append("\nbase_production = " + BaseProduction);
+            if (!string.IsNullOrEmpty(BaseManpower)) sb.Append("\nbase_manpower = " + BaseManpower);
+            sb.Append("\nis_city = " + (IsCity ? "yes" : "no"));
+            sb.Append("\nhre = " + (HRE ? "yes" : "no"));
+
+            if (!string.IsNullOrEmpty(DiscoveredBy))
+            {
+                string[] split_discovered_by = DiscoveredBy.Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                foreach (string s in split_discovered_by)
+                {
+                    if (!string.IsNullOrEmpty(s.Trim())) sb.Append("\ndiscovered_by = " + s);
+                }
+            }
+
+            if (!string.IsNullOrEmpty(Unrest)) sb.Append("\nunrest = " + Unrest);
+            if (!string.IsNullOrEmpty(Capital)) sb.Append("\ncapital = " + Capital);
+
+            sb.Append("\n\n");
+
+            if (History != null)
+            {
+                foreach (HistoryEntry h in History)
+                {
+                    sb.Append(h);
+                }
+            }
+
+            return sb.ToString();
         }
 
         #endregion

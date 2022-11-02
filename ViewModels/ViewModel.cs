@@ -66,6 +66,37 @@ namespace EU4ModUtil
             NotifyPropertyChanged(nameof(Countries));
         }
 
+        public int NewProvince(int index, bool water)
+        {
+            mod.provinces = mod.provinces.OrderBy(p => p.Number).ToList();
+
+            int provNum = mod.provinces[index].Number + 1;
+            int i = index + 1;
+            while (i != mod.provinces.Count())
+            {
+                if (provNum != mod.provinces[i].Number)
+                {
+                    (int, int, int) clr = water ? mod.provinces.GetUniqueProvinceColor(ColorManager.ColorMode.Sea) : mod.provinces.GetUniqueProvinceColor(ColorManager.ColorMode.Land);
+                    mod.provinces.Insert(i, new Province(provNum, clr, "New Province"));
+                    NotifyPropertyChanged(nameof(Provinces));
+                    return i;
+                }
+                provNum++;
+                i++;
+            }
+
+            (int, int, int) colr = water ? mod.provinces.GetUniqueProvinceColor(ColorManager.ColorMode.Sea) : mod.provinces.GetUniqueProvinceColor(ColorManager.ColorMode.Land);
+            mod.provinces.Add(new Province(provNum, colr, "New Province"));
+            NotifyPropertyChanged(nameof(Provinces));
+            return mod.provinces.Count() - 1;
+        }
+
+        public void DeleteProvince(int index)
+        {
+            mod.provinces.Remove(mod.provinces[index]);
+            NotifyPropertyChanged(nameof(Provinces));
+        }
+
         public List<Culture> Cultures
         {
             get

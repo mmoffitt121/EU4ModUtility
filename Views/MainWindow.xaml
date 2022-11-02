@@ -130,9 +130,9 @@
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBox Text="{Binding Path=R3, UpdateSourceTrigger=PropertyChanged}"
-                                            Background="{Binding Path=BGColorR3, UpdateSourceTrigger=PropertyChanged}"
-                                            TextWrapping="Wrap"
-                                            Padding="4" />
+                                                Background="{Binding Path=BGColorR3, UpdateSourceTrigger=PropertyChanged}"
+                                                TextWrapping="Wrap"
+                                                Padding="4" />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
@@ -176,28 +176,29 @@
                             <DataGridTextColumn Header="Name" Binding="{Binding Path=Name, UpdateSourceTrigger=PropertyChanged}"/>
                             <DataGridTextColumn Header="Localised Name" Binding="{Binding Path=LocalizedName, UpdateSourceTrigger=PropertyChanged}"/>
                             <DataGridTextColumn Header="Localised Adjective" Binding="{Binding Path=LocalizedAdjective, UpdateSourceTrigger=PropertyChanged}"/>
-                            <DataGridTemplateColumn Header="Color">
+                            <DataGridTemplateColumn Header="Hex">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock Background="{Binding Path=BGColor}"
-                                            TextWrapping="Wrap"
-                                            Padding="4" />
+                                        <Button Background="{Binding Path=BGColor, UpdateSourceTrigger=PropertyChanged}"
+                                                Content="{Binding Path=ColorHex, UpdateSourceTrigger=PropertyChanged}"
+                                                Padding="4" 
+                                                Tag="{Binding ColorHex}" 
+                                                Click="CopyHex" />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
                             <DataGridTextColumn Header="R      " Binding="{Binding Path=R, UpdateSourceTrigger=PropertyChanged}"/>
                             <DataGridTextColumn Header="G      " Binding="{Binding Path=G, UpdateSourceTrigger=PropertyChanged}"/>
                             <DataGridTextColumn Header="B      " Binding="{Binding Path=B, UpdateSourceTrigger=PropertyChanged}"/>
-                            <DataGridTextColumn Header="Hex" Binding="{Binding Path=ColorHex, UpdateSourceTrigger=PropertyChanged}"/>
-                            <DataGridTextColumn Header="Owner" Binding="{Binding Path=Culture, UpdateSourceTrigger=PropertyChanged}"/>
-                            <DataGridTextColumn Header="Controller" Binding="{Binding Path=Culture, UpdateSourceTrigger=PropertyChanged}"/>
+                            <DataGridTextColumn Header="Owner" Binding="{Binding Path=Owner, UpdateSourceTrigger=PropertyChanged}"/>
+                            <DataGridTextColumn Header="Controller" Binding="{Binding Path=Controller, UpdateSourceTrigger=PropertyChanged}"/>
                             <DataGridTextColumn Header="Cores" Binding="{Binding Path=AddCore, UpdateSourceTrigger=PropertyChanged}"/>
                             <DataGridTextColumn Header="Culture" Binding="{Binding Path=Culture, UpdateSourceTrigger=PropertyChanged}"/>
                             <DataGridTextColumn Header="Religion" Binding="{Binding Path=Religion, UpdateSourceTrigger=PropertyChanged}"/>
                             <DataGridTextColumn Header="Trade Good" Binding="{Binding Path=TradeGoods, UpdateSourceTrigger=PropertyChanged}"/>
-                            <DataGridTextColumn Header="Base Tax" Binding="{Binding Path=BaseTax, UpdateSourceTrigger=PropertyChanged}"/>
-                            <DataGridTextColumn Header="Base Production" Binding="{Binding Path=BaseProduction, UpdateSourceTrigger=PropertyChanged}"/>
-                            <DataGridTextColumn Header="Base Manpower" Binding="{Binding Path=BaseManpower, UpdateSourceTrigger=PropertyChanged}"/>
+                            <DataGridTextColumn Header="Tax" Binding="{Binding Path=BaseTax, UpdateSourceTrigger=PropertyChanged}"/>
+                            <DataGridTextColumn Header="Prod" Binding="{Binding Path=BaseProduction, UpdateSourceTrigger=PropertyChanged}"/>
+                            <DataGridTextColumn Header="Manp" Binding="{Binding Path=BaseManpower, UpdateSourceTrigger=PropertyChanged}"/>
                             <DataGridCheckBoxColumn Header="City" Binding="{Binding Path=IsCity, UpdateSourceTrigger=PropertyChanged}"/>
                             <DataGridCheckBoxColumn Header="HRE" Binding="{Binding Path=HRE, UpdateSourceTrigger=PropertyChanged}"/>
                             <DataGridTextColumn Header="DiscoveredBy" Binding="{Binding Path=DiscoveredBy, UpdateSourceTrigger=PropertyChanged}"/>
@@ -215,10 +216,12 @@
                     <Grid Grid.Column="1" Grid.RowSpan="4">
                         <Button Content=" Save " HorizontalAlignment="Right" Margin="0,10,10,0" VerticalAlignment="Top" Click="SaveProvinces"/>
                         <Button Content=" Reload " HorizontalAlignment="Right" Margin="0,10,50,0" VerticalAlignment="Top"/>
-                        <Button Grid.Column="1" Content=" Add " HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Click="NewCountry"/>
-                        <Button Content=" Delete " HorizontalAlignment="Left" Margin="47,10,0,0" VerticalAlignment="Top" Click="DeleteCountry"/>
-                        <Button Content=" Regions " HorizontalAlignment="Left" Margin="10,116,0,0" VerticalAlignment="Top" Width="82" Click="OpenRegions"/>
-                        <Button Content=" History " HorizontalAlignment="Center" Margin="0,60,0,0" VerticalAlignment="Top" Click="OpenHistory" Width="278"/>
+                        <Button Content=" Add Land Province "  HorizontalAlignment="Left" Margin="10,61,0,0" VerticalAlignment="Top" Click="NewLandProvince" Width="110"/>
+                        <Button Content=" Add Sea Province "  HorizontalAlignment="Left" Margin="10,86,0,0" VerticalAlignment="Top" Click="NewWaterProvince" Width="110"/>
+                        <Button Content=" Delete Province " HorizontalAlignment="Left" Margin="10,111,0,0" VerticalAlignment="Top" Click="DeleteProvince" Width="110"/>
+                        <Button Content=" Regions " HorizontalAlignment="Left" Margin="10,199,0,0" VerticalAlignment="Top" Width="82" Click="OpenRegions"/>
+                        <Button Content=" History " HorizontalAlignment="Center" Margin="0,174,0,0" VerticalAlignment="Top" Click="OpenProvinceHistory" Width="278"/>
+                        <CheckBox Content="Copy Color on Add" HorizontalAlignment="Left" Margin="125,64,0,0" VerticalAlignment="Top" Name="CopyOnAdd" IsChecked="True"/>
                     </Grid>
                 </Grid>
             </TabItem>

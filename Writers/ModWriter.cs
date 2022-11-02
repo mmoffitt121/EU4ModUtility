@@ -173,7 +173,7 @@ namespace EU4ModUtil.Writers
             changed.Add(WriteProvinceClimate());
             changed.Add(WriteProvinceDefault());
 
-            SetUnchanged();
+            SetProvincesUnchanged();
 
             return changed;
         }
@@ -225,7 +225,42 @@ namespace EU4ModUtil.Writers
 
         public List<string> WriteProvinceHistory()
         {
-            return new List<string>() { "" };
+            List<string> changed = new List<string>();
+            foreach (Province p in mod.provinces)
+            {
+                if (p.Changed)
+                {
+                    Trace.WriteLine(p.Number + " " + p.Changed);
+                    DirectoryInfo dir = new DirectoryInfo(appData.modPath + "\\history\\provinces");
+                    FileInfo fi = dir.GetFiles(p.Number + " - *.*")?.FirstOrDefault();
+                    string path;
+                    if (fi == null)
+                    {
+                        path = appData.modPath + "\\history\\provinces\\" + p.Number + " - " + p.LocalizedName + ".txt";
+                    }
+                    else
+                    {
+                        path = fi.ToString();
+                    }
+
+                    string txt = p.GetHistoryTXT();
+                    File.WriteAllText(path, txt);
+
+                    int indx = path.IndexOf(appData.modPath);
+                    string shortPath;
+                    if (indx != -1)
+                    {
+                        shortPath = path.Remove(indx, appData.modPath.Length);
+                    }
+                    else
+                    {
+                        shortPath = path;
+                    }
+
+                    changed.Add(shortPath);
+                }
+            }
+            return changed;
         }
 
         public string WriteProvinceArea()
@@ -430,6 +465,17 @@ namespace EU4ModUtil.Writers
             File.WriteAllText(path, sb.ToString());
 
             return "\\map\\default.map";
+        }
+
+        /// <summary>
+        /// Sets value as unchanged
+        /// </summary>
+        public void SetProvincesUnchanged()
+        {
+            foreach (Province p in mod.provinces)
+            {
+                p.Changed = false;
+            }
         }
         #endregion
     }

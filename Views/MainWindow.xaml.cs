@@ -17,6 +17,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Data;
 using EU4ModUtil.Models.Data;
+using EU4ModUtil.Models.Data.Map;
 using EU4ModUtil.Parsers;
 using EU4ModUtil.Util;
 using EU4ModUtil.Loaders;
@@ -192,6 +193,11 @@ namespace EU4ModUtil
             countryDataGrid.ItemsSource = viewModel.Countries;
         }
 
+        private void OpenProvinceHistory(object sender, RoutedEventArgs e)
+        {
+            
+        }
+
         private void OpenCountryValues(object sender, RoutedEventArgs e)
         {
             int index = countryDataGrid.Items.IndexOf(countryDataGrid.SelectedItem);
@@ -218,11 +224,44 @@ namespace EU4ModUtil
             UpdateTabDisplay();
         }
 
+        private void NewWaterProvince(object sender, RoutedEventArgs e)
+        {
+            int prov = viewModel.NewProvince(provinceDataGrid.Items.IndexOf(provinceDataGrid.SelectedItem), true);
+            provinceDataGrid.ItemsSource = viewModel.Provinces;
+
+            if (CopyOnAdd.IsChecked == true)
+            {
+                Clipboard.SetText(viewModel.mod.provinces[prov].ColorHex);
+            }
+        }
+
+        private void NewLandProvince(object sender, RoutedEventArgs e)
+        {
+            int prov = viewModel.NewProvince(provinceDataGrid.Items.IndexOf(provinceDataGrid.SelectedItem), false);
+            provinceDataGrid.ItemsSource = viewModel.Provinces;
+
+            if (CopyOnAdd.IsChecked == true)
+            {
+                Clipboard.SetText(viewModel.mod.provinces[prov].ColorHex);
+            }
+        }
+
+        private void DeleteProvince(object sender, RoutedEventArgs e)
+        {
+            viewModel.DeleteProvince(provinceDataGrid.Items.IndexOf(provinceDataGrid.SelectedItem));
+            provinceDataGrid.ItemsSource = viewModel.Provinces;
+        }
+
+        private void CopyHex(object sender, RoutedEventArgs e)
+        {
+            Clipboard.SetText(((Button)sender).Tag.ToString());
+        }
         #endregion
 
         private void OpenRegions(object sender, RoutedEventArgs e)
         {
-
+            RegionWindow regionWindow = new RegionWindow(viewModel.mod.regions);
+            regionWindow.ShowDialog();
         }
     }
 }

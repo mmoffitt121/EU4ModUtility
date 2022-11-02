@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace EU4ModUtil.Models.Data.Generic
 {
-    internal class TreeItem
+    public class TreeItem
     {
         public string Name { get; set; }
         public Dictionary<string, string> Localization { get; set; }
