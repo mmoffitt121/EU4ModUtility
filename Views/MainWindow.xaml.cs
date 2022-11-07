@@ -62,18 +62,35 @@ namespace EU4ModUtil
                 }
                 viewModel.appData.modPath = fileDialog.FileName.Substring(0, fileDialog.FileName.Length - 4);
 
-                LoadMod();
+                LoadModInfo();
                 UpdateModInfoDisplay();
+                UpdateTabDisplay();
             }
         }
-        
-        private void LoadMod()
+
+        private void Select_Game_Button_Click(object sender, RoutedEventArgs e)
         {
-            viewModel.mod = new Mod();
-            viewModel.loader = new ModLoader(viewModel.mod, viewModel.appData);
-            viewModel.loader.LoadMod();
-            UpdateModInfoDisplay();
-            UpdateTabDisplay();
+            Microsoft.Win32.OpenFileDialog fileDialog = new Microsoft.Win32.OpenFileDialog();
+            fileDialog.Filter = "exe files (*.exe)|*.exe";
+
+            /*if (fileDialog.ShowDialog() == true)
+            {
+                if (!System.IO.Directory.Exists(fileDialog.FileName.Substring(0, fileDialog.FileName.Length - 4)))
+                {
+                    string msg = "No folder associated with '" + fileDialog.FileName + "'. Please make sure the folder is named the same as the .mod file, and that you selected the .mod file outside the mod folder.";
+                    MessageBox.Show(msg, "No Folder Found");
+                    return;
+                }
+                viewModel.appData.modPath = fileDialog.FileName.Substring(0, fileDialog.FileName.Length - 4);
+
+                LoadMod();
+                UpdateModInfoDisplay();
+            }*/
+        }
+
+        private void LoadModInfo()
+        {
+            viewModel.LoadModInfo();
         }
 
         #endregion
@@ -94,6 +111,8 @@ namespace EU4ModUtil
 
                 countryDataGrid.ItemsSource = viewModel.Countries;
                 provinceDataGrid.ItemsSource = viewModel.Provinces;
+
+                mapDisplay.Source = viewModel.MapDisplay;
             }
             else
             {
@@ -114,11 +133,13 @@ namespace EU4ModUtil
         {
             if (viewModel.appData.modPath != null && !viewModel.appData.modPath.Equals(""))
             {
+                mapTab.IsEnabled = true;
                 countriesTab.IsEnabled = true;
                 provincesTab.IsEnabled = true;
             }
             else
             {
+                mapTab.IsEnabled = false;
                 countriesTab.IsEnabled = false;
                 provincesTab.IsEnabled = false;
             }
@@ -153,7 +174,6 @@ namespace EU4ModUtil
             var grid = (DataGrid)sender;
             grid.CommitEdit(DataGridEditingUnit.Row, true);
         }
-
         #endregion
 
         #region Country Data

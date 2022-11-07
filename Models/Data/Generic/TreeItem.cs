@@ -10,6 +10,6 @@ namespace EU4ModUtil.Models.Data.Generic
     {
         public string Name { get; set; }
         public Dictionary<string, string> Localization { get; set; }
-        public List<TreeItem> Children { get; set; }
+        public Dictionary<string, TreeItem> Children { get; set; }
     }
 }

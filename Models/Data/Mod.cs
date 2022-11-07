@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media.TextFormatting;
+using System.Windows.Media.Imaging;
 using EU4ModUtil.Models.Data.Common;
 using EU4ModUtil.Models.Data.Generic;
 using EU4ModUtil.Models.Data.Map;
@@ -22,6 +23,13 @@ namespace EU4ModUtil.Models.Data
         internal TreeItem regions;
         internal List<string> areas;
         internal List<string> continents;
+
+        // Map Images
+        public BitmapImage provincesImage;
+        public BitmapImage heightMapImage;
+        public BitmapImage riversImage;
+        public BitmapImage terrainImage;
+        public BitmapImage treesImage;
 
         // Localisation
         internal Dictionary<string, string> ZModLEnglish { get; set; }

@@ -29,6 +29,7 @@ namespace EU4ModUtil.Loaders
         {
             LoadDescriptor();
             LoadImage();
+            LoadMapImage();
             // LoadCultures();
             // LoadReligions();
             LoadCountries();
@@ -55,6 +56,30 @@ namespace EU4ModUtil.Loaders
             else
             {
                 mod.descriptor.bitmap = null;
+            }
+        }
+
+        internal void LoadMapImage()
+        {
+            if (File.Exists(appData.modPath + "/map/provinces.bmp"))
+            {
+                mod.provincesImage = new BitmapImage();
+                mod.provincesImage.BeginInit();
+                mod.provincesImage.UriSource = new Uri(appData.modPath + "/map/provinces.bmp");
+                mod.provincesImage.EndInit();
+
+                
+                for (int i = 0; i < mod.provincesImage.Width; i++)
+                {
+                    for (int j = 0; j < mod.provincesImage.Height; j++)
+                    {
+
+                    }
+                }
+            }
+            else
+            {
+                mod.provincesImage = null;
             }
         }
 

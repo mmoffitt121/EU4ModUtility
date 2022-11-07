@@ -52,11 +52,52 @@ namespace EU4ModUtil
                 NotifyPropertyChanged(nameof(Countries));
             }
         }
+
+        public Dictionary<(int, int, int), Province> ProvinceDict;
+
+        public void UpdateProvinceDict()
+        {
+            if (mod == null || mod.provinces == null) { return; }
+
+            ProvinceDict = new Dictionary<(int, int, int), Province>();
+            foreach (Province province in mod.provinces)
+            {
+                ProvinceDict.Add(((int)province.R, (int)province.G, (int)province.B), province);
+            }
+
+            Trace.WriteLine("Dict length: " + ProvinceDict.Count);
+        }
+
+        public Dictionary<string, Country> CountryDict;
+
+        public void UpdateCountryDict()
+        {
+            if (mod == null || mod.countries == null) { return; }
+
+            CountryDict = new Dictionary<string, Country>();
+            foreach (Country c in mod.countries)
+            {
+                CountryDict.Add(c.Tag, c);
+            }
+
+            Trace.WriteLine("Dict length: " + CountryDict.Count);
+        }
+
+        private BitmapImage countryDisplay;
+        public BitmapImage MapDisplay
+        {
+            get
+            {
+                return mod.provincesImage;
+            }
+        }
+
         public void NewCountry(int index)
         {
             mod.countries.ForEach(c => c.Index = (c.Index > index ? c.Index + 1 : c.Index));
             mod.countries.Insert(index + 1, new Country(index + 1));
             NotifyPropertyChanged(nameof(Countries));
+            UpdateCountryDict();
         }
 
         public void DeleteCountry(int index)
@@ -64,6 +105,7 @@ namespace EU4ModUtil
             mod.countries.ForEach(c => c.Index = (c.Index > index ? c.Index - 1 : c.Index));
             mod.countries.Remove(mod.countries[index]);
             NotifyPropertyChanged(nameof(Countries));
+            UpdateCountryDict();
         }
 
         public int NewProvince(int index, bool water)
@@ -88,6 +130,7 @@ namespace EU4ModUtil
             (int, int, int) colr = water ? mod.provinces.GetUniqueProvinceColor(ColorManager.ColorMode.Sea) : mod.provinces.GetUniqueProvinceColor(ColorManager.ColorMode.Land);
             mod.provinces.Add(new Province(provNum, colr, "New Province"));
             NotifyPropertyChanged(nameof(Provinces));
+            UpdateProvinceDict();
             return mod.provinces.Count() - 1;
         }
 
@@ -95,6 +138,7 @@ namespace EU4ModUtil
         {
             mod.provinces.Remove(mod.provinces[index]);
             NotifyPropertyChanged(nameof(Provinces));
+            UpdateProvinceDict();
         }
 
         public List<Culture> Cultures
@@ -158,6 +202,15 @@ namespace EU4ModUtil
             {
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
+        }
+
+        public void LoadModInfo()
+        {
+            mod = new Mod();
+            loader = new ModLoader(mod, appData);
+            loader.LoadMod();
+            UpdateProvinceDict();
+            UpdateCountryDict();
         }
     }
 }
