@@ -15,11 +15,17 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Images\Background.png" />
     <None Remove="Images\NoImageFound.png" />
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Images\NoImageFound.png" />
+    <Resource Include="Images\Background.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\NoImageFound.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
 </Project>

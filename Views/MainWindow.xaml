@@ -40,11 +40,27 @@
             ## MOD ##
             ######-->
             <TabItem Header="Mod">
-                <Grid Background="#FFE5E5E5">
-                    <Label Content="No Mod Selected" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top" FontSize="20" Width="774" Name="modName" Grid.ColumnSpan="2"/>
-                    <Button Content="Select" HorizontalAlignment="Left" Margin="10,52,0,0" VerticalAlignment="Top" Padding="4,1" Click="Select_Mod_Button_Click"/>
-                    <Label Content="No File Selected" HorizontalAlignment="Left" Margin="56,49,0,0" VerticalAlignment="Top" Width="730" Name="modPath" Background="Transparent" Foreground="#FF8C8C8C" Grid.ColumnSpan="2"/>
-                    <Grid Margin="10,102,10,10" Grid.ColumnSpan="2" Name="descriptorDisplay">
+                <Grid>
+                    <Grid.Background>
+                        <ImageBrush ImageSource="../Images/Background.png" Stretch="None" TileMode="Tile" Viewport="0,0,256,256" ViewportUnits="Absolute" />
+                    </Grid.Background>
+                    <!-- Border Shadows -->
+                    <Border Margin="-30,-30,-30,-30" BorderBrush="Black" BorderThickness="30" CornerRadius="0" ClipToBounds="True">
+                        <Border.Effect>
+                            <DropShadowEffect BlurRadius="20" Direction="0" ShadowDepth="0" />
+                        </Border.Effect>
+                    </Border>
+                    <Border Margin="-30,-30,-30,-30" BorderBrush="Black" BorderThickness="30" CornerRadius="0" ClipToBounds="True">
+                        <Border.Effect>
+                            <DropShadowEffect BlurRadius="20" Direction="0" ShadowDepth="0" />
+                        </Border.Effect>
+                    </Border>
+                    <Label Content="No Mod Selected" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontSize="36" Width="774" Name="modName" Grid.ColumnSpan="2" Foreground="White" FontFamily="Garamond"/>
+                    <Button Content=" Select Mod Location " HorizontalAlignment="Left" Margin="18,66,0,0" VerticalAlignment="Top" Padding="4,1" Click="Select_Mod_Button_Click" Foreground="White" FontFamily="Garamond" FontSize="18" Background="#FF497148" BorderBrush="#FFCCA63F"/>
+                    <Label Content="No File Selected" HorizontalAlignment="Left" Margin="187,64,0,0" VerticalAlignment="Top" Width="730" Name="modPath" Background="Transparent" Foreground="#FFC8C8C8" FontFamily="Garamond" FontSize="16"/>
+                    <Button Content=" Select Game Files " HorizontalAlignment="Left" Margin="18,98,0,0" VerticalAlignment="Top" Padding="4,1" Click="Select_Mod_Button_Click" FontFamily="Garamond" Foreground="White" FontSize="18"/>
+                    <Label Content="No File Selected" HorizontalAlignment="Left" Margin="166,97,0,0" VerticalAlignment="Top" Width="730" x:Name="modPath_Copy" Background="Transparent" Foreground="#FFC8C8C8" FontFamily="Garamond" FontSize="16"/>
+                    <Grid Margin="10,130,10,10" Grid.ColumnSpan="2" Name="descriptorDisplay">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="1*" />
                             <ColumnDefinition Width="1*" />
@@ -55,13 +71,43 @@
                             <RowDefinition Height="1*" />
                             <RowDefinition Height="1*" />
                         </Grid.RowDefinitions>
-                        <ListBox Name="tagListBox" d:ItemsSource="{d:SampleData ItemCount=5}" ScrollViewer.VerticalScrollBarVisibility="Visible" Grid.Column="3" Margin="2,2,2,2" Grid.Row="0"/>
-                        <ListBox Name="replacePathsListBox" d:ItemsSource="{d:SampleData ItemCount=5}" ScrollViewer.VerticalScrollBarVisibility="Visible" Grid.Column="3" Margin="2,2,2,2" Grid.Row="1"/>
-                        <Label Grid.Column="2" Grid.Row="0" Content="Tags" HorizontalAlignment="Right" Margin="5,5,5,5" VerticalAlignment="Top"/>
-                        <Label Grid.Column="2" Grid.Row="1" Content="Replace Paths" HorizontalAlignment="Right" Margin="5,5,5,5" VerticalAlignment="Top"/>
+                        <Grid.Resources>
+                            <!-- List box style -->
+                            <Style TargetType="{x:Type ListBoxItem}">
+                                <Setter Property="Background" Value="#00000000"/>
+                                <Style.Triggers>
+                                    <Trigger Property="ListView.AlternationIndex" Value="1">
+                                        <Setter Property="Background" Value="#33FFFFFF"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Grid.Resources>
+                        <!-- Tags -->
+                        <Label Grid.Column="3" Grid.Row="0" Content="Tags" HorizontalAlignment="Right" Margin="0,5,609,0" VerticalAlignment="Top" Foreground="White" FontFamily="Garamond" FontSize="18"/>
+                        <Grid Grid.Column="3" Margin="10,40,10,10" Grid.Row="0">
+                            <ListBox Name="tagListBox" d:ItemsSource="{d:SampleData ItemCount=5}" ScrollViewer.VerticalScrollBarVisibility="Disabled"  AlternationCount="2" Background="#00000000" Foreground="White" FontFamily="Garamond" FontSize="18" BorderBrush="#00000000" />
+                            <Border Margin="-5,-5,-5,-5" BorderBrush="#FF21262B" BorderThickness="2" CornerRadius="0" ClipToBounds="True">
+                                <Border.Effect>
+                                    <DropShadowEffect BlurRadius="20" Direction="0" ShadowDepth="0" />
+                                </Border.Effect>
+                            </Border>
+                        </Grid>
+                        <!-- Replace Paths -->
+                        <Label Grid.Column="3" Grid.Row="1" Content="Replace Paths" HorizontalAlignment="Right" Margin="0,3,541,0" VerticalAlignment="Top" Foreground="White" FontFamily="Adobe Caslon Pro" FontSize="18"/>
+                        <Grid Grid.Column="3" Margin="10,40,10,10" Grid.Row="1" >
+                            <ListBox Name="replacePathsListBox" d:ItemsSource="{d:SampleData ItemCount=5}" ScrollViewer.VerticalScrollBarVisibility="Disabled" AlternationCount="2" Background="#00000000" Foreground="White" FontFamily="Garamond" FontSize="18" BorderBrush="#00000000" />
+                            <Border Margin="-5,-5,-5,-5" BorderBrush="#FF21262B" BorderThickness="2" CornerRadius="0" ClipToBounds="True">
+                                <Border.Effect>
+                                    <DropShadowEffect BlurRadius="20" Direction="0" ShadowDepth="0" />
+                                </Border.Effect>
+                            </Border>
+                        </Grid>
+                        <!-- Mod Thumbnail -->
                         <Image Name="thumbnail" Grid.Column="0" HorizontalAlignment="Left" Height="170" Margin="10,10,0,0" VerticalAlignment="Top" Width="170" Grid.RowSpan="2"/>
-                        <TextBlock Name="versionInfo" Grid.Column="1" HorizontalAlignment="Left" Margin="4,5,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Grid.RowSpan="2" Height="279" Width="179"><Run Text="Version: x.x.x"/><LineBreak/><Run Text="Game Version: x.x.x"/><LineBreak/><Run/></TextBlock>
+                        <!-- Version Info -->
+                        <TextBlock Name="versionInfo" Grid.Column="1" HorizontalAlignment="Left" Margin="4,5,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Grid.RowSpan="2" Height="279" Width="179" Foreground="White" FontFamily="Garamond" FontSize="18"><Run Text="Version: x.x.x"/><LineBreak/><Run Text="Game Version: x.x.x"/><LineBreak/><Run/></TextBlock>
                     </Grid>
+
                 </Grid>
             </TabItem>
             <!--###########
