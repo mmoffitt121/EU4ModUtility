@@ -724,7 +724,7 @@ namespace EU4ModUtil.Models.Data.Map
             }
 
             if (!string.IsNullOrEmpty(Unrest)) sb.Append("\nunrest = " + Unrest);
-            if (!string.IsNullOrEmpty(Capital)) sb.Append("\ncapital = " + Capital);
+            if (!string.IsNullOrEmpty(Capital)) sb.Append("\ncapital = \"" + Capital + "\"");
 
             sb.Append("\n\n");
 

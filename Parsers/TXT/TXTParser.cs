@@ -33,8 +33,16 @@ namespace EU4ModUtil.Parsers
                 return null;
             }
 
-            TXTFileObject result = Parse(new List<Token>(tokens));
-            return result;
+            try
+            {
+                TXTFileObject result = Parse(new List<Token>(tokens));
+                return result;
+            }
+            catch (Exception ex)
+            {
+                Trace.WriteLine("PARSING ERROR FOR FILE " + path);
+                throw ex;
+            }
         }
 
         /// <summary>
