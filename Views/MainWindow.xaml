@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:EU4ModUtil"
+        xmlns:common="clr-namespace:EU4ModUtil.Models.Data.Common"
         xmlns:enumSpace="clr-namespace:EU4ModUtil.Models.Data.Map"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
@@ -35,7 +36,15 @@
         <Grid.DataContext>
             <local:ViewModel/>
         </Grid.DataContext>
-        <TabControl>
+        <TabControl FontFamily="Garamond" FontSize="16">
+            <TabControl.Resources>
+                <Style TargetType="{x:Type Button}">
+                    <Setter Property="Foreground" Value="White"/>
+                    <Setter Property="FontSize" Value="18"/>
+                    <Setter Property="Background" Value="#FF314831"/>
+                    <Setter Property="BorderBrush" Value="#FF887236"/>
+                </Style>
+            </TabControl.Resources>
             <!--#####
             ## MOD ##
             ######-->
@@ -112,23 +121,39 @@
             ##    MAP    ##
             ############-->
             <TabItem Name="mapTab" Header="Map" IsEnabled="False">
-                <ScrollViewer  Grid.Column="0"  HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                    <Canvas Width="{Binding ActualWidth, ElementName=mapDisplay}" Height="{Binding ActualHeight, ElementName=mapDisplay}" >
-                        <Canvas.Background>
-                            <VisualBrush  >
-                                <VisualBrush.Visual>
-                                    <Image Grid.Column="0" Stretch="None" Name="mapDisplay"/>
-                                </VisualBrush.Visual>
-                            </VisualBrush>
-                        </Canvas.Background>
-                    </Canvas>
-                </ScrollViewer>
+                <Grid>
+                    <ScrollViewer  Grid.Column="0"  HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                        <Canvas Width="{Binding ActualWidth, ElementName=mapDisplay}" Height="{Binding ActualHeight, ElementName=mapDisplay}" >
+                            <Canvas.Background>
+                                <VisualBrush  >
+                                    <VisualBrush.Visual>
+                                        <Image Grid.Column="0" Stretch="None" Name="mapDisplay"/>
+                                    </VisualBrush.Visual>
+                                </VisualBrush>
+                            </Canvas.Background>
+                        </Canvas>
+                    </ScrollViewer>
+                    <!-- Border Shadows -->
+                    <Border Margin="-30,-30,-30,-30" BorderBrush="Black" BorderThickness="30" CornerRadius="0" ClipToBounds="True" Grid.ColumnSpan="2" Grid.RowSpan="4">
+                        <Border.Effect>
+                            <DropShadowEffect BlurRadius="20" Direction="0" ShadowDepth="0" />
+                        </Border.Effect>
+                    </Border>
+                    <Border Margin="-30,-30,-30,-30" BorderBrush="Black" BorderThickness="30" CornerRadius="0" ClipToBounds="True" Grid.ColumnSpan="2" Grid.RowSpan="4">
+                        <Border.Effect>
+                            <DropShadowEffect BlurRadius="20" Direction="0" ShadowDepth="0" />
+                        </Border.Effect>
+                    </Border>
+                </Grid>
             </TabItem>
             <!--###########
             ## COUNTRIES ##
             ############-->
             <TabItem Name="countriesTab" Header="Countries" IsEnabled="False">
-                <Grid Background="#FFE5E5E5">
+                <Grid>
+                    <Grid.Background>
+                        <ImageBrush ImageSource="../Images/Background.png" Stretch="None" TileMode="Tile" Viewport="0,0,256,256" ViewportUnits="Absolute" />
+                    </Grid.Background>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="5*" />
                         <ColumnDefinition Width="1*" />
@@ -213,16 +238,30 @@
                         <Button Content=" Country Values " HorizontalAlignment="Center" Margin="0,192,0,0" VerticalAlignment="Top" Click="OpenCountryValues" Width="278"/>
                         <Button Content=" History " HorizontalAlignment="Center" Margin="0,217,0,0" VerticalAlignment="Top" Click="OpenHistory" Width="278"/>
                     </Grid>
+                    <!-- Border Shadows -->
+                    <Border Margin="-30,-30,-30,-30" BorderBrush="Black" BorderThickness="30" CornerRadius="0" ClipToBounds="True" Grid.ColumnSpan="2" Grid.RowSpan="4">
+                        <Border.Effect>
+                            <DropShadowEffect BlurRadius="20" Direction="0" ShadowDepth="0" />
+                        </Border.Effect>
+                    </Border>
+                    <Border Margin="-30,-30,-30,-30" BorderBrush="Black" BorderThickness="30" CornerRadius="0" ClipToBounds="True" Grid.ColumnSpan="2" Grid.RowSpan="4">
+                        <Border.Effect>
+                            <DropShadowEffect BlurRadius="20" Direction="0" ShadowDepth="0" />
+                        </Border.Effect>
+                    </Border>
                 </Grid>
             </TabItem>
             <!--###########
             ## PROVINCES ##
-            ###########-->
+            ############-->
             <TabItem Name="provincesTab" Header="Provinces" IsEnabled="False">
-                <Grid Background="#FFE5E5E5">
+                <Grid>
+                    <Grid.Background>
+                        <ImageBrush ImageSource="../Images/Background.png" Stretch="None" TileMode="Tile" Viewport="0,0,256,256" ViewportUnits="Absolute" />
+                    </Grid.Background>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="5*" />
-                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="300" />
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="1*" />
@@ -231,6 +270,24 @@
                         <RowDefinition Height="1*" />
                     </Grid.RowDefinitions>
                     <DataGrid Name="provinceDataGrid" ItemsSource="{Binding Path=Provinces, UpdateSourceTrigger=PropertyChanged}" AutoGenerateColumns="False" Grid.RowSpan="4" Unloaded="DataGrid_Unloaded" CanUserAddRows="false">
+                        <!--<DataGrid.Background>
+                            <ImageBrush ImageSource="../Images/Background.png" Stretch="None" TileMode="Tile" Viewport="0,0,256,256" ViewportUnits="Absolute" />
+                        </DataGrid.Background>
+                        <DataGrid.Resources>
+                            <Style TargetType="{x:Type DataGridRow}">
+                                <Setter Property="Background" Value="#00000000"/>
+                                <Setter Property="Foreground" Value="#FFFFFFFF"/>
+                                <Style.Triggers>
+                                    <Trigger Property="ListView.AlternationIndex" Value="1">
+                                        <Setter Property="Background" Value="#33FFFFFF"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                            <Style TargetType="{x:Type DataGridColumnHeader}">
+                                <Setter Property="Background" Value="#11000000"/>
+                                <Setter Property="Foreground" Value="#FFFFFFFF"/>
+                            </Style>
+                        </DataGrid.Resources>-->
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="ID" Binding="{Binding Path=Number, UpdateSourceTrigger=PropertyChanged}"/>
                             <DataGridTextColumn Header="Name" Binding="{Binding Path=Name, UpdateSourceTrigger=PropertyChanged}"/>
@@ -274,19 +331,65 @@
                         </DataGrid.Columns>
                     </DataGrid>
                     <Grid Grid.Column="1" Grid.RowSpan="4">
-                        <Button Content=" Save " HorizontalAlignment="Right" Margin="0,10,10,0" VerticalAlignment="Top" Click="SaveProvinces"/>
-                        <Button Content=" Reload " HorizontalAlignment="Right" Margin="0,10,50,0" VerticalAlignment="Top"/>
-                        <Button Content=" Add Land Province "  HorizontalAlignment="Left" Margin="10,61,0,0" VerticalAlignment="Top" Click="NewLandProvince" Width="110"/>
-                        <Button Content=" Add Sea Province "  HorizontalAlignment="Left" Margin="10,86,0,0" VerticalAlignment="Top" Click="NewWaterProvince" Width="110"/>
-                        <Button Content=" Delete Province " HorizontalAlignment="Left" Margin="10,111,0,0" VerticalAlignment="Top" Click="DeleteProvince" Width="110"/>
-                        <Button Content=" Regions " HorizontalAlignment="Left" Margin="10,199,0,0" VerticalAlignment="Top" Width="82" Click="OpenRegions"/>
-                        <Button Content=" History " HorizontalAlignment="Center" Margin="0,174,0,0" VerticalAlignment="Top" Click="OpenProvinceHistory" Width="278"/>
-                        <CheckBox Content="Copy Color on Add" HorizontalAlignment="Left" Margin="125,64,0,0" VerticalAlignment="Top" Name="CopyOnAdd" IsChecked="True"/>
+                        <Button Content=" Save " HorizontalAlignment="Left" Margin="10,20,0,0" VerticalAlignment="Top" Click="SaveProvinces"/>
+                        <Button Content=" Reload " HorizontalAlignment="Left" Margin="60,20,0,0" VerticalAlignment="Top"/>
+                        <Button Content=" Add Land Province "  HorizontalAlignment="Left" Margin="10,61,0,0" VerticalAlignment="Top" Click="NewLandProvince" Width="278"/>
+                        <Button Content=" Add Sea Province "  HorizontalAlignment="Left" Margin="10,91,0,0" VerticalAlignment="Top" Click="NewWaterProvince" Width="278"/>
+                        <Button Content=" Delete Province " HorizontalAlignment="Left" Margin="10,121,0,0" VerticalAlignment="Top" Click="DeleteProvince" Width="278"/>
+                        <Button Content=" Regions " HorizontalAlignment="Left" Margin="10,215,0,0" VerticalAlignment="Top" Width="278" Click="OpenRegions"/>
+                        <Button Content=" History " HorizontalAlignment="Center" Margin="0,185,0,0" VerticalAlignment="Top" Click="OpenProvinceHistory" Width="278"/>
+                        <CheckBox Content="Copy Color on Add" HorizontalAlignment="Left" Margin="140,40,0,0" VerticalAlignment="Top" Name="CopyOnAdd" IsChecked="True" Foreground="#FFFFFFFF"/>
                     </Grid>
+                    <!-- Border Shadows -->
+                    <Border Margin="-30,-30,-30,-30" BorderBrush="Black" BorderThickness="30" CornerRadius="0" ClipToBounds="True" Grid.ColumnSpan="2" Grid.RowSpan="4">
+                        <Border.Effect>
+                            <DropShadowEffect BlurRadius="20" Direction="0" ShadowDepth="0" />
+                        </Border.Effect>
+                    </Border>
+                    <Border Margin="-30,-30,-30,-30" BorderBrush="Black" BorderThickness="30" CornerRadius="0" ClipToBounds="True" Grid.ColumnSpan="2" Grid.RowSpan="4">
+                        <Border.Effect>
+                            <DropShadowEffect BlurRadius="20" Direction="0" ShadowDepth="0" />
+                        </Border.Effect>
+                    </Border>
                 </Grid>
             </TabItem>
+            <!--##########
+            ## CULTURES ##
+            ###########-->
             <TabItem Name="culturesTab" Header="Cultures" IsEnabled="False">
-
+                <Grid Background="#FFE5E5E5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="1*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*" />
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Column="0" Grid.RowSpan="4">
+                        <TreeView Name="cultureTreeView" ItemsSource="{Binding Path=CultureGroups}">
+                            <TreeView.Resources>
+                                <HierarchicalDataTemplate DataType="{x:Type common:CultureGroup}" ItemsSource="{Binding Cultures}">
+                                    <TextBlock Text="{Binding Path=Name}" />
+                                </HierarchicalDataTemplate>
+                                <DataTemplate DataType="{x:Type common:Culture}" >
+                                    <TextBlock Text="{Binding Path=Name}" />
+                                </DataTemplate>
+                            </TreeView.Resources>
+                        </TreeView>
+                    </Grid>
+                    <!-- Border Shadows -->
+                    <Border Margin="-30,-30,-30,-30" BorderBrush="Black" BorderThickness="30" CornerRadius="0" ClipToBounds="True" Grid.ColumnSpan="4" Grid.RowSpan="4">
+                        <Border.Effect>
+                            <DropShadowEffect BlurRadius="20" Direction="0" ShadowDepth="0" />
+                        </Border.Effect>
+                    </Border>
+                    <Border Margin="-30,-30,-30,-30" BorderBrush="Black" BorderThickness="30" CornerRadius="0" ClipToBounds="True" Grid.ColumnSpan="4" Grid.RowSpan="4">
+                        <Border.Effect>
+                            <DropShadowEffect BlurRadius="20" Direction="0" ShadowDepth="0" />
+                        </Border.Effect>
+                    </Border>
+                </Grid>
             </TabItem>
             <TabItem Name="religionsTab" Header="Religions" IsEnabled="False">
 

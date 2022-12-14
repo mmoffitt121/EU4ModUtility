@@ -64,8 +64,6 @@ namespace EU4ModUtil
             {
                 ProvinceDict.Add(((int)province.R, (int)province.G, (int)province.B), province);
             }
-
-            Trace.WriteLine("Dict length: " + ProvinceDict.Count);
         }
 
         public Dictionary<string, Country> CountryDict;
@@ -77,13 +75,10 @@ namespace EU4ModUtil
             CountryDict = new Dictionary<string, Country>();
             foreach (Country c in mod.countries)
             {
-                CountryDict.Add(c.Tag, c);
+                CountryDict.TryAdd(c.Tag, c);
             }
-
-            Trace.WriteLine("Dict length: " + CountryDict.Count);
         }
 
-        private BitmapImage countryDisplay;
         public BitmapImage MapDisplay
         {
             get
@@ -119,7 +114,10 @@ namespace EU4ModUtil
                 if (provNum != mod.provinces[i].Number)
                 {
                     (int, int, int) clr = water ? mod.provinces.GetUniqueProvinceColor(ColorManager.ColorMode.Sea) : mod.provinces.GetUniqueProvinceColor(ColorManager.ColorMode.Land);
-                    mod.provinces.Insert(i, new Province(provNum, clr, "New Province"));
+                    Province p = new Province(provNum, clr, "New Province");
+                    p.IsCity = !water;
+                    p.ProvinceType = water ? ProvinceType.Sea : ProvinceType.Land;
+                    mod.provinces.Insert(i, p);
                     NotifyPropertyChanged(nameof(Provinces));
                     return i;
                 }

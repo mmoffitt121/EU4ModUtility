@@ -30,7 +30,7 @@ namespace EU4ModUtil.Loaders
             LoadDescriptor();
             LoadImage();
             LoadMapImage();
-            // LoadCultures();
+            LoadCultures();
             // LoadReligions();
             LoadCountries();
             LoadProvinces();
@@ -461,15 +461,17 @@ namespace EU4ModUtil.Loaders
                 }
             }
 
-            if (File.Exists(appData.modPath + "\\localisation\\text_l_english.yml"))
+            if (File.Exists(appData.modPath + "\\localisation\\z_culture_l_english.yml"))
             {
-                Dictionary<string, string> dict = YMLParser.ParseDictionary(appData.modPath + "\\localisation\\text_l_english.yml");
+                Dictionary<string, string> dict = YMLParser.ParseDictionary(appData.modPath + "\\localisation\\z_culture_l_english.yml");
 
                 foreach (CultureGroup g in mod.cultureGroups)
                 {
                     g.SetLocalisationData(dict);
                 }
             }
+
+            Trace.WriteLine(mod.cultureGroups.ToArray().ArrayToString());
         }
         #endregion
 

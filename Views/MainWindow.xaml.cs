@@ -111,6 +111,7 @@ namespace EU4ModUtil
 
                 countryDataGrid.ItemsSource = viewModel.Countries;
                 provinceDataGrid.ItemsSource = viewModel.Provinces;
+                cultureTreeView.ItemsSource = viewModel.CultureGroups;
 
                 mapDisplay.Source = viewModel.MapDisplay;
             }
@@ -126,6 +127,7 @@ namespace EU4ModUtil
 
                 countryDataGrid.ItemsSource = null;
                 provinceDataGrid.ItemsSource = null;
+                cultureTreeView.ItemsSource = null;
             }
         }
 
@@ -136,12 +138,14 @@ namespace EU4ModUtil
                 mapTab.IsEnabled = true;
                 countriesTab.IsEnabled = true;
                 provincesTab.IsEnabled = true;
+                culturesTab.IsEnabled = true;
             }
             else
             {
                 mapTab.IsEnabled = false;
                 countriesTab.IsEnabled = false;
                 provincesTab.IsEnabled = false;
+                culturesTab.IsEnabled = false;
             }
         }
 

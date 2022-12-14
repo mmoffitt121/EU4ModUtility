@@ -15,11 +15,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Font\Garamond Regular.ttf" />
     <None Remove="Images\Background.png" />
     <None Remove="Images\NoImageFound.png" />
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Font\Garamond Regular.ttf" />
     <Resource Include="Images\Background.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
