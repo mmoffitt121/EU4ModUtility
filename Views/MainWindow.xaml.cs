@@ -282,10 +282,22 @@ namespace EU4ModUtil
         }
         #endregion
 
+        #region Culture Data
+
+
+
+        #endregion
+
         private void OpenRegions(object sender, RoutedEventArgs e)
         {
             RegionWindow regionWindow = new RegionWindow(viewModel.mod.regions);
             regionWindow.ShowDialog();
+        }
+
+        private void SelectCultureTreeviewItem(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            Trace.WriteLine(cultureTreeView.SelectedItem);
+            viewModel.SelectedCulture = (Culture)cultureTreeView.SelectedItem;
         }
     }
 }

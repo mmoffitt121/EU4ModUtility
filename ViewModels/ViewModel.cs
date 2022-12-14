@@ -160,6 +160,17 @@ namespace EU4ModUtil
             }
         }
 
+        private Culture selectedCulture;
+        public Culture SelectedCulture 
+        {
+            get => selectedCulture;
+            set
+            {
+                selectedCulture = value;
+                NotifyPropertyChanged(nameof(SelectedCulture));
+            }
+        }
+
         public List<Religion> Religions
         {
             get
