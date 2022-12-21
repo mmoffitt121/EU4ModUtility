@@ -62,7 +62,7 @@ namespace EU4ModUtil
             ProvinceDict = new Dictionary<(int, int, int), Province>();
             foreach (Province province in mod.provinces)
             {
-                ProvinceDict.Add(((int)province.R, (int)province.G, (int)province.B), province);
+                ProvinceDict.TryAdd(((int)province.R, (int)province.G, (int)province.B), province);
             }
         }
 
@@ -163,12 +163,24 @@ namespace EU4ModUtil
         private Culture selectedCulture;
         public Culture SelectedCulture 
         {
-            get => selectedCulture;
+            get
+            {
+                return selectedCulture;
+            }
             set
             {
+                Trace.WriteLine("Setting Selected Culture");
                 selectedCulture = value;
                 NotifyPropertyChanged(nameof(SelectedCulture));
+                Trace.WriteLine(SelectedCulture);
             }
+        }
+
+        public void NewCulture(int index)
+        {
+            mod.countries.ForEach(c => c.Index = (c.Index > index ? c.Index + 1 : c.Index));
+            mod.cultureGroups.Insert(index + 1, new CultureGroup(""));
+            NotifyPropertyChanged(nameof(CultureGroups));
         }
 
         public List<Religion> Religions

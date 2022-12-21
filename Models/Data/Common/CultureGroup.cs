@@ -62,6 +62,11 @@ namespace EU4ModUtil.Models.Data.Common
             }
         }
 
+        public CultureGroup(string name)
+        {
+            Name = name;
+        }
+
         public override void SetLocalisationData(Dictionary<string, string> dict)
         {
             string loc;

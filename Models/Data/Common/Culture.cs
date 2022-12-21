@@ -9,10 +9,19 @@ namespace EU4ModUtil.Models.Data.Common
 {
     internal class Culture : ChangeableObject
     {
+        private string name;
         /// <summary>
         /// Name
         /// </summary>
-        public string Name { get; set; }
+        public string Name 
+        {
+            get { return name; }
+            set
+            {
+                name = value;
+                NotifyPropertyChanged(nameof(Name));
+            }
+        }
 
         /// <summary>
         /// Localised Name
@@ -100,6 +109,11 @@ namespace EU4ModUtil.Models.Data.Common
         public Culture()
         {
 
+        }
+
+        public Culture(string name)
+        {
+            Name = name;
         }
 
         public virtual void SetLocalisationData(Dictionary<string, string> dict)
