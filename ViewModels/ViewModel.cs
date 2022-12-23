@@ -176,11 +176,24 @@ namespace EU4ModUtil
             }
         }
 
+        public void NewCultureGroup(int index)
+        {
+            mod.cultureGroups.Insert(index + 1, new CultureGroup("new_group"));
+        }
+
+        public void NewCulture(CultureGroup parent)
+        {
+            Culture newCulture = new Culture("new_culture");
+            newCulture.Parent = parent;
+            parent.Cultures.Add(newCulture);
+        }
+
         public void NewCulture(int index)
         {
-            mod.countries.ForEach(c => c.Index = (c.Index > index ? c.Index + 1 : c.Index));
-            mod.cultureGroups.Insert(index + 1, new CultureGroup(""));
-            NotifyPropertyChanged(nameof(CultureGroups));
+            Trace.WriteLine(index);
+            Culture newCulture = new Culture("new_culture");
+            newCulture.Parent = mod.cultureGroups[index];
+            mod.cultureGroups[index].Cultures.Add(newCulture);
         }
 
         public List<Religion> Religions

@@ -49,6 +49,47 @@ namespace EU4ModUtil.Util
             return sb.ToString();
         }
 
+        public static string ArrayToString<T>(this T[] array, int valuePerLine, int tabs, string minorDemarcater, string majorDemarcater)
+        {
+            if (array == null)
+            {
+                return "";
+            }
+
+            StringBuilder sb = new StringBuilder();
+
+            int itemCounter = 0;
+            foreach (T item in array)
+            {
+                if (item != null)
+                {
+                    sb.Append("\"" + item.ToString() + "\"" + minorDemarcater);
+                    itemCounter++;
+                }
+
+                if (itemCounter == valuePerLine)
+                {
+                    itemCounter = 0;
+                    sb.Append(majorDemarcater);
+                    sb.Append(new string('\t', tabs));
+                }
+            }
+
+            return sb.ToString();
+        }
+
+        /// <summary>
+        /// ArrayToString with default demarcaters of space and newline
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="array"></param>
+        /// <param name="valuePerLine"></param>
+        /// <returns></returns>
+        public static string ArrayToString<T>(this T[] array, int valuePerLine, int tabs)
+        {
+            return array.ArrayToString(valuePerLine, tabs, " ", "\n");
+        }
+
         public static string ShortValueDictionaryToTXTString<T, U>(this Dictionary<T, List<U>> dict, int itemsPerLine = 1, int indention = 1)
         {
             StringBuilder sb = new StringBuilder();

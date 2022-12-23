@@ -31,9 +31,9 @@ namespace EU4ModUtil.Loaders
             LoadImage();
             LoadMapImage();
             LoadCultures();
-            // LoadReligions();
             LoadCountries();
             LoadProvinces();
+            LoadMapRegions();
         }
 
         #region Mod Info
@@ -460,6 +460,10 @@ namespace EU4ModUtil.Loaders
                     mod.cultureGroups.Add(group);
                 }
             }
+            else
+            {
+                return;
+            }
 
             if (File.Exists(appData.modPath + "\\localisation\\z_culture_l_english.yml"))
             {
@@ -470,15 +474,50 @@ namespace EU4ModUtil.Loaders
                     g.SetLocalisationData(dict);
                 }
             }
-
-            Trace.WriteLine(mod.cultureGroups.ToArray().ArrayToString());
         }
         #endregion
 
-        #region Religions
-        public void LoadReligions()
-        {
+        #region MapRegions
 
+        /// <summary>
+        /// Must be loaded after Provinces
+        /// </summary>
+        public void LoadMapRegions()
+        {
+            if (File.Exists(appData.modPath + "\\map\\superregion.txt") 
+                && File.Exists(appData.modPath + "\\map\\region.txt") 
+                && File.Exists(appData.modPath + "\\map\\area.txt"))
+            {
+                TXTFileObject srObj = TXTParser.Parse(appData.modPath + "\\map\\superregion.txt");
+                TXTFileObject rObj = TXTParser.Parse(appData.modPath + "\\map\\region.txt");
+                TXTFileObject aObj = TXTParser.Parse(appData.modPath + "\\map\\area.txt");
+
+                mod.superRegions = new List<SuperRegion>();
+
+                /*for (int i = 0; i < obj.values.Length; i++)
+                {
+                    CultureGroup group = new CultureGroup(obj.values[i]);
+                    mod.cultureGroups.Add(group);
+                }*/
+
+                Trace.WriteLine(srObj);
+                Trace.WriteLine(rObj);
+                Trace.WriteLine(aObj);
+            }
+            else
+            {
+                return;
+            }
+
+            if (File.Exists(appData.modPath + "\\localisation\\z_areas_regions_l_english.yml"))
+            {
+                Dictionary<string, string> dict = YMLParser.ParseDictionary(appData.modPath + "\\localisation\\z_areas_regions_l_english.yml");
+
+                foreach (CultureGroup g in mod.cultureGroups)
+                {
+                    g.SetLocalisationData(dict);
+                }
+            }
         }
         #endregion
 

@@ -9,7 +9,7 @@ using EU4ModUtil.Models.Data.History;
 
 namespace EU4ModUtil.Models.Data.Map
 {
-    internal class Province : ChangeableObject
+    public class Province : ChangeableObject
     {
         #region Definition Members
         private int number;

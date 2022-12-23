@@ -10,10 +10,19 @@ namespace EU4ModUtil.Models.Data.Common
 {
     internal class CultureGroup : Culture
     {
+        private List<Culture> cultures;
         /// <summary>
         /// Cultures
         /// </summary>
-        public List<Culture> Cultures { get; set; }
+        public List<Culture> Cultures
+        {
+            get { return cultures; }
+            set 
+            { 
+                cultures = value;
+                NotifyPropertyChanged(nameof(Cultures));
+            }
+        }
 
         public CultureGroup(AttributeValueObject obj) : base()
         {
@@ -56,15 +65,17 @@ namespace EU4ModUtil.Models.Data.Common
                     case "province":
                         break;
                     default:
-                        Cultures.Add(new Culture(cgo));
+                        Culture newCulture = new Culture(cgo);
+                        newCulture.Parent = this;
+                        Cultures.Add(newCulture);
                         break;
                 }
             }
         }
 
-        public CultureGroup(string name)
+        public CultureGroup(string name) : base(name)
         {
-            Name = name;
+            Cultures = new List<Culture>();
         }
 
         public override void SetLocalisationData(Dictionary<string, string> dict)
@@ -83,7 +94,23 @@ namespace EU4ModUtil.Models.Data.Common
 
         public override string ToString()
         {
-            return Name + ", " + LocalizedName + ": [" + Cultures.ToArray().ArrayToString() + "]";
+            StringBuilder sb = new StringBuilder();
+
+            sb.Append(Name + " = {\n");
+
+            if (!string.IsNullOrEmpty(GraphicalCulture)) { sb.Append("\tgraphical_culture = " + GraphicalCulture + "\n"); }
+            if (!string.IsNullOrEmpty(SecondGraphicalCulture)) { sb.Append("\tsecond_graphical_culture = " + SecondGraphicalCulture + "\n"); }
+            if (MaleNames != null && MaleNames.Count > 0) { sb.Append("\tmale_names = {\n\t\t" + MaleNames.ToArray().ArrayToString(10, 2, " ", "\n") + "\n\t}\n"); }
+            if (FemaleNames != null && FemaleNames.Count > 0) { sb.Append("\tfemale_names = {\n\t\t" + FemaleNames.ToArray().ArrayToString(10, 2, " ", "\n") + "\n\t}\n"); }
+            if (DynastyNames != null && DynastyNames.Count > 0) { sb.Append("\tdynasty_names = {\n\t\t" + DynastyNames.ToArray().ArrayToString(10, 2, " ", "\n") + "\n\t}\n"); }
+
+            foreach (Culture c in Cultures)
+            {
+                sb.Append(c.ToString());
+            }
+
+            sb.Append("}\n");
+            return sb.ToString();
         }
     }
 }

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using EU4ModUtil.Util;
 
 namespace EU4ModUtil.Models.Data.Common
 {
@@ -22,41 +23,39 @@ namespace EU4ModUtil.Models.Data.Common
                 NotifyPropertyChanged(nameof(Name));
             }
         }
-
         /// <summary>
         /// Localised Name
         /// </summary>
         public string LocalizedName { get; set; }
-
         /// <summary>
         /// Primary Country Tag
         /// </summary>
         public string Primary { get; set; }
-
         /// <summary>
         /// Graphical Culture
         /// </summary>
         public string GraphicalCulture { get; set; }
-
         /// <summary>
         /// Second Graphical Culture
         /// </summary>
         public string SecondGraphicalCulture { get; set; }
-
         /// <summary>
         /// Dynasty Names
         /// </summary>
         public List<string> DynastyNames { get; set; }
-
         /// <summary>
         /// Male Names
         /// </summary>
         public List<string> MaleNames { get; set; }
-
         /// <summary>
         /// Female Names
         /// </summary>
         public List<string> FemaleNames { get; set; }
+
+        /// <summary>
+        /// Parent Culture Group
+        /// </summary>
+        public CultureGroup Parent { get; set; }
 
         public Culture(AttributeValueObject obj)
         {
@@ -114,6 +113,9 @@ namespace EU4ModUtil.Models.Data.Common
         public Culture(string name)
         {
             Name = name;
+            DynastyNames = new List<string>();
+            MaleNames = new List<string>();
+            FemaleNames = new List<string>();
         }
 
         public virtual void SetLocalisationData(Dictionary<string, string> dict)
@@ -127,7 +129,19 @@ namespace EU4ModUtil.Models.Data.Common
 
         public override string ToString()
         {
-            return "(" + Name + ", " + LocalizedName + ")";
+            StringBuilder sb = new StringBuilder();
+
+            sb.Append("\t" + Name + " = {\n");
+
+            if (!string.IsNullOrEmpty(GraphicalCulture)) { sb.Append("\t\tgraphical_culture = " + GraphicalCulture + "\n"); }
+            if (!string.IsNullOrEmpty(SecondGraphicalCulture)) { sb.Append("\t\tsecond_graphical_culture = " + SecondGraphicalCulture + "\n"); }
+            if (!string.IsNullOrEmpty(Primary)) { sb.Append("\t\tprimary = " + Primary + "\n"); }
+            if (MaleNames != null && MaleNames.Count > 0) { sb.Append("\t\tmale_names = {\n\t\t\t" + MaleNames.ToArray().ArrayToString(10, 3, " ", "\n") + "\n\t\t}\n"); }
+            if (FemaleNames != null && FemaleNames.Count > 0) { sb.Append("\t\tfemale_names = {\n\t\t\t" + FemaleNames.ToArray().ArrayToString(10, 3, " ", "\n") + "\n\t\t}\n"); }
+            if (DynastyNames != null && DynastyNames.Count > 0) { sb.Append("\t\tdynasty_names = {\n\t\t\t" + DynastyNames.ToArray().ArrayToString(10, 3, " ", "\n") + "\n\t\t}\n"); }
+
+            sb.Append("\t}\n");
+            return sb.ToString();
         }
     }
 }

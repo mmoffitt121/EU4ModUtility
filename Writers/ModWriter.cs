@@ -478,5 +478,51 @@ namespace EU4ModUtil.Writers
             }
         }
         #endregion
+
+        #region Cultures
+        public bool WriteCultures()
+        {
+            return WriteCulturesTXT() && WriteCultureLocalization();
+        }
+
+        public bool WriteCulturesTXT()
+        {
+            StringBuilder sb = new StringBuilder();
+            foreach (CultureGroup c in mod.cultureGroups)
+            {
+                sb.Append(c.ToString());
+            }
+            string path = appData.modPath + "\\common\\cultures\\00_cultures.txt";
+            //Trace.WriteLine("CULTURES: " + sb.ToString());
+            File.WriteAllText(path, sb.ToString());
+
+            return true;
+        }
+
+        public bool WriteCultureLocalization()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append("l_english:\n");
+            foreach (CultureGroup c in mod.cultureGroups)
+            {
+                if (c.LocalizedName != null && !c.LocalizedName.Equals(""))
+                {
+                    sb.Append(" " + c.Name + ":0 " + "\"" + c.LocalizedName + "\"\n");
+                }
+                foreach(Culture cl in c.Cultures)
+                {
+                    if (cl.LocalizedName != null && !cl.LocalizedName.Equals(""))
+                    {
+                        sb.Append(" " + cl.Name + ":0 " + "\"" + cl.LocalizedName + "\"\n");
+                    }
+                }
+            }
+            string path = appData.modPath + "\\localisation\\z_culture_l_english.yml";
+            //Trace.WriteLine(sb.ToString());
+            File.WriteAllText(path, sb.ToString(), Encoding.UTF8);
+
+            return true;
+        }
+        #endregion
     }
 }

@@ -369,7 +369,7 @@
                         <RowDefinition Height="1*" />
                     </Grid.RowDefinitions>
                     <Grid Grid.Column="1" Grid.RowSpan="4" Margin="10,10,10,10">
-                        <TreeView Name="cultureTreeView" ItemsSource="{Binding Path=CultureGroups}" SelectedItemChanged="SelectCultureTreeviewItem" FontSize="24">
+                        <TreeView Name="cultureTreeView" ItemsSource="{Binding Path=CultureGroups, UpdateSourceTrigger=PropertyChanged}" SelectedItemChanged="SelectCultureTreeviewItem" FontSize="24">
                             <TreeView.Resources>
                                 <HierarchicalDataTemplate DataType="{x:Type common:CultureGroup}" ItemsSource="{Binding Cultures, UpdateSourceTrigger=PropertyChanged}">
                                     <TextBlock Text="{Binding Path=Name, UpdateSourceTrigger=PropertyChanged}" />
@@ -387,7 +387,7 @@
                         <Button Content=" Add Culture Group "  HorizontalAlignment="Left" Margin="10,111,0,0" VerticalAlignment="Top" Click="AddCultureGroup" Width="278"/>
                         <Button Content=" Delete " HorizontalAlignment="Left" Margin="10,141,0,0" VerticalAlignment="Top" Click="DeleteCulture" Width="278"/>
                     </Grid>
-                    
+
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="1*" />
@@ -403,8 +403,8 @@
                         <Label Content="Localized Name" HorizontalAlignment="Stretch" Margin="10,70,0,0" VerticalAlignment="Top" FontSize="18" Grid.Column="1"/>
                         <Label Content="Primary Country" HorizontalAlignment="Left" Margin="10,70,0,0" VerticalAlignment="Top" FontSize="18" Grid.Column="2"/>
                         <TextBox HorizontalAlignment="Stretch" Margin="10,100,5,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" FontSize="18" Grid.Column="0" Name="cultureNameBox" LostFocus="ApplyCultureChanges"/>
-                        <TextBox HorizontalAlignment="Stretch" Margin="10,100,5,0" TextWrapping="Wrap" Text="{Binding Path=SelectedCulture.LocalizedName, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" FontSize="18" Grid.Column="1" Name="cultureLocalizedNameBox" LostFocus="ApplyCultureChanges"/>
-                        <TextBox HorizontalAlignment="Stretch" Margin="10,100,5,0" TextWrapping="Wrap" Text="{Binding Path=SelectedCulture.Primary, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" FontSize="18" Grid.Column="2" Name="culturePrimaryCountryBox" LostFocus="ApplyCultureChanges"/>
+                        <TextBox HorizontalAlignment="Stretch" Margin="10,100,5,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" FontSize="18" Grid.Column="1" Name="cultureLocalizedNameBox" LostFocus="ApplyCultureChanges"/>
+                        <TextBox HorizontalAlignment="Stretch" Margin="10,100,5,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" FontSize="18" Grid.Column="2" Name="culturePrimaryCountryBox" LostFocus="ApplyCultureChanges"/>
                         <Label Content="Dynasty Names" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontSize="18" Grid.Row="1" Grid.Column="0"/>
                         <Label Content="Male Names" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontSize="18" Grid.Row="1" Grid.Column="1"/>
                         <Label Content="Female Names" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontSize="18" Grid.Row="1" Grid.Column="2"/>
@@ -425,7 +425,7 @@
                     </Border>-->
                 </Grid>
             </TabItem>
-            <TabItem Name="religionsTab" Header="Religions" IsEnabled="False">
+            <TabItem Name="rulerstab" Header="Rulers" IsEnabled="False">
 
             </TabItem>
         </TabControl>

@@ -309,14 +309,13 @@ namespace EU4ModUtil
         #region Culture Data
         private void OpenRegions(object sender, RoutedEventArgs e)
         {
-            RegionWindow regionWindow = new RegionWindow(viewModel.mod.regions);
+            RegionWindow regionWindow = new RegionWindow(viewModel.mod.superRegions);
             regionWindow.ShowDialog();
         }
 
         private void SelectCultureTreeviewItem(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
             viewModel.SelectedCulture = (Culture)cultureTreeView.SelectedItem;
-            Trace.WriteLine("SELECTED CULTURE: " + viewModel.SelectedCulture);
 
             // Single Values
             cultureNameBox.Text = viewModel.SelectedCulture.Name;
@@ -333,23 +332,30 @@ namespace EU4ModUtil
         {
             if (viewModel == null || viewModel.SelectedCulture == null) { return; }
             viewModel.SelectedCulture.DynastyNames = new List<string>(cultureDynastyNamesBox.Text.Split('\n'));
+            for (int i = 0; i < viewModel.SelectedCulture.DynastyNames.Count; i++)
+            {
+                viewModel.SelectedCulture.DynastyNames[i] = viewModel.SelectedCulture.DynastyNames[i].Trim();
+            }
         }
 
         private void ApplyCultureMaleNames(object sender, RoutedEventArgs e)
         {
             if (viewModel == null || viewModel.SelectedCulture == null) { return; }
             viewModel.SelectedCulture.MaleNames = new List<string>(cultureMaleNamesBox.Text.Split('\n'));
+            for (int i = 0; i < viewModel.SelectedCulture.MaleNames.Count; i++)
+            {
+                viewModel.SelectedCulture.MaleNames[i] = viewModel.SelectedCulture.MaleNames[i].Trim();
+            }
         }
 
         private void ApplyCultureFemaleNames(object sender, RoutedEventArgs e)
         {
             if (viewModel == null || viewModel.SelectedCulture == null) { return; }
             viewModel.SelectedCulture.FemaleNames = new List<string>(cultureFemaleNamesBox.Text.Split('\n'));
-        }
-
-        private void TestSelectedCulture(object sender, RoutedEventArgs e)
-        {
-
+            for (int i = 0; i < viewModel.SelectedCulture.FemaleNames.Count; i++)
+            {
+                viewModel.SelectedCulture.FemaleNames[i] = viewModel.SelectedCulture.FemaleNames[i].Trim();
+            }
         }
 
         private void ApplyCultureChanges(object sender, RoutedEventArgs e)
@@ -362,7 +368,24 @@ namespace EU4ModUtil
 
         private void AddCulture(object sender, RoutedEventArgs e)
         {
-            
+            if (cultureTreeView?.SelectedItem != null && ((Culture)cultureTreeView.SelectedItem).Parent != null)
+            {
+                viewModel.NewCulture(((Culture)cultureTreeView.SelectedItem).Parent);
+            }
+            else if (cultureTreeView?.SelectedItem != null)
+            {
+                viewModel.NewCulture(cultureTreeView.Items.IndexOf(cultureTreeView.SelectedItem));
+            }
+            else if (cultureTreeView.Items.Count > 0)
+            {
+                viewModel.NewCulture((CultureGroup)cultureTreeView.Items[0]);
+            }
+            else
+            {
+                MessageBox.Show("No culture groups found. Are any loaded?", "Warning", MessageBoxButton.OK);
+            }
+
+            cultureTreeView.Items.Refresh();
         }
 
         private void AddCultureGroup(object sender, RoutedEventArgs e)
@@ -370,27 +393,43 @@ namespace EU4ModUtil
             int index = cultureTreeView.Items.IndexOf(cultureTreeView.SelectedItem);
             if (index == -1)
             {
+                index = cultureTreeView.Items.IndexOf(((Culture)cultureTreeView.SelectedItem).Parent);
+            }
+            if (index == -1)
+            {
                 index = viewModel.CultureGroups.Count;
             }
-            //else if (cultureTreeView.SelectedItem.Par)
 
-            Trace.WriteLine(VisualTreeHelper.GetParent(cultureTreeView.ItemContainerGenerator.ContainerFromItem(cultureTreeView.SelectedItem)));
+            viewModel.NewCultureGroup(index);
 
-            //viewModel.NewCulture(index);
-            //int prov = viewModel.NewProvince(provinceDataGrid.Items.IndexOf(provinceDataGrid.SelectedItem), false);
-            //cultureTreeView.ItemsSource = viewModel.CultureGroups;
-
-            Trace.WriteLine(index);
+            cultureTreeView.Items.Refresh();
         }
 
         private void DeleteCulture(object sender, RoutedEventArgs e)
         {
-
+            if (cultureTreeView.SelectedItem != null)
+            {
+                if (((Culture)cultureTreeView.SelectedItem).Parent == null)
+                {
+                    viewModel.CultureGroups.Remove((CultureGroup)cultureTreeView.SelectedItem);
+                }
+                else
+                {
+                    ((Culture)cultureTreeView.SelectedItem).Parent.Cultures.Remove((Culture)cultureTreeView.SelectedItem);
+                }
+                cultureTreeView.Items.Refresh();
+            }
         }
 
         private void SaveCultures(object sender, RoutedEventArgs e)
         {
+            viewModel.writer = new ModWriter(viewModel.mod, viewModel.appData);
+            bool success = viewModel.writer.WriteCultures();
+            string changedStr = success ? "Save Complete" : "Save Failed";
+            MessageBox.Show(changedStr, changedStr, MessageBoxButton.OK);
 
+            UpdateModInfoDisplay();
+            UpdateTabDisplay();
         }
         #endregion
     }

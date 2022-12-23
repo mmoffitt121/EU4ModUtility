@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using EU4ModUtil.Models.Data.Generic;
+using EU4ModUtil.Models.Data.Map;
 
 namespace EU4ModUtil.Views
 {
@@ -21,7 +22,7 @@ namespace EU4ModUtil.Views
     public partial class RegionWindow : Window
     {
         TreeItem data;
-        public RegionWindow(TreeItem data)
+        public RegionWindow(List<SuperRegion> superRegions)
         {
             InitializeComponent();
             this.data = data;
