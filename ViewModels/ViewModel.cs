@@ -126,7 +126,10 @@ namespace EU4ModUtil
             }
 
             (int, int, int) colr = water ? mod.provinces.GetUniqueProvinceColor(ColorManager.ColorMode.Sea) : mod.provinces.GetUniqueProvinceColor(ColorManager.ColorMode.Land);
-            mod.provinces.Add(new Province(provNum, colr, "New Province"));
+            Province pf = new Province(provNum, colr, "New Province");
+            pf.IsCity = !water;
+            pf.ProvinceType = water ? ProvinceType.Sea : ProvinceType.Land;
+            mod.provinces.Add(pf);
             NotifyPropertyChanged(nameof(Provinces));
             UpdateProvinceDict();
             return mod.provinces.Count() - 1;

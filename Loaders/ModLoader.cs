@@ -484,7 +484,7 @@ namespace EU4ModUtil.Loaders
         /// </summary>
         public void LoadMapRegions()
         {
-            if (File.Exists(appData.modPath + "\\map\\superregion.txt") 
+            /*if (File.Exists(appData.modPath + "\\map\\superregion.txt") 
                 && File.Exists(appData.modPath + "\\map\\region.txt") 
                 && File.Exists(appData.modPath + "\\map\\area.txt"))
             {
@@ -494,11 +494,10 @@ namespace EU4ModUtil.Loaders
 
                 mod.superRegions = new List<SuperRegion>();
 
-                /*for (int i = 0; i < obj.values.Length; i++)
+                foreach (AttributeValueObject o in srObj.values)
                 {
-                    CultureGroup group = new CultureGroup(obj.values[i]);
-                    mod.cultureGroups.Add(group);
-                }*/
+                    mod.superRegions.Add(new SuperRegion(o));
+                }
 
                 Trace.WriteLine(srObj);
                 Trace.WriteLine(rObj);
@@ -517,7 +516,7 @@ namespace EU4ModUtil.Loaders
                 {
                     g.SetLocalisationData(dict);
                 }
-            }
+            }*/
         }
         #endregion
 

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Media;
 using EU4ModUtil.Models.Data.Common;
 using EU4ModUtil.Models.Data.History;
+using EU4ModUtil.Util;
 
 namespace EU4ModUtil.Models.Data.Map
 {
@@ -76,6 +77,7 @@ namespace EU4ModUtil.Models.Data.Map
                 r = value;
                 NotifyPropertyChanged(nameof(R));
                 NotifyPropertyChanged(nameof(BGColor));
+                NotifyPropertyChanged(nameof(ColorHex));
             }
         }
 
@@ -91,6 +93,7 @@ namespace EU4ModUtil.Models.Data.Map
                 g = value;
                 NotifyPropertyChanged(nameof(G));
                 NotifyPropertyChanged(nameof(BGColor));
+                NotifyPropertyChanged(nameof(ColorHex));
             }
         }
 
@@ -106,6 +109,7 @@ namespace EU4ModUtil.Models.Data.Map
                 b = value;
                 NotifyPropertyChanged(nameof(B));
                 NotifyPropertyChanged(nameof(BGColor));
+                NotifyPropertyChanged(nameof(ColorHex));
             }
         }
 
@@ -390,6 +394,8 @@ namespace EU4ModUtil.Models.Data.Map
             {
                 baseTax = value;
                 NotifyPropertyChanged(nameof(BaseTax));
+                NotifyPropertyChanged(nameof(DevColor));
+                NotifyPropertyChanged(nameof(Dev));
             }
         }
         private string baseProduction;
@@ -406,6 +412,8 @@ namespace EU4ModUtil.Models.Data.Map
             {
                 baseProduction = value;
                 NotifyPropertyChanged(nameof(BaseProduction));
+                NotifyPropertyChanged(nameof(DevColor));
+                NotifyPropertyChanged(nameof(Dev));
             }
         }
         private string baseManpower;
@@ -422,6 +430,50 @@ namespace EU4ModUtil.Models.Data.Map
             {
                 baseManpower = value;
                 NotifyPropertyChanged(nameof(BaseManpower));
+                NotifyPropertyChanged(nameof(DevColor));
+                NotifyPropertyChanged(nameof(Dev));
+            }
+        }
+        /// <summary>
+        /// The province's dev in solidbrush form
+        /// </summary>
+        public int Dev
+        {
+            get
+            {
+                int tax, pro, man;
+                if (Int32.TryParse(BaseTax, out tax) && Int32.TryParse(BaseProduction, out pro) && Int32.TryParse(BaseManpower, out man))
+                {
+                    return tax + pro + man;
+                }
+                return 0;
+            }
+        }
+        /// <summary>
+        /// The province's dev in solidbrush form
+        /// </summary>
+        public SolidColorBrush DevColor
+        {
+            get
+            {
+                int tax, pro, man;
+                if (!(Int32.TryParse(BaseTax, out tax) && Int32.TryParse(BaseProduction, out pro) && Int32.TryParse(BaseManpower, out man)))
+                {
+                    return new SolidColorBrush(new Color());
+                }
+
+                (int, int, int) clr = ColorManager.FromHSL((-1 * (tax + pro + man)) % 360, 1, (tax + pro + man) / 100f % 100);
+
+                Color color = new Color();
+                color.A = 255;
+                color.R = (byte)clr.Item1;
+                color.G = (byte)clr.Item2;
+                color.B = (byte)clr.Item3;
+                return new SolidColorBrush(color);
+            }
+            set
+            {
+
             }
         }
         private bool isCity;

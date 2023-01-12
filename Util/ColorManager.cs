@@ -84,7 +84,7 @@ namespace EU4ModUtil.Util
             return FromHSL(hue, saturation, lightness);
         }
 
-        private static (int, int, int) FromHSL(int h, double s, double l)
+        public static (int, int, int) FromHSL(int h, double s, double l)
         {
             int r = 0;
             int g = 0;

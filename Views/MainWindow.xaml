@@ -315,6 +315,15 @@
                             <DataGridTextColumn Header="Culture" Binding="{Binding Path=Culture, UpdateSourceTrigger=PropertyChanged}"/>
                             <DataGridTextColumn Header="Religion" Binding="{Binding Path=Religion, UpdateSourceTrigger=PropertyChanged}"/>
                             <DataGridTextColumn Header="Trade Good" Binding="{Binding Path=TradeGoods, UpdateSourceTrigger=PropertyChanged}"/>
+                            <DataGridTemplateColumn Header="Dev">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Background="{Binding Path=DevColor, UpdateSourceTrigger=PropertyChanged}"
+                                                Content="{Binding Path=Dev, UpdateSourceTrigger=PropertyChanged}"
+                                                Padding="4"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
                             <DataGridTextColumn Header="Tax" Binding="{Binding Path=BaseTax, UpdateSourceTrigger=PropertyChanged}"/>
                             <DataGridTextColumn Header="Prod" Binding="{Binding Path=BaseProduction, UpdateSourceTrigger=PropertyChanged}"/>
                             <DataGridTextColumn Header="Manp" Binding="{Binding Path=BaseManpower, UpdateSourceTrigger=PropertyChanged}"/>

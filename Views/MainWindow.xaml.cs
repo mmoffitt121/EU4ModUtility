@@ -290,7 +290,11 @@ namespace EU4ModUtil
 
             if (CopyOnAdd.IsChecked == true)
             {
-                Clipboard.SetText(viewModel.mod.provinces[prov].ColorHex);
+                try
+                {
+                    Clipboard.SetText(viewModel.mod.provinces[prov].ColorHex);
+                }
+                catch { }
             }
         }
 
