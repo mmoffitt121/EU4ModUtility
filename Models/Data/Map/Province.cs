@@ -26,6 +26,7 @@ namespace EU4ModUtil.Models.Data.Map
             set
             {
                 number = value;
+                NotifyPropertyChanged(nameof(Number));
             }
         }
 
@@ -42,6 +43,7 @@ namespace EU4ModUtil.Models.Data.Map
             set
             {
                 name = value;
+                NotifyPropertyChanged(nameof(Name));
             }
         }
         #region Color
@@ -149,6 +151,7 @@ namespace EU4ModUtil.Models.Data.Map
             set
             {
                 area = value;
+                NotifyPropertyChanged(nameof(Area));
             }
         }
 
@@ -165,6 +168,7 @@ namespace EU4ModUtil.Models.Data.Map
             set
             {
                 continent = value;
+                NotifyPropertyChanged(nameof(Continent));
             }
         }
 
@@ -249,6 +253,24 @@ namespace EU4ModUtil.Models.Data.Map
         }
         #endregion
 
+        #region Common Members
+        private string tradeNode;
+        /// <summary>
+        /// Area
+        /// </summary>
+        public string TradeNode
+        {
+            get
+            {
+                return area;
+            }
+            set
+            {
+                area = value;
+            }
+        }
+        #endregion
+
         #region Localization Members
         private string localizedName;
         /// <summary>
@@ -263,6 +285,7 @@ namespace EU4ModUtil.Models.Data.Map
             set
             {
                 localizedName = value;
+                NotifyPropertyChanged(nameof(LocalizedName));
             }
         }
 
@@ -279,6 +302,7 @@ namespace EU4ModUtil.Models.Data.Map
             set
             {
                 localizedAdjective = value;
+                NotifyPropertyChanged(nameof(LocalizedAdjective));
             }
         }
         #endregion

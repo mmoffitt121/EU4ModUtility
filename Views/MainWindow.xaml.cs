@@ -40,7 +40,7 @@ namespace EU4ModUtil
 
             viewModel = new ViewModel();
             this.DataContext = viewModel;
-            
+
             viewModel.appData = new AppData();
             UpdateModInfoDisplay();
             InitializeImages();
@@ -217,11 +217,6 @@ namespace EU4ModUtil
             countryDataGrid.ItemsSource = viewModel.Countries;
         }
 
-        private void OpenProvinceHistory(object sender, RoutedEventArgs e)
-        {
-            
-        }
-
         private void OpenCountryValues(object sender, RoutedEventArgs e)
         {
             int index = countryDataGrid.Items.IndexOf(countryDataGrid.SelectedItem);
@@ -253,8 +248,8 @@ namespace EU4ModUtil
                     }
                 }
             }
-            
-            MessageBox.Show(dupes.ToString().Equals("") ?  "No duplicates found" : dupes.ToString(), "Duplicate Check Complete", MessageBoxButton.OK);
+
+            MessageBox.Show(dupes.ToString().Equals("") ? "No duplicates found" : dupes.ToString(), "Duplicate Check Complete", MessageBoxButton.OK);
         }
 
         #endregion
@@ -308,6 +303,26 @@ namespace EU4ModUtil
         {
             Clipboard.SetText(((Button)sender).Tag.ToString());
         }
+
+        private void OpenProvinceMacros(object sender, RoutedEventArgs e)
+        {
+            List<Province> provinces = provinceDataGrid.SelectedItems.Cast<Province>().ToList();
+
+            if (provinces == null || provinces.Count() < 1)
+            {
+                MessageBox.Show("No Items Selected. Please select at least one province.", "No Items Selected", MessageBoxButton.OK);
+                return;
+            }
+
+            SetProvinceValueWindow window = new SetProvinceValueWindow(provinces);
+            window.ShowDialog();
+        }
+
+        private void OpenProvinceHistory(object sender, RoutedEventArgs e)
+        {
+
+        }
+
         #endregion
 
         #region Culture Data
