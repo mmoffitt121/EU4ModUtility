@@ -351,13 +351,15 @@
                     <Grid Grid.Column="2" Grid.RowSpan="4">
                         <Button Content=" Save " HorizontalAlignment="Left" Margin="10,20,0,0" VerticalAlignment="Top" Click="SaveProvinces" Width="135"/>
                         <Button Content=" Reload " HorizontalAlignment="Left" Margin="153,20,0,0" VerticalAlignment="Top" Width="135"/>
-                        <Button Content=" Add Land Province "  HorizontalAlignment="Left" Margin="10,81,0,0" VerticalAlignment="Top" Click="NewLandProvince" Width="278"/>
-                        <Button Content=" Add Sea Province "  HorizontalAlignment="Left" Margin="10,111,0,0" VerticalAlignment="Top" Click="NewWaterProvince" Width="278"/>
+                        <Button Content=" Add Land Province "  HorizontalAlignment="Left" Margin="10,81,0,0" VerticalAlignment="Top" Click="NewLandProvince" Width="249"/>
+                        <Button Content=" Add Sea Province "  HorizontalAlignment="Left" Margin="10,111,0,0" VerticalAlignment="Top" Click="NewWaterProvince" Width="249"/>
+                        <Button Content="+" HorizontalAlignment="Left" Margin="264,81,0,0" VerticalAlignment="Top" Click="OpenNewCustomProvince" Width="24" Height="54" IsEnabled="False"/>
                         <Button Content=" Delete Province " HorizontalAlignment="Left" Margin="10,141,0,0" VerticalAlignment="Top" Click="DeleteProvince" Width="278"/>
                         <Button Content=" History " HorizontalAlignment="Left" Margin="10,205,0,0" VerticalAlignment="Top" Click="OpenProvinceHistory" Width="278"/>
                         <Button Content=" Regions " HorizontalAlignment="Left" Margin="10,235,0,0" VerticalAlignment="Top" Width="278" Click="OpenRegions"/>
                         <Button Content=" Set Values " HorizontalAlignment="Left" Margin="10,295,0,0" VerticalAlignment="Top" Width="278" Click="OpenProvinceMacros"/>
                         <CheckBox Content="Copy Color on Add" HorizontalAlignment="Left" Margin="140,60,0,0" VerticalAlignment="Top" Name="CopyOnAdd" IsChecked="True" Foreground="#FFFFFFFF"/>
+                        <Button Content=" Check Issues " HorizontalAlignment="Center" Margin="0,325,0,0" VerticalAlignment="Top" Width="278" Click="OpenCheckIssues"/>
                     </Grid>
                 </Grid>
             </TabItem>

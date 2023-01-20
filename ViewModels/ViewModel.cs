@@ -107,6 +107,8 @@ namespace EU4ModUtil
         {
             mod.provinces = mod.provinces.OrderBy(p => p.Number).ToList();
 
+            if (index < 0) index = 0;
+
             int provNum = mod.provinces[index].Number + 1;
             int i = index + 1;
             while (i != mod.provinces.Count())

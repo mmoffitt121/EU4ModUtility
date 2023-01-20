@@ -9,6 +9,7 @@ namespace EU4ModUtil.Models.Macros.Provinces
 {
     internal static class ProvinceMacroHandler
     {
+        #region Edit
         public static void SetName(this List<Province> provinces, string value)
         {
             provinces.ForEach(p => p.Name = value);
@@ -127,5 +128,13 @@ namespace EU4ModUtil.Models.Macros.Provinces
                 }
             }
         }
+        #endregion
+
+        #region Add
+        public static void Add(this List<Province> provinces, AddableProvince toAdd)
+        {
+
+        }
+        #endregion
     }
 }

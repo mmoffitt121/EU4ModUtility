@@ -1,0 +1,164 @@
+﻿<Window x:Class="EU4ModUtil.Views.AddProvinceWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:enumSpace="clr-namespace:EU4ModUtil.Models.Macros.Provinces"
+        xmlns:vm="clr-namespace:EU4ModUtil.ViewModels"
+        xmlns:mp="clr-namespace:EU4ModUtil.Models.Data.Map"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        mc:Ignorable="d"
+        Title="AddProvinceWindow" Height="467" Width="800"
+        FontFamily="Garamond" FontSize="16">
+    <Window.Resources>
+        <ObjectDataProvider MethodName="GetValues" ObjectType="{x:Type sys:Enum}" x:Key="ColumnTypes">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="enumSpace:ProvinceMacroColumnType"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <ObjectDataProvider MethodName="GetValues" ObjectType="{x:Type sys:Enum}" x:Key="ColorChangeTypes">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="enumSpace:ColorOperationType"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <ObjectDataProvider MethodName="GetValues" ObjectType="{x:Type sys:Enum}" x:Key="SpecialClimateTypes">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="mp:SpecialClimate"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <ObjectDataProvider MethodName="GetValues" ObjectType="{x:Type sys:Enum}" x:Key="WinterTypes">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="mp:Winter"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <ObjectDataProvider MethodName="GetValues" ObjectType="{x:Type sys:Enum}" x:Key="MonsoonTypes">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="mp:Monsoon"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <ObjectDataProvider MethodName="GetValues" ObjectType="{x:Type sys:Enum}" x:Key="ProvinceTypes">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="mp:ProvinceType"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="40" />
+        </Grid.RowDefinitions>
+        <TabControl Grid.Row="0">
+            <TabItem Header="General">
+                <Grid Background="#FFE5E5E5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="40" />
+                        <RowDefinition Height="40" />
+                        <RowDefinition Height="40" />
+                        <RowDefinition Height="40" />
+                        <RowDefinition Height="40" />
+                        <RowDefinition Height="40" />
+                        <RowDefinition Height="40" />
+                        <RowDefinition Height="40" />
+                        <RowDefinition Height="40" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="150" />
+                        <ColumnDefinition Width="250" />
+                        <ColumnDefinition Width="150" />
+                        <ColumnDefinition Width="250" />
+                    </Grid.ColumnDefinitions>
+                    <Label Content="Name" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left" Margin="5,5,5,5" VerticalAlignment="Center"/>
+                    <TextBox Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Margin="5,0,0,0" TextWrapping="Wrap" Text="New" VerticalAlignment="Center" Width="240" Height="24" FontSize="16"/>
+                    <Label Content="Localized Name" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Left" Margin="5,5,5,5" VerticalAlignment="Center"/>
+                    <TextBox Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" Margin="5,0,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Width="240" Height="24" FontSize="16"/>
+                    <Label Content="Localized Adjective" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Left" Margin="5,5,5,5" VerticalAlignment="Center"/>
+                    <TextBox Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left" Margin="5,0,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Width="240" Height="24" FontSize="16"/>
+                    <Label Grid.Column="0" Grid.Row="3" Content="R" HorizontalAlignment="Left" Margin="5,5,0,0" VerticalAlignment="Center"/>
+                    <Label Grid.Column="0" Grid.Row="4" Content="G" HorizontalAlignment="Left" Margin="5,5,0,0" VerticalAlignment="Center"/>
+                    <Label Grid.Column="0" Grid.Row="5" Content="B" HorizontalAlignment="Left" Margin="5,5,0,0" VerticalAlignment="Center"/>
+                    <TextBox Grid.Column="0" Grid.Row="3" Name="rBox" HorizontalAlignment="Left" Margin="35,5,0,0" TextWrapping="Wrap" Text="{Binding R, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Width="50" Height="24"/>
+                    <TextBox Grid.Column="0" Grid.Row="4" Name="gBox" HorizontalAlignment="Left" Margin="35,5,0,0" TextWrapping="Wrap" Text="{Binding G, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Width="50" Height="24"/>
+                    <TextBox Grid.Column="0" Grid.Row="5" Name="bBox" HorizontalAlignment="Left" Margin="35,5,0,0" TextWrapping="Wrap" Text="{Binding B, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Width="50" Height="24"/>
+                    <ComboBox Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2" Name="rMacroTypeBox" Margin="95,5,0,0" VerticalAlignment="Center" Width="150" ItemsSource="{Binding Source={StaticResource ColorChangeTypes}}" SelectedItem="{Binding ROperation}" SelectionChanged="UpdateR" HorizontalAlignment="Left"/>
+                    <ComboBox Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2" Name="gMacroTypeBox" Margin="95,5,0,0" VerticalAlignment="Center" Width="150" ItemsSource="{Binding Source={StaticResource ColorChangeTypes}}" SelectedItem="{Binding GOperation}" SelectionChanged="UpdateG" HorizontalAlignment="Left"/>
+                    <ComboBox Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="2" Name="bMacroTypeBox" Margin="95,5,0,0" VerticalAlignment="Center" Width="150" ItemsSource="{Binding Source={StaticResource ColorChangeTypes}}" SelectedItem="{Binding BOperation}" SelectionChanged="UpdateB" HorizontalAlignment="Left"/>
+                    <TextBox Grid.Column="1" Grid.Row="3" x:Name="rIncrementBox" HorizontalAlignment="Left" Margin="105,5,0,0" TextWrapping="Wrap" Text="{Binding RIncrement, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Width="50" Height="24"/>
+                    <TextBox Grid.Column="1" Grid.Row="4" x:Name="gIncrementBox" HorizontalAlignment="Left" Margin="105,5,0,0" TextWrapping="Wrap" Text="{Binding GIncrement, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Width="50" Height="24"/>
+                    <TextBox Grid.Column="1" Grid.Row="5" x:Name="bIncrementBox" HorizontalAlignment="Left" Margin="105,5,0,0" TextWrapping="Wrap" Text="{Binding BIncrement, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Width="50" Height="24"/>
+                    <Label Grid.Column="1" Grid.Row="3" Content="every" HorizontalAlignment="Left" Margin="155,0,0,0" VerticalAlignment="Center"/>
+                    <Label Grid.Column="1" Grid.Row="4" Content="every" HorizontalAlignment="Left" Margin="155,0,0,0" VerticalAlignment="Center"/>
+                    <Label Grid.Column="1" Grid.Row="5" Content="every" HorizontalAlignment="Left" Margin="155,0,0,0" VerticalAlignment="Center"/>
+                    <TextBox Grid.Column="1" Grid.Row="3" Name="rIntervalBox" HorizontalAlignment="Left" Margin="200,5,0,0" TextWrapping="Wrap" Text="{Binding BInterval, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Width="45" Height="24"/>
+                    <TextBox Grid.Column="1" Grid.Row="4" Name="gIntervalBox" HorizontalAlignment="Left" Margin="200,5,0,0" TextWrapping="Wrap" Text="{Binding BInterval, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Width="45" Height="24"/>
+                    <TextBox Grid.Column="1" Grid.Row="5" Name="bIntervalBox" HorizontalAlignment="Left" Margin="200,5,0,0" TextWrapping="Wrap" Text="{Binding BInterval, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Width="45" Height="24"/>
+                    <Label Content="Owner" Grid.Column="0" Grid.Row="6" HorizontalAlignment="Left" Margin="5,5,5,5" VerticalAlignment="Center"/>
+                    <Label Content="Controller" Grid.Column="0" Grid.Row="7" HorizontalAlignment="Left" Margin="5,5,5,5" VerticalAlignment="Center"/>
+                    <Label Content="Cores" Grid.Column="0" Grid.Row="8" HorizontalAlignment="Left" Margin="5,5,5,5" VerticalAlignment="Center"/>
+                    <TextBox Grid.Column="1" Grid.Row="6" HorizontalAlignment="Left" Margin="5,0,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Width="240" Height="24" FontSize="16"/>
+                    <TextBox Grid.Column="1" Grid.Row="7" HorizontalAlignment="Left" Margin="5,0,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Width="240" Height="24" FontSize="16"/>
+                    <TextBox Grid.Column="1" Grid.Row="8" HorizontalAlignment="Left" Margin="5,0,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Width="240" Height="24" FontSize="16"/>
+                    <Label Content="Culture" Grid.Column="2" Grid.Row="0" HorizontalAlignment="Left" Margin="5,5,5,5" VerticalAlignment="Center"/>
+                    <Label Content="Religion" Grid.Column="2" Grid.Row="1" HorizontalAlignment="Left" Margin="5,5,5,5" VerticalAlignment="Center"/>
+                    <TextBox Grid.Column="3" Grid.Row="0" HorizontalAlignment="Left" Margin="5,0,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Width="235" Height="24" FontSize="16"/>
+                    <TextBox Grid.Column="3" Grid.Row="1" HorizontalAlignment="Left" Margin="5,0,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Width="235" Height="24" FontSize="16"/>
+                    <Label Content="City" Grid.Column="2" Grid.Row="2" HorizontalAlignment="Left" Margin="5,5,5,5" VerticalAlignment="Center"/>
+                    <Label Content="HRE" Grid.Column="2" Grid.Row="3" HorizontalAlignment="Left" Margin="5,5,5,5" VerticalAlignment="Center"/>
+                    <CheckBox Grid.Column="2" HorizontalAlignment="Right" Margin="0,0,10,0" Grid.Row="2" VerticalAlignment="Center"/>
+                    <CheckBox Grid.Column="2" HorizontalAlignment="Right" Margin="0,0,10,0" Grid.Row="3" VerticalAlignment="Center"/>
+                    <Label Content="Tax" Grid.Column="2" Grid.Row="4" HorizontalAlignment="Left" Margin="5,5,5,5" VerticalAlignment="Center"/>
+                    <Label Content="Production" Grid.Column="2" Grid.Row="5" HorizontalAlignment="Left" Margin="5,5,5,5" VerticalAlignment="Center"/>
+                    <Label Content="Manpower" Grid.Column="2" Grid.Row="6" HorizontalAlignment="Left" Margin="5,5,5,5" VerticalAlignment="Center"/>
+                    <TextBox Grid.Column="3" Grid.Row="4" HorizontalAlignment="Left" Margin="5,0,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Width="50" Height="24" FontSize="16"/>
+                    <TextBox Grid.Column="3" Grid.Row="5" HorizontalAlignment="Left" Margin="5,0,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Width="50" Height="24" FontSize="16"/>
+                    <TextBox Grid.Column="3" Grid.Row="6" HorizontalAlignment="Left" Margin="5,0,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Width="50" Height="24" FontSize="16"/>
+                    <Label Content="Discovered By" Grid.Column="2" Grid.Row="7" HorizontalAlignment="Left" Margin="5,5,5,5" VerticalAlignment="Center"/>
+                    <Label Content="Unrest" Grid.Column="2" Grid.Row="8" HorizontalAlignment="Left" Margin="5,5,5,5" VerticalAlignment="Center"/>
+                    <TextBox Grid.Column="3" Grid.Row="7" HorizontalAlignment="Left" Margin="5,0,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Width="235" Height="24" FontSize="16"/>
+                    <TextBox Grid.Column="3" Grid.Row="8" HorizontalAlignment="Left" Margin="5,0,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Width="50" Height="24" FontSize="16"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Map">
+                <Grid Background="#FFE5E5E5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="40" />
+                        <RowDefinition Height="40" />
+                        <RowDefinition Height="40" />
+                        <RowDefinition Height="40" />
+                        <RowDefinition Height="40" />
+                        <RowDefinition Height="40" />
+                        <RowDefinition Height="40" />
+                        <RowDefinition Height="40" />
+                        <RowDefinition Height="40" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="150" />
+                        <ColumnDefinition Width="250" />
+                        <ColumnDefinition Width="150" />
+                        <ColumnDefinition Width="250" />
+                    </Grid.ColumnDefinitions>
+                    <Label Content="Capital Name" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left" Margin="5,5,5,5" VerticalAlignment="Center"/>
+                    <Label Content="Area" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Left" Margin="5,5,5,5" VerticalAlignment="Center"/>
+                    <Label Content="Continent" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Left" Margin="5,5,5,5" VerticalAlignment="Center"/>
+                    <Label Content="Impassable" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Left" Margin="5,5,5,5" VerticalAlignment="Center"/>
+                    <Label Content="Province Type" Grid.Column="0" Grid.Row="4" HorizontalAlignment="Left" Margin="5,5,5,5" VerticalAlignment="Center"/>
+                    <Label Content="Climate" Grid.Column="0" Grid.Row="5" HorizontalAlignment="Left" Margin="5,5,5,5" VerticalAlignment="Center"/>
+                    <Label Content="Winter" Grid.Column="0" Grid.Row="6" HorizontalAlignment="Left" Margin="5,5,5,5" VerticalAlignment="Center"/>
+                    <Label Content="Monsoon" Grid.Column="0" Grid.Row="7" HorizontalAlignment="Left" Margin="5,5,5,5" VerticalAlignment="Center"/>
+                    <TextBox Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Margin="5,0,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Width="240" Height="24" FontSize="16"/>
+                    <TextBox Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" Margin="5,0,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Width="240" Height="24" FontSize="16"/>
+                    <TextBox Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left" Margin="5,0,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Width="240" Height="24" FontSize="16"/>
+                    <CheckBox Grid.Column="1" HorizontalAlignment="Right" Margin="0,0,10,0" Grid.Row="3" VerticalAlignment="Center"/>
+                    <ComboBox Grid.Column="1" Grid.Row="4" HorizontalAlignment="Stretch" Margin="5,0,5,0" VerticalAlignment="Center" ItemsSource="{Binding Source={StaticResource SpecialClimateTypes}}" SelectedItem="None" />
+                    <ComboBox Grid.Column="1" Grid.Row="5" HorizontalAlignment="Stretch" Margin="5,0,5,0" VerticalAlignment="Center" ItemsSource="{Binding Source={StaticResource WinterTypes}}" SelectedItem="None" />
+                    <ComboBox Grid.Column="1" Grid.Row="6" HorizontalAlignment="Stretch" Margin="5,0,5,0" VerticalAlignment="Center" ItemsSource="{Binding Source={StaticResource MonsoonTypes}}" SelectedItem="None" />
+                    <ComboBox Grid.Column="1" Grid.Row="7" HorizontalAlignment="Stretch" Margin="5,0,5,0" VerticalAlignment="Center" ItemsSource="{Binding Source={StaticResource ProvinceTypes}}" SelectedItem="Land" />
+                    <Label Content="Trade Node" Grid.Column="2" Grid.Row="0" HorizontalAlignment="Left" Margin="5,5,5,5" VerticalAlignment="Center"/>
+                    <TextBox Grid.Column="3" Grid.Row="0" HorizontalAlignment="Left" Margin="5,0,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Width="240" Height="24" FontSize="16"/>
+                    <Label Content="Trade Goods" Grid.Column="2" Grid.Row="1" HorizontalAlignment="Left" Margin="5,5,5,5" VerticalAlignment="Center"/>
+                    <TextBox Grid.Column="3" Grid.Row="1" HorizontalAlignment="Left" Margin="5,0,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Width="240" Height="24" FontSize="16"/>
+                </Grid>
+            </TabItem>
+        </TabControl>
+        <Button Grid.Row="1" Content="Add" Margin="10,5,10,4" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+    </Grid>
+</Window>

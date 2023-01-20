@@ -274,7 +274,11 @@ namespace EU4ModUtil
 
             if (CopyOnAdd.IsChecked == true)
             {
-                Clipboard.SetText(viewModel.mod.provinces[prov].ColorHex);
+                try
+                {
+                    Clipboard.SetText(viewModel.mod.provinces[prov].ColorHex);
+                }
+                catch { }
             }
         }
 
@@ -316,6 +320,21 @@ namespace EU4ModUtil
 
             SetProvinceValueWindow window = new SetProvinceValueWindow(provinces);
             window.ShowDialog();
+        }
+
+        private void OpenNewCustomProvince(object sender, RoutedEventArgs e)
+        {
+            List<Province> provinces = provinceDataGrid.SelectedItems.Cast<Province>().ToList();
+
+            if (provinces == null || provinces.Count() < 1)
+            {
+                MessageBox.Show("No Items Selected. Please select at least one province.", "No Items Selected", MessageBoxButton.OK);
+                return;
+            }
+
+            AddProvinceWindow window = new AddProvinceWindow(provinces, provinceDataGrid.SelectedIndex);
+            window.ShowDialog();
+            viewModel.Provinces = provinces;
         }
 
         private void OpenProvinceHistory(object sender, RoutedEventArgs e)
@@ -451,5 +470,10 @@ namespace EU4ModUtil
             UpdateTabDisplay();
         }
         #endregion
+
+        private void OpenCheckIssues(object sender, RoutedEventArgs e)
+        {
+            
+        }
     }
 }
